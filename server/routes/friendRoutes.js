@@ -3,6 +3,7 @@ import { authenticate } from "../middleware/auth.js";
 import {
   createNewRegisteredFriend,
   createNewUnregisteredFriend,
+  searchFriendLike,
 } from "../controller/friends/friends.js";
 import {
   newRegisteredFriendValidator,
@@ -24,5 +25,7 @@ friendsRouter.post(
   newRegisteredFriendValidator,
   createNewRegisteredFriend
 );
+
+friendsRouter.get("/friend", authenticate, searchFriendLike);
 
 export default friendsRouter;

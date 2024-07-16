@@ -191,3 +191,26 @@ export const updateBalance = async (value, userId, friendId) => {
     return error;
   }
 };
+
+export const searchFriendLike = async (req, res) => {
+  const { username } = req.query;
+
+  const SEARCH_FRIEND_LIKE =
+    "SELECT * FROM USER_FRIEND_INFO WHERE LOWER(USERNAME) LIKE LOWER($1)";
+
+  try {
+    const searchFriendsLike = await db.query(SEARCH_FRIEND_LIKE, [
+      `${username}%`,
+    ]);
+
+    return res.status(StatusCodes.OK).json({
+      message: "Usernames fetched successfully",
+      data: searchFriendsLike.rows[0],
+    });
+  } catch (error) {
+    console.log("Error while searching a friend like " + error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      message: "Something went wrong while fetching user names",
+    });
+  }
+};

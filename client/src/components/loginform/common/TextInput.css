@@ -1,0 +1,13 @@
+.text-input{
+    height: 100%;
+    width: 100%;
+    margin-top: 0.2rem;
+    font-size: medium;
+    outline: none;
+    color: white;
+    border: #83D3E2;
+    padding: 0.5rem;
+    background-color: #303538;
+    border-radius: 0.5rem;
+    border: 0.15rem solid #83D3E2;
+}

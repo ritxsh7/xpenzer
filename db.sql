@@ -9,10 +9,10 @@ CREATE TABLE exp_user(
 	joined_date DATE
 );
 
-ALTER TABLE exp_user ALTER COLUMN joined_date DROP NOT NULL;
 SELECT * FROM exp_user;
+ALTER TABLE exp_user ALTER COLUMN joined_date DROP NOT NULL;
 SELECT * FROM exp_user WHERE LOWER(username) LIKE LOWER('ri%');
-DELETE FROM exp_user WHERE user_id in (15,16);
+DELETE FROM exp_user WHERE user_id > 2;
 DROP TABLE exp_user;
 
 -- ======SPENDING TABLE=======
@@ -31,7 +31,7 @@ CREATE TABLE user_spendings(
 SELECT * FROM user_spendings;
 DROP TABLE user_spendings;
 TRUNCATE TABLE user_spendings;
-DELETE FROM user_spendings WHERE spending_id = 37;
+DELETE FROM user_spendings WHERE spending_id = 75;
  
 -- =======USER_EXPENSES TABLE====
 
@@ -44,7 +44,7 @@ CREATE TABLE user_expenses(
 SELECT * FROM user_expenses;
 SELECT * FROM user_expenses JOIN user_spendings USING(spending_id);	
 TRUNCATE TABLE user_expenses;
-DELETE FROM user_expenses WHERE spending_id = 37;
+DELETE FROM user_expenses WHERE spending_id = 75;
 
 
 -- =======FRIENDS TABLE======
@@ -64,6 +64,7 @@ DROP TABLE friends;
 UPDATE friends SET balance = 30 WHERE friend_id = 1;
 ALTER TABLE friends DROP COLUMN friend_name;
 DELETE FROM friends WHERE user_id = 1;
+TRUNCATE TABLE friends;
 
 -- =======CONTRIBUTERS TABLE=====
 
@@ -100,4 +101,14 @@ SELECT * FROM user_friend_contri;
 
 SELECT username, SUM(amount) FROM user_friend_contri
 GROUP BY username;
+
+-- 2. USER - FRIEND - USER
+CREATE VIEW user_friend_info AS
+SELECT f.user_id, f.friend_id, f.created_on, u.username, f.balance FROM 
+friends f JOIN exp_user u
+ON f.friend_id = u.user_id;
+
+SELECT * FROM user_friend_info;
+DROP VIEW user_friend_info;
+SELECT * FROM USER_FRIEND_INFO WHERE LOWER(username) LIKE LOWER('ba')
 
