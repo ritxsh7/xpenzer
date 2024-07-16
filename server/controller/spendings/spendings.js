@@ -4,7 +4,7 @@ import { date, time } from "../../utils/constants.js";
 import { addNewContributer } from "../contributors/contributors.js";
 import { addNewExpense } from "../expenses/expenses.js";
 import {
-  createNewUnregisteredFriend,
+  createNewUnregisteredFriendHelper,
   updateBalance,
 } from "../friends/friends.js";
 
@@ -43,16 +43,6 @@ export const createNewSpending = async (req, res) => {
   } = req.body;
 
   const { userId } = req;
-
-  // FILTER REGISTERED USERS
-  // const registeredContributors = contributors.filter(
-  //   (c) => c.isRegistered === true
-  // );
-
-  // // FILTER UNREGISTERED USERS
-  // const unRegisteredContributors = contributors.filter(
-  //   (c) => c.isRegistered === false
-  // );
 
   let newExpense,
     contri,
@@ -97,10 +87,17 @@ export const createNewSpending = async (req, res) => {
       // ADD EACH CONTRIBUTOR IN THE CONTRIBUTOR TABLE
       for (let contributor of contributors) {
         if (!contributor.isRegistered) {
-          req.body.firstName = contributor.name.split(" ")[0];
-          req.body.lastName = contributor.name.split(" ")[1];
-          const { newUser } = await createNewUnregisteredFriend(req, res);
-          contributor.userId = newUser.user_id;
+          try {
+            const { data } = await createNewUnregisteredFriendHelper(
+              userId,
+              contributor.name
+            );
+            contributor.userId = data.newUser.user_id;
+          } catch (error) {
+            return res.status(StatusCodes.BAD_REQUEST).json({
+              message: error.message,
+            });
+          }
         }
 
         newContributor = await addNewContributer({
@@ -130,15 +127,15 @@ export const createNewSpending = async (req, res) => {
     return res.status(StatusCodes.CREATED).json({
       message: "Added new expense",
       data: {
-        // spending: newSpending,
-        // contributors: newContributors,
-        // expense: newExpense?.result,
+        spending: newSpending,
+        contributors: newContributors,
+        expense: newExpense?.result,
       },
     });
   } catch (error) {
-    console.log("Error while creating new expense " + error);
+    console.log("Error while creating new spending " + error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      message: "Something went wrong while adding an spending",
+      message: "Something went wrong while adding an spending : ",
     });
   }
 };

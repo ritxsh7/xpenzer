@@ -3,18 +3,7 @@ import db from "../../config/database.js";
 import { date } from "../../utils/constants.js";
 import { validationResult } from "express-validator";
 
-export const createNewUnregisteredFriend = async (req, res) => {
-  // VALIDATION
-  const errors = validationResult(req);
-  const errorMessages = errors.array().map((err) => err.msg);
-  //   console.log(errorMessages);
-
-  if (!errors.isEmpty()) {
-    return res.status(422).json({
-      message: errorMessages,
-    });
-  }
-
+export const createNewUnregisteredFriendHelper = async (userId, friendName) => {
   const CHECK_IS_FRIEND =
     "SELECT * FROM FRIENDS F JOIN EXP_USER U ON F.FRIEND_ID = U.USER_ID WHERE F.USER_ID = $1 AND LOWER(U.USERNAME) = LOWER($2)";
 
@@ -24,10 +13,7 @@ export const createNewUnregisteredFriend = async (req, res) => {
   const CREATE_UNREGISTERED_USER =
     "INSERT INTO EXP_USER(USERNAME) VALUES ($1) RETURNING *";
 
-  const { userId } = req;
-  const { firstName, lastName } = req.body;
-
-  const friendName = `${firstName} ${lastName}`;
+  if (!friendName) throw new Error("Friend name cannot be empty");
 
   let newFriend, newFriendResult, newUser, newUserResult;
 
@@ -41,9 +27,7 @@ export const createNewUnregisteredFriend = async (req, res) => {
     }
 
     // CREATE AN UNREGISTERED USER
-    newUserResult = await db.query(CREATE_UNREGISTERED_USER, [
-      firstName + " " + lastName,
-    ]);
+    newUserResult = await db.query(CREATE_UNREGISTERED_USER, [friendName]);
     newUser = newUserResult.rows[0];
 
     // THEN MAKE HIM FRIEND FOR USER
@@ -53,11 +37,39 @@ export const createNewUnregisteredFriend = async (req, res) => {
       new Date().toLocaleDateString("en-IN", date.options),
     ]);
     newFriend = newFriendResult.rows[0];
+    return { data: { newFriend, newUser } };
+  } catch (err) {
+    console.log(err);
+    throw new Error(err);
+  }
+};
 
-    return res.status(StatusCodes.CREATED).json({
-      message: "Added friend to friend list",
-      data: { newFriend, newUser },
+export const createNewUnregisteredFriend = async (req, res) => {
+  // VALIDATION
+  const errors = validationResult(req);
+  const errorMessages = errors.array().map((err) => err.msg);
+  //   console.log(errorMessages);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).json({
+      message: errorMessages,
     });
+  }
+
+  const { userId } = req;
+  const { firstName, lastName } = req.body;
+  try {
+    const { data, err } = await createNewUnregisteredFriendHelper(
+      userId,
+      firstName,
+      lastName
+    );
+    if (data)
+      return res.status(StatusCodes.CREATED).json({
+        message: "Added friend to friend list",
+        data,
+      });
+    throw new Error(err);
   } catch (error) {
     console.log("Error while creating new friend: " + error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
@@ -119,8 +131,6 @@ export const createNewRegisteredFriend = async (req, res) => {
 };
 
 export const updateBalance = async (value, userId, friendId) => {
-  console.log(userId);
-
   const SIMPLE_UPDATE_USER_BALANCE =
     "UPDATE FRIENDS SET BALANCE = BALANCE + $1 WHERE USER_ID = $2 AND FRIEND_ID = $3";
 
@@ -167,7 +177,6 @@ export const updateBalance = async (value, userId, friendId) => {
         friendId,
         userId,
       ]);
-      console.log(balanceClearedResult.rows);
     } else {
       updatedBalanceResult = await db.query(UPDATE_FRIEND_BALANCE, [
         friendBalance - value,
