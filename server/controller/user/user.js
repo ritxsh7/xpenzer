@@ -69,7 +69,7 @@ export const loginUser = async (req, res) => {
   const FIND_USER = "SELECT * FROM  EXP_USER WHERE HANDLENAME = $1";
 
   const { handleName, password } = req.body;
-
+  console.log(handleName, password);
   try {
     const errors = validationResult(req.body);
     const errorMessages = errors.array().map((err) => err.msg);
@@ -94,9 +94,17 @@ export const loginUser = async (req, res) => {
       expiresIn: "30d",
     });
 
-    res.cookie("token", token, { httpOnly: true });
+    const user = {
+      userId: isUser.user_id,
+      handleName: isUser.handlename,
+      username: isUser.user_name,
+      token,
+    };
+
+    res.cookie("token", token, { expiresIn: "30d", httpOnly: true });
     return res.status(StatusCodes.OK).json({
       message: "Login successful",
+      user,
     });
   } catch (error) {
     console.log("Something went wrong while logging in " + error);
@@ -104,4 +112,11 @@ export const loginUser = async (req, res) => {
       message: "Something went wrong while logging in",
     });
   }
+};
+
+export const test = async (req, res) => {
+  console.log(req.userId);
+  return res.status(200).json({
+    message: "Test route",
+  });
 };
