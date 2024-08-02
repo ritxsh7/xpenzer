@@ -98,7 +98,6 @@ export const loginUser = async (req, res) => {
       userId: isUser.user_id,
       handleName: isUser.handlename,
       username: isUser.user_name,
-      token,
     };
 
     res.cookie("token", token, { expiresIn: "30d", httpOnly: true });
@@ -112,6 +111,17 @@ export const loginUser = async (req, res) => {
       message: "Something went wrong while logging in",
     });
   }
+};
+
+export const autoLogin = async (req, res) => {
+  if (req.userId) {
+    return res.status(StatusCodes.OK).json({
+      message: "Login successful",
+    });
+  }
+  return res.status(StatusCodes.UNAUTHORIZED).json({
+    message: "Access denied",
+  });
 };
 
 export const test = async (req, res) => {
