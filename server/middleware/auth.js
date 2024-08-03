@@ -16,7 +16,7 @@ export const authenticate = (req, res, next) => {
   // VERIFY THE TOKEN
   try {
     const payload = jwt.verify(token, JWT_SECRET);
-    req.userId = payload.userId;
+    req.user = payload;
     next();
   } catch (err) {
     console.log("Auth error " + err);

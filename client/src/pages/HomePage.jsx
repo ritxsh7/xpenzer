@@ -1,21 +1,17 @@
-import React, { useEffect } from "react";
-import { spendingsApi } from "../api/modules/spendings";
+import React from "react";
+import Header from "../components/home/Header";
+import Banner from "../components/home/Banner";
+import ProtectedPage from "./ProtectedPage";
 
 const HomePage = () => {
-  useEffect(() => {
-    loadAllSpendings();
-  }, []);
-
-  const loadAllSpendings = async () => {
-    try {
-      const res = await spendingsApi.getAllSpendings();
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  return <div>HomePage</div>;
+  return (
+    <ProtectedPage>
+      <div className="p-4">
+        <Header />
+        <Banner />
+      </div>
+    </ProtectedPage>
+  );
 };
 
 export default HomePage;

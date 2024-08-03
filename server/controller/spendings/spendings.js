@@ -13,7 +13,7 @@ export const getAllSpendings = async (req, res) => {
 
   try {
     //FETCH ALL FROM THE DATABASE
-    const spendings = await db.query(GET_ALL_SPENDINGS, [req.userId]);
+    const spendings = await db.query(GET_ALL_SPENDINGS, [req.user.userId]);
 
     //RESPONSE
     return res.status(200).json({
@@ -42,7 +42,7 @@ export const createNewSpending = async (req, res) => {
     description,
   } = req.body;
 
-  const { userId } = req;
+  const { userId } = req.user;
 
   let newExpense,
     contri,

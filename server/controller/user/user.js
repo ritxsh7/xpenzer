@@ -69,7 +69,7 @@ export const loginUser = async (req, res) => {
   const FIND_USER = "SELECT * FROM  EXP_USER WHERE HANDLENAME = $1";
 
   const { handleName, password } = req.body;
-  console.log(handleName, password);
+  // console.log(handleName, password);
   try {
     const errors = validationResult(req.body);
     const errorMessages = errors.array().map((err) => err.msg);
@@ -90,9 +90,13 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    const token = jwt.sign({ userId: isUser.user_id, handleName }, JWT_SECRET, {
-      expiresIn: "30d",
-    });
+    const token = jwt.sign(
+      { userId: isUser.user_id, handleName, username: isUser.username },
+      JWT_SECRET,
+      {
+        expiresIn: "30d",
+      }
+    );
 
     const user = {
       userId: isUser.user_id,
@@ -114,9 +118,10 @@ export const loginUser = async (req, res) => {
 };
 
 export const autoLogin = async (req, res) => {
-  if (req.userId) {
+  if (req.user) {
     return res.status(StatusCodes.OK).json({
       message: "Login successful",
+      user: req.user,
     });
   }
   return res.status(StatusCodes.UNAUTHORIZED).json({

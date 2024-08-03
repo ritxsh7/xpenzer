@@ -4,6 +4,9 @@ import { authApi } from "../../api/modules/auth";
 import Alert from "../common/Alert";
 import { useNavigate } from "react-router-dom";
 import AutoLogin from "../../pages/AutoLogin";
+import { useDispatch } from "react-redux";
+import { saveUser } from "../../store/functions/user";
+import { setLoading } from "../../store/functions/ux";
 
 const Login = () => {
   const handlenameRef = useRef(null);
@@ -14,9 +17,8 @@ const Login = () => {
     successMsg: "",
   });
 
-  const [loading, setLoading] = useState(false);
-
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // LOGIN FUNCTION
   const handleLogin = async (e) => {
@@ -26,14 +28,15 @@ const Login = () => {
       password: passwordRef.current.value,
     };
     try {
-      setLoading(true);
+      dispatch(setLoading(true));
       const res = await authApi.login(auth);
       setMessages({ successMsg: res.message });
+      dispatch(saveUser(res.user));
       navigate("/");
     } catch (error) {
       setMessages({ errorMsg: error.message });
     } finally {
-      setLoading(false);
+      dispatch(setLoading(false));
     }
   };
 

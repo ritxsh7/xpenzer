@@ -1,5 +1,5 @@
 export const loginStyles = {
-  container: "w-full max-w-[400px] mx-auto",
+  container: "w-full max-w-[400px] mx-auto p-4",
   logo: "",
   heading: "text-center text-lg font-400",
   headingText: "Login to continue >",
