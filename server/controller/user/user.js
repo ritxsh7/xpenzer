@@ -69,6 +69,7 @@ export const loginUser = async (req, res) => {
   const FIND_USER = "SELECT * FROM  EXP_USER WHERE HANDLENAME = $1";
 
   const { handleName, password } = req.body;
+
   // console.log(handleName, password);
   try {
     const errors = validationResult(req.body);
@@ -101,10 +102,13 @@ export const loginUser = async (req, res) => {
     const user = {
       userId: isUser.user_id,
       handleName: isUser.handlename,
-      username: isUser.user_name,
+      username: isUser.username,
     };
 
-    res.cookie("token", token, { expiresIn: "30d", httpOnly: true });
+    res.cookie("token", token, {
+      httpOnly: true,
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+    });
     return res.status(StatusCodes.OK).json({
       message: "Login successful",
       user,

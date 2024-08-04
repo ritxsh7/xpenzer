@@ -28,7 +28,9 @@ export const createNewUnregisteredFriendHelper = async (userId, friendName) => {
 
     // CREATE AN UNREGISTERED USER
     newUserResult = await db.query(CREATE_UNREGISTERED_USER, [friendName]);
+
     newUser = newUserResult.rows[0];
+    console.log(newUser);
 
     // THEN MAKE HIM FRIEND FOR USER
     newFriendResult = await db.query(CREATE_UNREGISTERED_FRIEND, [

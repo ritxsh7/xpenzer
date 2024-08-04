@@ -21,7 +21,7 @@ const PORT = process.env.SERVER_PORT;
 // APP ROUTES
 app.get("/", (req, res) => {
   res.status(200).json({
-    message: "This is a test route",
+    message: "hello",
   });
 });
 
