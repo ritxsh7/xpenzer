@@ -4,7 +4,7 @@ export const homeStyles = {
       "flex text-white items-center text-2xl justify-between font-semibold",
     left: "flex gap-4 items-center text-3xl",
     user: "flex items-center gap-1 ml-12",
-    username: "text-lg",
+    username: "text-lg ml-1",
   },
   banner: {
     thisMonth: "font-bold text-xl mb-2 text-left",
