@@ -1,24 +1,31 @@
 import { StatusCodes } from "http-status-codes";
 import db from "../../config/database.js";
-import { date, time } from "../../utils/constants.js";
+import { date, daysOfMonth, time } from "../../utils/constants.js";
 import { addNewContributer } from "../contributors/contributors.js";
 import { addNewExpense } from "../expenses/expenses.js";
 import {
   createNewUnregisteredFriendHelper,
   updateBalance,
 } from "../friends/friends.js";
+import spendings from "../../services/spendings.js";
 
 export const getAllSpendings = async (req, res) => {
-  const GET_ALL_SPENDINGS = "SELECT * FROM USER_SPENDINGS WHERE USER_ID = $1";
+  const { all } = req.query;
 
   try {
     //FETCH ALL FROM THE DATABASE
-    const spendings = await db.query(GET_ALL_SPENDINGS, [req.user.userId]);
+
+    const spendingsList = await spendings.getAllSpendings(all, req.user.userId);
+    const totalAmount = await spendings.getTotalAmount(req.user.userId);
 
     //RESPONSE
+
     return res.status(200).json({
       message: "Data fetched",
-      data: spendings.rows,
+      data: {
+        spendingsList: spendingsList.rows,
+        totalAmount: totalAmount.rows[0],
+      },
     });
   } catch (error) {
     console.log("Can't fetch all spendings " + error);
@@ -136,6 +143,22 @@ export const createNewSpending = async (req, res) => {
     console.log("Error while creating new spending " + error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       message: "Something went wrong while adding an spending : ",
+    });
+  }
+};
+
+export const getById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await spendings.getById(id);
+    return res.status(StatusCodes.OK).json({
+      message: "Spending by Id fetched successfully",
+      data: result.rows,
+    });
+  } catch (error) {
+    console.log("Error while getting spending " + error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      message: "Error while getting spending ",
     });
   }
 };

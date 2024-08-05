@@ -13,3 +13,13 @@ export const time = {
     second: "2-digit",
   },
 };
+
+const currentDate = new Date();
+export const daysOfMonth = {
+  startDate: new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    1
+  ).toLocaleDateString(),
+  endDate: new Date().toLocaleDateString(),
+};

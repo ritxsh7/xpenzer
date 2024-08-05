@@ -12,9 +12,8 @@ const AuthProvider = ({ children }) => {
       try {
         const res = await authApi.autoLogin();
         dispatch(saveUser(res.user));
-        console.log(res);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       } finally {
         setFetching(false);
       }

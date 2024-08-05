@@ -22,5 +22,15 @@ const pool = new Pool({
 });
 
 export default {
-  query: (sql, params) => pool.query(sql, params),
+  query: async (sql, params) => {
+    const client = await pool.connect();
+    try {
+      var result = await client.query(sql, params);
+    } catch (error) {
+      return { error };
+    } finally {
+      client.release();
+    }
+    return { result };
+  },
 };
