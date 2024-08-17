@@ -18,6 +18,8 @@ app.use(express.json());
 //ENV VARIABLES
 const PORT = process.env.SERVER_PORT;
 
+// DATABASE CONNECTION
+
 // APP ROUTES
 app.get("/", (req, res) => {
   res.status(200).json({

@@ -2,10 +2,8 @@ import { body } from "express-validator";
 
 export const signupValidators = [
   body("username", "Name cannot be empty").notEmpty(),
-  body("handleName", "Handlename cannot be empty").notEmpty(),
-  body("handleName", "Handlename must be of minimum 6 characters").isLength({
-    min: 6,
-  }),
+  body("phone", "Phone number cannot be empty").notEmpty(),
+  body("phone", "Invalid phone number").isMobilePhone("en-IN"),
   body("password", "Password must be of minimum 6 characters").isLength({
     min: 6,
   }),

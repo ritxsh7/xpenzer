@@ -4,19 +4,17 @@ import { date } from "../../utils/constants.js";
 import bcrypt from "bcryptjs";
 import { StatusCodes } from "http-status-codes";
 import jwt from "jsonwebtoken";
+import users from "../../services/users.js";
+import response from "../../helpers/response.js";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
 export const signupUser = async (req, res) => {
-  // INSERT NEW USER
-  const CREATE_NEW_USER =
-    "INSERT INTO EXP_USER(HANDLENAME, USERNAME, USER_PASS, JOINED_DATE) VALUES ($1, $2, $3, $4) RETURNING * ";
-
-  const CHECK_USERNAME = "SELECT * FROM EXP_USER WHERE USERNAME = $1";
-
   try {
     const errors = validationResult(req.body);
+
     const errorMessages = errors.array().map((err) => err.msg);
+    console.log(errorMessages);
 
     if (!errors.isEmpty()) {
       return res.status(422).json({
@@ -25,42 +23,22 @@ export const signupUser = async (req, res) => {
     }
 
     // EXTRACT REQ BODY
-    const { username, handleName, password } = req.body;
+    const { username, phone, password } = req.body;
 
     // HASH THE PASSWORD
     let hashedPassword;
     try {
       hashedPassword = await bcrypt.hash(password, 10);
-      console.log(hashedPassword);
     } catch (error) {
-      console.log("Error while hashing the password " + error);
+      console.log("Error while hashing the password " + error.message);
     }
 
-    // CHECK FOR USERNAME
-    const checkUsername = await db.query(CHECK_USERNAME, [username]);
+    const newUser = await users.createUser(username, phone, hashedPassword);
 
-    if (checkUsername.rowCount) {
-      return res.status(StatusCodes.CONFLICT).json({
-        message: "Username already exists",
-      });
-    }
-
-    const newUser = await db.query(CREATE_NEW_USER, [
-      handleName,
-      username,
-      hashedPassword,
-      new Date().toLocaleDateString("en-IN", date.options),
-    ]);
-
-    return res.status(StatusCodes.CREATED).json({
-      message: "User created successfully",
-      data: newUser.rows[0],
-    });
+    return response.ok(res, newUser, "Signup success");
   } catch (error) {
-    console.log("Error while signing up" + error);
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      message: "Error while signing up",
-    });
+    console.log(error);
+    return response.serverError(res, "Error while signing up user");
   }
 };
 
