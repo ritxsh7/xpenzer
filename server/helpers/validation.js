@@ -4,8 +4,8 @@ export const signupValidators = [
   body("username", "Name cannot be empty").notEmpty(),
   body("phone", "Phone number cannot be empty").notEmpty(),
   body("phone", "Invalid phone number").isMobilePhone("en-IN"),
-  body("password", "Password must be of minimum 6 characters").isLength({
-    min: 6,
+  body("password", "Password must be of minimum 4 characters").isLength({
+    min: 4,
   }),
 ];
 

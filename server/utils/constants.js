@@ -1,4 +1,4 @@
-export const date = {
+export const dateNow = {
   options: {
     day: "2-digit",
     month: "2-digit",
@@ -6,7 +6,7 @@ export const date = {
   },
 };
 
-export const time = {
+export const timeNow = {
   options: {
     hour: "2-digit",
     minute: "2-digit",

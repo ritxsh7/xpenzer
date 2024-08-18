@@ -1,7 +1,24 @@
-import { PrismaClient } from "@prisma/client";
+import pg from "pg";
 import dotenv from "dotenv";
 dotenv.config();
 
-const prisma = new PrismaClient();
+const pool = new pg.Pool({
+  user: process.env.POSTGRES_USERNAME,
+  password: process.env.POSTGRES_PASSWORD,
+  host: process.env.POSTGRES_HOST,
+  port: process.env.POSTGRES_PORT,
+  database: process.env.POSTGRES_DATABASE,
+});
 
-export default prisma;
+const db = {
+  query: async (sql, params) => {
+    try {
+      const result = await pool.query(sql, params);
+      return { result };
+    } catch (error) {
+      return { error };
+    }
+  },
+};
+
+export default db;

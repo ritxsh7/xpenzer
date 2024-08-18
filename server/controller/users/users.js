@@ -1,20 +1,14 @@
 import { validationResult } from "express-validator";
-import db from "../../config/database.js";
-import { date } from "../../utils/constants.js";
 import bcrypt from "bcryptjs";
 import { StatusCodes } from "http-status-codes";
-import jwt from "jsonwebtoken";
 import users from "../../services/users.js";
 import response from "../../helpers/response.js";
-
-const JWT_SECRET = process.env.JWT_SECRET;
+import generateToken from "../../helpers/generateToken.js";
 
 export const signupUser = async (req, res) => {
   try {
-    const errors = validationResult(req.body);
-
+    const errors = validationResult(req);
     const errorMessages = errors.array().map((err) => err.msg);
-    console.log(errorMessages);
 
     if (!errors.isEmpty()) {
       return res.status(422).json({
@@ -43,12 +37,7 @@ export const signupUser = async (req, res) => {
 };
 
 export const loginUser = async (req, res) => {
-  //SQL QUERIES
-  const FIND_USER = "SELECT * FROM  EXP_USER WHERE HANDLENAME = $1";
-
-  const { handleName, password } = req.body;
-
-  // console.log(handleName, password);
+  const { phone, password } = req.body;
   try {
     const errors = validationResult(req.body);
     const errorMessages = errors.array().map((err) => err.msg);
@@ -59,43 +48,22 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    const result = await db.query(FIND_USER, [handleName]);
-    const isUser = result.rows[0];
-    // console.log(isUser);
+    const isUser = await users.findUser(phone);
 
-    if (!isUser || !(await bcrypt.compare(password, isUser.user_pass))) {
-      return res.status(StatusCodes.UNAUTHORIZED).json({
-        message: "Invalid username or password",
-      });
-    }
+    if (!isUser || !(await bcrypt.compare(password, isUser.password)))
+      return response.unAuthorized(res, "Invalid username of password");
 
-    const token = jwt.sign(
-      { userId: isUser.user_id, handleName, username: isUser.username },
-      JWT_SECRET,
-      {
-        expiresIn: "30d",
-      }
-    );
-
-    const user = {
-      userId: isUser.user_id,
-      handleName: isUser.handlename,
-      username: isUser.username,
-    };
+    isUser.password = null;
+    const token = generateToken(isUser);
 
     res.cookie("token", token, {
       httpOnly: true,
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
-    return res.status(StatusCodes.OK).json({
-      message: "Login successful",
-      user,
-    });
+    return response.ok(res, isUser, "Login successful");
   } catch (error) {
     console.log("Something went wrong while logging in " + error);
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      message: "Something went wrong while logging in",
-    });
+    return response.serverError(res, "Something went wrong while logging in");
   }
 };
 

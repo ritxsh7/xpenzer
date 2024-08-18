@@ -1,27 +1,20 @@
-import { StatusCodes } from "http-status-codes";
 import jwt from "jsonwebtoken";
+import response from "../helpers/response.js";
 
 export const authenticate = (req, res, next) => {
   //ACCESS THE TOKEM
-  const JWT_SECRET = process.env.JWT_SECRET;
   const token = req.cookies.token;
-  //   console.log(token);
 
   if (!token) {
-    return res
-      .status(StatusCodes.UNAUTHORIZED)
-      .json({ message: "Access denied" });
+    return response.unAuthorized(res, "Anthorized");
   }
-
   // VERIFY THE TOKEN
   try {
-    const payload = jwt.verify(token, JWT_SECRET);
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
     req.user = payload;
     next();
   } catch (err) {
     console.log("Auth error " + err);
-    return res
-      .status(StatusCodes.UNAUTHORIZED)
-      .json({ message: "Invalid token" });
+    return response.unAuthorized(res, "Auth error");
   }
 };
