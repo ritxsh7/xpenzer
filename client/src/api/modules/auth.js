@@ -1,9 +1,9 @@
 import { client } from "../client";
 
 const authEndpoints = {
-  login: "/users/login",
-  signup: "/users/signup",
-  autoLogin: "/users/auth",
+  login: "/users/user/login",
+  signup: "/users/user/signup",
+  autoLogin: "/users/user/auth",
 };
 
 export const authApi = {

@@ -6,9 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { saveUser } from "../../store/functions/user";
 import { setLoading } from "../../store/functions/ux";
+import logo from "../../assets/logo.png";
 
 const Login = () => {
-  const handlenameRef = useRef(null);
+  const phoneRef = useRef(null);
   const passwordRef = useRef(null);
 
   const [messages, setMessages] = useState({
@@ -23,7 +24,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     const auth = {
-      handleName: handlenameRef.current.value,
+      phone: phoneRef.current.value,
       password: passwordRef.current.value,
     };
     try {
@@ -34,6 +35,7 @@ const Login = () => {
       navigate("/");
     } catch (error) {
       navigate("/login");
+      console.log(error);
       setMessages({ errorMsg: error.message });
     } finally {
       dispatch(setLoading(false));
@@ -42,16 +44,16 @@ const Login = () => {
 
   return (
     <div className={loginStyles.container}>
-      <h1 className="text-3xl font-semibold my-3">Kharcha Paani</h1>
+      <img src={logo} />
       <h3 className={loginStyles.heading}>{loginStyles.headingText} </h3>
       <form className={loginStyles.form} onSubmit={handleLogin}>
         <input
-          id="handlename"
+          id="phone"
           className={loginStyles.input}
           type="text"
-          ref={handlenameRef}
+          ref={phoneRef}
           required
-          placeholder="handlename eg: ritesh@123"
+          placeholder="phone eg: 9876543210"
         ></input>
         <input
           required

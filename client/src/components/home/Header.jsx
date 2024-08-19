@@ -1,26 +1,22 @@
 import React from "react";
-import { HiBars3 } from "react-icons/hi2";
-import { FaSearch } from "react-icons/fa";
+import { HiMiniBars3CenterLeft } from "react-icons/hi2";
+import { IoMdNotificationsOutline } from "react-icons/io";
+import { IoIosSearch } from "react-icons/io";
 import { homeStyles } from "./styles";
-import UserIcon from "../common/UserIcon";
-import { useSelector } from "react-redux";
 
 const Header = () => {
-  const { user } = useSelector((store) => store.user);
-
   return (
     <div className={homeStyles.header.container}>
-      <div className={homeStyles.header.left}>
-        <HiBars3 />
-        <h2>Home</h2>
+      <div className={homeStyles.header.wrapper}>
+        <div className={homeStyles.header.left}>
+          <HiMiniBars3CenterLeft />
+          <p>Home</p>
+        </div>
+        <div className={homeStyles.header.right}>
+          <IoIosSearch />
+          <IoMdNotificationsOutline />
+        </div>
       </div>
-      <div className={homeStyles.header.user}>
-        <UserIcon />
-        <p className={homeStyles.header.username}>
-          {user.username.split(" ")[0]}
-        </p>
-      </div>
-      <FaSearch />
     </div>
   );
 };

@@ -1,10 +1,17 @@
 import React from "react";
 import { FaUserAlt } from "react-icons/fa";
+import { homeStyles } from "../home/styles";
 
 const UserIcon = () => {
   return (
-    <div className="w-10 h-10 rounded-full bg-[#334A50] flex items-center justify-center">
-      <FaUserAlt className="text-lg" />
+    <div className={homeStyles.user.container}>
+      <div className={homeStyles.user.icon}>
+        <FaUserAlt className="text-lg" />
+      </div>
+      <div className={homeStyles.user.message}>
+        <p className="text-sm">Welcome back!</p>
+        <p>Ritesh</p>
+      </div>
     </div>
   );
 };
