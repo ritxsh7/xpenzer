@@ -15,10 +15,10 @@ export const homeStyles = {
     subbanner: "flex items-center gap-10",
     badgeTitle: "flex items-center",
     badgeName: "text-md ml-1 text-[#E5E5E5]",
-    arrow: (color) => (color === "red" ? "text-orange-600" : "text-lime-600"),
+    arrow: (color) => (color === "red" ? "text-orange-600" : "text-lime-500"),
     badgeAmount: (color) =>
-      `text-left ml-1 text-white font-medium text-md tracking-[0.2rem] ${
-        color === "red" ? "text-orange-600" : "text-lime-600"
+      `text-left ml-1 font-medium text-md tracking-[0.2rem] ${
+        color === "red" ? "text-orange-600" : "text-lime-500"
       }`,
   },
   user: {
@@ -33,10 +33,11 @@ export const homeStyles = {
     active: "bg-[#5C6AF5] text-white",
   },
   spendingItemList: {
-    wrapper: "w-full max-w-md mx-auto",
-    container: "flex justify-between mt-4 bg-[#27262B] py-2 px-3 rounded-lg",
+    wrapper: "w-full p-1 my-4 max-w-md mx-auto bg-[#27262B] rounded-lg",
+    container: "flex justify-between bg-[#27262B] p-3 rounded-lg",
     left: "flex flex-col items-start",
     right: "flex flex-col justify-center text-orange-600 tracking-[0.2rem]",
+    expandable: "",
   },
   image: {
     imgWrapper: "flex flex-row items-center",
