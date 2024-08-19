@@ -35,6 +35,14 @@ class SpendingService {
     throw error;
   }
 
+  async getAllContributors(spending_id) {
+    const GET_CONTRIBUTORS =
+      "SELECT * FROM user_contributions WHERE spending_id = $1";
+    const { result, error } = await db.query(GET_CONTRIBUTORS, [spending_id]);
+    if (result) return result.rows;
+    throw error;
+  }
+
   // TOTAL AMOUNT
   async getTotalAmount(userId) {
     const GET_TOTAL_SPENDINGS =

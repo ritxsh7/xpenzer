@@ -5,7 +5,8 @@ import spendings from "../../services/spendings.js";
 
 export const getAllSpendings = async (req, res) => {
   try {
-    const resultList = await spendings.getAllSpendings(req.user.userId, true);
+    const { all } = req.params;
+    const resultList = await spendings.getAllSpendings(req.user.userId, all);
     return response.ok(res, resultList, "Fetched all spendings");
   } catch (error) {
     console.log(error);
@@ -74,6 +75,17 @@ export const createNewSpending = async (req, res) => {
       newUnregisteredContributors: result[1],
       userExpense,
     });
+  } catch (error) {
+    console.log(error);
+    return response.serverError(res);
+  }
+};
+
+export const getAllContributors = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const contributors = await spendings.getAllContributors(id);
+    return response.ok(res, contributors);
   } catch (error) {
     console.log(error);
     return response.serverError(res);

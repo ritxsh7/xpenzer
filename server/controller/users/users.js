@@ -78,10 +78,3 @@ export const autoLogin = async (req, res) => {
     message: "Access denied",
   });
 };
-
-export const test = async (req, res) => {
-  console.log(req.userId);
-  return res.status(200).json({
-    message: "Test route",
-  });
-};
