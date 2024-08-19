@@ -38,7 +38,7 @@ export const createNewSpending = async (req, res) => {
 
     // CREATE ALL CONTRIBUTORS
     const newContributions =
-      contributors.registered?.length >= 0 &&
+      contributors.registered?.length > 0 &&
       (await contributions.createManyContributions(
         newSpending.spending_id,
         contributors.registered
@@ -46,7 +46,7 @@ export const createNewSpending = async (req, res) => {
 
     // CREATE ALL UNREGISTERED CONTRIBUTORS
     const newUnregisteredContributors =
-      contributors.unregistered?.length >= 0 &&
+      contributors.unregistered?.length > 0 &&
       (await contributions.createUnregisteredContribution(
         contributors.unregistered,
         newSpending.spending_id,
