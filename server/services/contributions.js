@@ -1,4 +1,5 @@
 import db from "../config/database.js";
+import users from "./users.js";
 
 class Contributions {
   createNewContribution = async (spending_id, user_id, amount) => {
@@ -25,6 +26,23 @@ class Contributions {
       newContributions.push(newContribution);
     }
     return newContributions;
+  };
+
+  // UNREGISTERED CONTRIBUTIONS
+  createUnregisteredContribution = async (
+    userList,
+    spending_id,
+    currUserId
+  ) => {
+    const newUsers = await users.createManyUnregisteredUser(
+      userList,
+      currUserId
+    );
+    const newUnregisteredContributions = await this.createManyContributions(
+      spending_id,
+      newUsers
+    );
+    return newUnregisteredContributions;
   };
 }
 export default new Contributions();

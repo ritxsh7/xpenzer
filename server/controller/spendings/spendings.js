@@ -37,10 +37,21 @@ export const createNewSpending = async (req, res) => {
     );
 
     // CREATE ALL CONTRIBUTORS
-    const newContributions = await contributions.createManyContributions(
-      newSpending.spending_id,
-      contributors.registered
-    );
+    const newContributions =
+      contributors.registered?.length >= 0 &&
+      (await contributions.createManyContributions(
+        newSpending.spending_id,
+        contributors.registered
+      ));
+
+    // CREATE ALL UNREGISTERED CONTRIBUTORS
+    const newUnregisteredContributors =
+      contributors.unregistered?.length >= 0 &&
+      (await contributions.createUnregisteredContribution(
+        contributors.unregistered,
+        newSpending.spending_id,
+        req.user.userId
+      ));
 
     //IF USER IS PRESENT THEN ADD PERSONAL EXPENSE
     const userExpense =
@@ -52,7 +63,17 @@ export const createNewSpending = async (req, res) => {
         date
       ));
 
-    return response.ok(res, { newSpending, newContributions, userExpense });
+    const result = await Promise.all([
+      newContributions,
+      newUnregisteredContributors,
+    ]);
+
+    return response.ok(res, {
+      newSpending,
+      newContributions: result[0],
+      newUnregisteredContributors: result[1],
+      userExpense,
+    });
   } catch (error) {
     console.log(error);
     return response.serverError(res);

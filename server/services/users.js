@@ -1,4 +1,5 @@
 import db from "../config/database.js";
+import friends from "./friends.js";
 
 class UserService {
   // CREATE USER
@@ -23,6 +24,41 @@ class UserService {
     const { result, error } = await db.query(FIND_USER, [phone]);
     if (result) return result.rows[0];
     throw error;
+  };
+
+  // CREATE UNREGISTERED USER
+  createUnregisteredUser = async (user, currUserId) => {
+    const CREATE_UNREGISTERED_USER =
+      "INSERT INTO users(username, is_registered) VALUES ($1, $2) RETURNING user_id, username, phone";
+
+    const { result, error } = await db.query(CREATE_UNREGISTERED_USER, [
+      user.username,
+      false,
+    ]);
+
+    if (result) {
+      await friends.createUnregisteredFriend(
+        currUserId,
+        result.rows[0].user_id
+      );
+      return result.rows[0];
+    }
+    throw error;
+  };
+
+  createManyUnregisteredUser = async (users, currUserId) => {
+    let newUsers = [];
+    for (const user of users) {
+      const result = await this.createUnregisteredUser(user, currUserId);
+      newUsers.push(result);
+    }
+
+    return newUsers.map((user, index) => {
+      return {
+        userId: user.user_id,
+        amount: users[index].amount,
+      };
+    });
   };
 }
 
