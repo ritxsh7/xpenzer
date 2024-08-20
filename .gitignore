@@ -1,3 +1,7 @@
 .env
 node_modules
 db.sql
+development.sql
+queries.pgsql
+.vscode
+.gitignore
