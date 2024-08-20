@@ -41,3 +41,24 @@ body{
   height : 100vh;
   background-color: #000000;
 }
+
+.skeleton {
+  background-color: #27262B;
+  background-image: linear-gradient(90deg,
+      #27262B 25%,
+      #373738 37%,
+      #27262B 63%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 1rem;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}

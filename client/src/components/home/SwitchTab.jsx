@@ -1,23 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 import { homeStyles } from "./styles";
-const SwitchTab = () => {
-  const [active, setActive] = useState(0);
-
+const SwitchTab = ({ activeTab, setActiveTab }) => {
   return (
     <div className={homeStyles.switchTab.wrapper}>
       <div className={homeStyles.switchTab.subContainer}>
         <div
-          onClick={() => setActive(0)}
+          onClick={() => setActiveTab("spendings")}
           className={`${homeStyles.switchTab.bg} ${
-            active === 0 && homeStyles.switchTab.active
+            activeTab === "spendings" && homeStyles.switchTab.active
           }`}
         >
           Spendings
         </div>
         <div
-          onClick={() => setActive(1)}
+          onClick={() => setActiveTab("expenses")}
           className={`${homeStyles.switchTab.bg} ${
-            active === 1 && homeStyles.switchTab.active
+            activeTab === "expenses" && homeStyles.switchTab.active
           }`}
         >
           Expenses

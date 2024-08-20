@@ -9,7 +9,8 @@ export const homeStyles = {
   },
   banner: {
     thisMonth: "font-medium text-lg mb-2 text-left",
-    container: "bg-[#27262B] w-full rounded-lg text-[#83d4e2d1] p-3",
+    container:
+      "bg-[#27262B] min-h-[12rem] w-full my-10 rounded-lg text-[#83d4e2d1] p-3",
     heading: "text-md text-[#E5E5E5] text-left",
     amount: "text-[2rem] mt-2 font-medium mb-8 text-left text-white",
     subbanner: "flex items-center gap-10",
@@ -38,6 +39,11 @@ export const homeStyles = {
     left: "flex flex-col items-start",
     right: "flex flex-col justify-center text-orange-600 tracking-[0.2rem]",
     expandable: "",
+  },
+  contributor: {
+    container: "px-2 py-2 flex items-center justify-between",
+    profile: "text-lg flex items-center gap-3",
+    amount: "text-lime-500",
   },
   image: {
     imgWrapper: "flex flex-row items-center",
