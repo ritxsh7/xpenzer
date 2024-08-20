@@ -6,9 +6,9 @@ class SpendingService {
   // ALL THE SPENDINGS ALL TIME / PAST MONTH
   async getAllSpendings(userId, all) {
     const GET_ALL_SPENDINGS =
-      "SELECT * FROM spendings WHERE user_id = $1 ORDER BY spending_id DESC";
+      "SELECT * FROM spendings WHERE user_id = $1 ORDER BY date DESC";
     const GET_THIS_MONTHS_SPENDINGS =
-      "SELECT * FROM spendings WHERE user_id = $1 AND date BETWEEN $2 AND $3 ORDER BY spending_id DESC";
+      "SELECT * FROM spendings WHERE user_id = $1 AND date BETWEEN $2 AND $3 ORDER BY date DESC";
 
     const params = all
       ? [userId]
@@ -16,7 +16,14 @@ class SpendingService {
 
     const SQL = all ? GET_ALL_SPENDINGS : GET_THIS_MONTHS_SPENDINGS;
     const { result, error } = await db.query(SQL, params);
+    if (result) return result.rows;
+    if (error) throw error;
+  }
 
+  async getAllExpenses(userId) {
+    const GET_ALL_EXPENSES =
+      "SELECT * FROM personal_expenses WHERE user_id = $1 ORDER BY date DESC";
+    const { result, error } = await db.query(GET_ALL_EXPENSES, [userId]);
     if (result) return result.rows;
     if (error) throw error;
   }
@@ -46,23 +53,14 @@ class SpendingService {
   // TOTAL AMOUNT
   async getTotalAmount(userId) {
     const GET_TOTAL_SPENDINGS =
-      "SELECT SUM(TOTAL_EXP) AS TOTAL FROM USER_SPENDINGS WHERE USER_ID = $1 AND SPENDING_DATE BETWEEN $2 AND $3";
+      "SELECT COALESCE(SUM(amount), 0) AS total_spendings FROM spendings WHERE user_id = $1 AND date BETWEEN $2 AND $3 UNION ALL SELECT COALESCE(SUM(amount), 0) AS total_expenses FROM personal_expenses WHERE user_id = $1 AND date BETWEEN $2 AND $3";
 
     const { result, error } = await db.query(GET_TOTAL_SPENDINGS, [
       userId,
       daysOfMonth.startDate,
       daysOfMonth.endDate,
     ]);
-    if (result) return result;
-    if (error) throw error;
-  }
-
-  // GET BY ID
-  async getById(spendingId) {
-    const GET_BY_ID =
-      "SELECT username, amount, friend_id FROM user_friend_contri WHERE spending_id = $1";
-    const { result, error } = await db.query(GET_BY_ID, [spendingId]);
-    if (result) return result;
+    if (result) return result.rows;
     if (error) throw error;
   }
 }

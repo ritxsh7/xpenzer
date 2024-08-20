@@ -6,7 +6,10 @@ import spendings from "../../services/spendings.js";
 export const getAllSpendings = async (req, res) => {
   try {
     const { all } = req.params;
-    const resultList = await spendings.getAllSpendings(req.user.userId, all);
+    const spendingList = spendings.getAllSpendings(req.user.userId, all);
+    const expenseList = spendings.getAllExpenses(req.user.userId);
+
+    const resultList = await Promise.all([spendingList, expenseList]);
     return response.ok(res, resultList, "Fetched all spendings");
   } catch (error) {
     console.log(error);
@@ -83,9 +86,20 @@ export const createNewSpending = async (req, res) => {
 
 export const getAllContributors = async (req, res) => {
   const { id } = req.params;
+
   try {
     const contributors = await spendings.getAllContributors(id);
     return response.ok(res, contributors);
+  } catch (error) {
+    console.log(error);
+    return response.serverError(res);
+  }
+};
+
+export const getTotalAmount = async (req, res) => {
+  try {
+    const total = await spendings.getTotalAmount(req.user.userId);
+    return response.ok(res, total);
   } catch (error) {
     console.log(error);
     return response.serverError(res);
