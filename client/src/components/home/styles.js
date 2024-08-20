@@ -12,6 +12,7 @@ export const homeStyles = {
     container:
       "bg-[#27262B] min-h-[12rem] w-full my-10 rounded-lg text-[#83d4e2d1] p-3",
     heading: "text-md text-[#E5E5E5] text-left",
+    month: "text-left text-[#5C6AF5] text-lg",
     amount: "text-[2rem] mt-2 font-medium mb-8 text-left text-white",
     subbanner: "flex items-center gap-10",
     badgeTitle: "flex items-center",

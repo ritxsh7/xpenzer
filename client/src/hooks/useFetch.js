@@ -2,21 +2,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setError } from "../store/functions/ux";
 import { useCallback, useEffect, useState } from "react";
 
-const useFetch = (fetcher, params) => {
+const useFetch = (fetcher, params = []) => {
   const [response, setResponse] = useState(null);
   const dispatch = useDispatch();
   const ux = useSelector((store) => store.ux);
 
   const fetchData = useCallback(async () => {
-    setLoading(true);
+    dispatch(setLoading(true));
     try {
-      let res;
-      params ? (res = await fetcher(...params)) : (res = await fetcher());
+      const res = await fetcher(...params);
       setResponse(res);
     } catch (err) {
+      console.log(err);
       dispatch(setError(err));
     } finally {
-      setLoading(false);
+      dispatch(setLoading(false));
     }
   }, [fetcher]);
 
