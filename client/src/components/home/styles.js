@@ -51,4 +51,6 @@ export const homeStyles = {
     imgContainer: "w-4 z-30 translate-x-2",
     imgStyle: "rounded-full",
   },
+  newIcon:
+    "w-[4.5rem] h-[4.5rem] flex items-center justify-center text-4xl rounded-[50%] fixed bottom-6 right-6 bg-[#5C6AF5]",
 };

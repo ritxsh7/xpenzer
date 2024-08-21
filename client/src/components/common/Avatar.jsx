@@ -11,7 +11,7 @@ const AvatarComp = ({ name, color }) => {
       size="35"
       color={color}
       fgColor="white"
-      textSizeRatio={1.25}
+      textSizeRatio={1.4}
     />
   );
 };

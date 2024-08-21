@@ -6,6 +6,7 @@ import SwitchTab from "../components/home/SwitchTab";
 import BannerSkeleton from "../components/skeletons/BannerSkeleton";
 import ListItemSkeleton from "../components/skeletons/ListSkeleton";
 import useFetch from "../hooks/useFetch";
+import CreateNewIcon from "../components/home/CreateNewIcon";
 
 const Banner = lazy(() => import("../components/home/Banner"));
 const SpendingList = lazy(() => import("../components/home/SpendingList"));
@@ -34,6 +35,7 @@ const HomePage = () => {
               <ExpenseList expenses={response[1]} />
             </Suspense>
           )}
+          <CreateNewIcon />
         </>
       )}
     </div>

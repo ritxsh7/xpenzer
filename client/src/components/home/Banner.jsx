@@ -23,7 +23,7 @@ const Banner = () => {
   if (response) {
     var total = response[0].total_spendings;
     var personal = response[1].total_spendings;
-    var lendings = total - personal;
+    var lendings = (total - personal).toFixed(2);
     var amounts = [personal, lendings];
   }
 
