@@ -1,21 +1,16 @@
 import React from "react";
+import { spendingStyles } from "./styles";
 
-const InputGroup = ({
-  label,
-  type,
-  state,
-  placeholder,
-  defaultValue,
-  hideOutline,
-}) => {
+const InputGroup = ({ label, type, state, placeholder, defaultValue }) => {
   return (
     <div className="text-left">
-      <p className="text-lg text-[#5C6AF5] my-4">{label}</p>
+      <p className={spendingStyles.form.input.label}>{label}</p>
       <input
         ref={state}
+        required
         type={type}
         placeholder={placeholder}
-        className={"p-4 rounded-md w-full text-lg"}
+        className={spendingStyles.form.input.field}
         defaultValue={defaultValue}
       ></input>
     </div>

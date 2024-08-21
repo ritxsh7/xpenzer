@@ -14,9 +14,9 @@ export const homeStyles = {
     heading: "text-md text-[#E5E5E5] text-left",
     month: "text-left text-[#5C6AF5] text-lg",
     amount: "text-[2rem] mt-2 font-medium mb-8 text-left text-white",
-    subbanner: "flex items-center gap-10",
+    subbanner: "flex items-center gap-4",
     badgeTitle: "flex items-center",
-    badgeName: "text-md ml-1 text-[#E5E5E5]",
+    badgeName: "text-xs ml-1 text-[#E5E5E5]",
     arrow: (color) => (color === "red" ? "text-orange-600" : "text-lime-500"),
     badgeAmount: (color) =>
       `text-left ml-1 font-medium text-md tracking-[0.2rem] ${

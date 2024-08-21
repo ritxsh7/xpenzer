@@ -1,10 +1,11 @@
 import React from "react";
 import NewSpendingForm from "../components/spendings/NewSpendingForm";
 import Header from "../components/home/Header";
+import { spendingStyles } from "../components/spendings/styles";
 
 const NewSpendingPage = () => {
   return (
-    <div className="p-5 h-[100vh] flex flex-col">
+    <div className={spendingStyles.container}>
       <Header />
       <NewSpendingForm />
     </div>

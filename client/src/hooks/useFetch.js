@@ -26,7 +26,7 @@ const useFetch = (fetcher, params = []) => {
     return () => {
       isMounted = false;
     };
-  }, [fetchData]);
+  }, []);
 
   return { response: response?.data, loading: ux.loading };
 };

@@ -1,19 +1,29 @@
 import React from "react";
-import { homeStyles } from "../home/styles";
 import AvatarComp from "../common/Avatar";
+import { spendingStyles } from "./styles";
 
-const FriendItem = ({ friend, setContributors }) => {
-  const handleAdd = (e) => {
-    // e.target;
-    console.log(friend);
-    setContributors((curr) => [...curr, friend]);
+const FriendItem = ({
+  friend,
+  setContributors,
+  setShowDropdown,
+  totalAmount,
+}) => {
+  console.log(totalAmount);
+
+  const handleAdd = (totalAmount) => {
+    setContributors((curr) => {
+      console.log(totalAmount);
+      const amount = totalAmount / (curr.length + 1);
+      return [...curr, { ...friend, amount }];
+    });
+    setShowDropdown(false);
   };
 
   return (
-    <div onClick={handleAdd}>
-      <div className={`${homeStyles.contributor.profile} py-2`}>
-        <AvatarComp name={friend.username} color={friend.profile_color} />
-        <p>{friend.username} </p>
+    <div onClick={() => handleAdd(totalAmount)}>
+      <div className={spendingStyles.friendItem.container}>
+        <AvatarComp name={friend.friend_name} color={friend.profile_color} />
+        <p>{friend.friend_name} </p>
       </div>
     </div>
   );

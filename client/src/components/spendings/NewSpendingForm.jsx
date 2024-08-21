@@ -1,24 +1,28 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { formatDateForInput } from "../../utils/date";
 import InputGroup from "./InputGroup";
 import SearchBar from "./SearchBar";
 import FriendItem from "./FriendItem";
+import Contributor from "./Contributor";
+import { spendingStyles } from "./styles";
+import useFetch from "../../hooks/useFetch";
+
+import friendsApi from "../../api/modules/friends";
 
 const NewSpendingForm = () => {
+  const { response } = useFetch(friendsApi.getAllFriends);
+
   const dateRef = useRef(null);
   const amountRef = useRef(null);
   const descriptionRef = useRef(null);
-  const friendRef = useRef(null);
 
   const [contributors, setContributors] = useState([]);
-  console.log(contributors);
+  const [contriAmount, setContriAmount] = useState(amountRef?.current?.value);
 
-  const [friends, setFriends] = useState([
-    { profile_color: "blue", username: "Balaji" },
-    { profile_color: "green", username: "Shreyash" },
-    { profile_color: "purple", username: "Rushi" },
-    { profile_color: "orange", username: "Bhaiyya" },
-  ]);
+  useEffect(() => {
+    setContriAmount(contributors.length / amountRef.current.value);
+  }, [contriAmount, amountRef]);
+
   const [showDropdown, setShowDropdown] = useState(false);
 
   const handleNewSpending = (e) => {
@@ -33,10 +37,10 @@ const NewSpendingForm = () => {
   };
 
   return (
-    <form className="bg-transparent  relative p-4 my-4 h-full">
+    <form className={spendingStyles.form.container}>
       <InputGroup
         label="Amount"
-        placeholder="XXXX"
+        placeholder="₹ XXXX"
         type="text"
         state={amountRef}
       />
@@ -54,24 +58,27 @@ const NewSpendingForm = () => {
       />
       <SearchBar onFocus={handleFocus} />
 
-      <button
-        onClick={handleNewSpending}
-        className="bg-[#5c6af5] mt-12 w-full p-4 rounded-md absolute bottom-4 right-0"
-      >
-        Continue
-      </button>
-
       {showDropdown && (
-        <ul className="w-full max-h-[200px] rounded-md px-4 overflow-y-scroll my-4 bg-[#121212]">
-          {friends.map((friend, index) => (
-            <FriendItem
-              key={index}
-              friend={friend}
-              setContributors={setContributors}
-            />
-          ))}
+        <ul className={spendingStyles.form.dropdown}>
+          <p className="text-left my-2 text-xs text-[#5C6AF5]">Your friends</p>
+          {response &&
+            response.map((friend) => (
+              <FriendItem
+                key={friend.friend_id}
+                friend={friend}
+                setContributors={setContributors}
+                setShowDropdown={setShowDropdown}
+                totalAmount={amountRef.current.value}
+              />
+            ))}
         </ul>
       )}
+      {contributors.map((c) => (
+        <Contributor contributor={c} key={c.friend_id} />
+      ))}
+      <button onClick={handleNewSpending} className={spendingStyles.button}>
+        Continue
+      </button>
     </form>
   );
 };
