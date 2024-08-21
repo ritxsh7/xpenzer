@@ -14,6 +14,15 @@ class Friends {
     if (result) return result.rows[0];
     throw error;
   };
+
+  getAllFriends = async (userId) => {
+    const GET_ALL_FRIENDS = "SELECT * FROM user_friends WHERE user_id = $1";
+
+    const { result, error } = await db.query(GET_ALL_FRIENDS, [userId]);
+
+    if (result) return result.rows;
+    throw error;
+  };
 }
 
 export default new Friends();
