@@ -9,8 +9,9 @@ const Contributor = (contri) => {
         <AvatarComp
           name={contri.contri_username}
           color={contri.profile_color}
+          size="20"
         />
-        <p>{contri.contri_username} </p>
+        <p className="text-sm">{contri.contri_username} </p>
       </div>
       <div>
         <p className={homeStyles.contributor.amount}>₹{contri.contri_amount}</p>

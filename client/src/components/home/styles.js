@@ -44,7 +44,7 @@ export const homeStyles = {
   contributor: {
     container: "px-2 py-2 flex items-center justify-between",
     profile: "text-lg flex items-center gap-3",
-    amount: "text-lime-500",
+    amount: "text-lime-500 text-sm",
   },
   image: {
     imgWrapper: "flex flex-row items-center",
@@ -52,5 +52,5 @@ export const homeStyles = {
     imgStyle: "rounded-full",
   },
   newIcon:
-    "w-[4.5rem] h-[4.5rem] flex items-center justify-center text-4xl rounded-[50%] fixed bottom-6 right-6 bg-[#5C6AF5]",
+    "w-[4rem] h-[4rem] flex items-center justify-center text-4xl rounded-[50%] fixed bottom-6 right-6 bg-[#5C6AF5]",
 };

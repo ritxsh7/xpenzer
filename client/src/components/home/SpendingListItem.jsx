@@ -3,8 +3,6 @@ import { homeStyles } from "./styles";
 
 import ContributorList from "./ContributorList.jsx";
 import ListItem from "./ListItem.jsx";
-import useFetch from "../../hooks/useFetch.js";
-import { spendingsApi } from "../../api/modules/spendings.js";
 
 const SpendingListItem = (spending) => {
   const [expand, setExpand] = useState(false);

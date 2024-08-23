@@ -6,7 +6,7 @@ const AvatarComp = ({ name, color, size }) => {
   const index = Math.floor(Math.random() * colors.length);
   return (
     <Avatar
-      className="avatar"
+      className="avatar-small"
       name={name}
       round
       size={size || "35"}
