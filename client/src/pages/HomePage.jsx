@@ -18,7 +18,7 @@ const HomePage = () => {
   const { response } = useFetch(spendingsApi.getAllSpendings);
 
   return (
-    <div className="p-5 min-h-[100vh]">
+    <div className="p-5 min-h-[110vh]">
       {response && (
         <>
           <Header />
