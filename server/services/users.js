@@ -32,7 +32,7 @@ class UserService {
       "INSERT INTO users(username, is_registered) VALUES ($1, $2) RETURNING user_id, username, phone";
 
     const { result, error } = await db.query(CREATE_UNREGISTERED_USER, [
-      user.username,
+      user.friend_name,
       false,
     ]);
 

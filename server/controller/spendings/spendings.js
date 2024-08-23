@@ -6,7 +6,7 @@ import spendings from "../../services/spendings.js";
 export const getAllSpendings = async (req, res) => {
   try {
     const { all } = req.params;
-    const spendingList = spendings.getAllSpendings(req.user.userId, all);
+    const spendingList = spendings.getAllSpendings(req.user.userId, true);
     const expenseList = spendings.getAllExpenses(req.user.userId);
 
     const resultList = await Promise.all([spendingList, expenseList]);
@@ -18,8 +18,8 @@ export const getAllSpendings = async (req, res) => {
 };
 
 export const createNewSpending = async (req, res) => {
-  const { amount, description, contributors, date, isUserPresent, userAmount } =
-    req.body;
+  const { amount, description, contributors, date } = req.body;
+
   try {
     // NO CONTRIBUTORS => ADD AS PERSONAL EXPENSE
     if (!contributors) {
@@ -59,10 +59,10 @@ export const createNewSpending = async (req, res) => {
 
     //IF USER IS PRESENT THEN ADD PERSONAL EXPENSE
     const userExpense =
-      isUserPresent &&
+      contributors.user[0].amount > 0 &&
       (await expenses.createNewExpense(
         req.user.userId,
-        userAmount,
+        contributors.user[0].amount,
         description,
         date
       ));

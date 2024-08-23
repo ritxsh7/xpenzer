@@ -20,7 +20,7 @@ class Contributions {
     for (const contribution of contributions) {
       const newContribution = await this.createNewContribution(
         spending_id,
-        contribution.userId,
+        contribution.friend_id,
         contribution.amount
       );
       newContributions.push(newContribution);
