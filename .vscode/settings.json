@@ -1,4 +1,5 @@
 {
     "editor.minimap.sectionHeaderFontSize": 8,
-    "notebook.markup.fontSize": 1
+    "notebook.markup.fontSize": 1,
+    // "window.zoomLevel":0 
 }

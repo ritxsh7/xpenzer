@@ -24,6 +24,7 @@ CREATE TABLE friends (
 );
 SELECT * FROM friends;
 drop table friends;
+update friends set balance = 0 where user_id = 1;
 
 INSERT INTO friends(user_id, friend_id) VALUES
 (11, 12),
@@ -39,6 +40,8 @@ CREATE TABLE spendings (
 );
 SELECT * FROM spendings;
 drop table spendings;
+delete from spendings where true;
+
 
 INSERT INTO spendings(user_id, amount, description) VALUES
 (1, 500, 'Exam form fees');
@@ -52,6 +55,7 @@ CREATE TABLE contributions (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 SELECT * FROM contributions WHERE spending_id = 1;
+delete from contributions where true;
 drop table contributions;
 
 

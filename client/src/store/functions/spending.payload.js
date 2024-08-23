@@ -8,6 +8,8 @@ const initialState = {
   date: payload?.date || "",
   contributors: payload?.contributors || [],
   finalContributors: payload?.finalContributors || [],
+  isUser: true,
+  userAmount: 0,
 };
 
 const spendingPayload = createSlice({
@@ -38,19 +40,21 @@ const spendingPayload = createSlice({
         "spending-payload",
         JSON.stringify({
           ...action.payload,
+          contributors: state.contributors,
           finalContributors: state.finalContributors,
         })
       );
     },
 
     splitAmountEqually: (state, action) => {
-      const totalContributors = state.finalContributors.length;
-      console.log(totalContributors);
+      const totalContributors = state.isUser
+        ? state.finalContributors.length
+        : state.finalContributors.length - 1;
 
       const contriAmount = (state.amount / totalContributors).toFixed(2);
-      console.log(contriAmount);
 
-      state.finalContributors = state.finalContributors.map((contri) => {
+      state.finalContributors = state.finalContributors.map((contri, index) => {
+        if (!state.isUser && index === 0) return { ...contri, amount: 0 };
         return {
           ...contri,
           amount: contriAmount,
@@ -65,7 +69,32 @@ const spendingPayload = createSlice({
       };
     },
 
-    handleToggleUser: (state, action) => {},
+    handleToggleUser: (state, action) => {
+      state.isUser = action.payload;
+    },
+
+    preparePayload: (state, action) => {
+      const payload = state.finalContributors.reduce(
+        (accumulator, contri) => {
+          if (contri.friend_id) {
+            accumulator["registered"].push(contri);
+          } else if (contri.isUser) {
+            accumulator["user"] = [contri];
+          } else {
+            accumulator["unregistered"].push(contri);
+          }
+          return accumulator;
+        },
+        {
+          registered: [],
+          unregistered: [],
+          user: [],
+        }
+      );
+      state.contributors = payload;
+      state.finalContributors = null;
+      localStorage.removeItem("spending-payload");
+    },
 
     addSpendingPayloadContributors: (state, action) => {
       state.contributors = [...state.contributors, action.payload];
@@ -85,6 +114,9 @@ export const {
   splitAmountEqually,
   savePayload,
   onChangeAmount,
+  handleToggleUser,
+  preparePayload,
+  postNewSpending,
 } = spendingPayload.actions;
 
 export default spendingPayload.reducer;

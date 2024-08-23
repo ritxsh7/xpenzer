@@ -5,6 +5,7 @@ const spendingsEndpoints = {
   getThisMonthsSpendings: "/spendings/get-all?all=true",
   getById: (id) => `/spendings/spending/${id}`,
   getSpendingsAmount: "/spendings/total",
+  newSpending: "/spendings/spending/new",
 };
 
 export const spendingsApi = {
@@ -33,6 +34,16 @@ export const spendingsApi = {
       const res = await client.get(spendingsEndpoints.getSpendingsAmount);
       return res;
     } catch (error) {
+      throw error;
+    }
+  },
+  newSpending: async (payload) => {
+    try {
+      const res = await client.post(spendingsEndpoints.newSpending, payload);
+      return res;
+    } catch (error) {
+      console.log(error);
+
       throw error;
     }
   },
