@@ -8,28 +8,46 @@ import { spendingStyles } from "./styles";
 import useFetch from "../../hooks/useFetch";
 
 import friendsApi from "../../api/modules/friends";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  savePayload,
+  setSpendingPayloadWithOutContributors,
+  splitAmountEqually,
+} from "../../store/functions/spending.payload";
 
 const NewSpendingForm = () => {
-  const { response } = useFetch(friendsApi.getAllFriends);
+  // States
 
   const dateRef = useRef(null);
   const amountRef = useRef(null);
   const descriptionRef = useRef(null);
-
-  const [contributors, setContributors] = useState([]);
-  const [contriAmount, setContriAmount] = useState(amountRef?.current?.value);
-
-  useEffect(() => {
-    setContriAmount(contributors.length / amountRef.current.value);
-  }, [contriAmount, amountRef]);
-
+  const isUserPresentRef = useRef(null);
   const [showDropdown, setShowDropdown] = useState(false);
+
+  // Store
+  const spendingPayload = useSelector((store) => store.spendingPayload);
+  const {
+    user: { username },
+  } = useSelector((store) => store.user);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { response } = useFetch(friendsApi.getAllFriends);
 
   const handleNewSpending = (e) => {
     e.preventDefault();
-    console.log(dateRef.current.value);
-    console.log(amountRef.current.value);
-    console.log(descriptionRef.current.value);
+    const payload = {
+      date: dateRef.current.value,
+      amount: amountRef.current.value,
+      description: descriptionRef.current.value,
+      username,
+    };
+    dispatch(setSpendingPayloadWithOutContributors(payload));
+    dispatch(splitAmountEqually());
+    dispatch(savePayload(payload));
+    navigate("/new-spending/checkout");
   };
 
   const handleFocus = (value) => {
@@ -37,48 +55,54 @@ const NewSpendingForm = () => {
   };
 
   return (
-    <form className={spendingStyles.form.container}>
+    <form
+      className={spendingStyles.form.container}
+      onSubmit={handleNewSpending}
+    >
       <InputGroup
         label="Amount"
         placeholder="₹ XXXX"
         type="text"
         state={amountRef}
+        defaultValue={spendingPayload.amount}
       />
       <InputGroup
         state={descriptionRef}
         label="Description"
         placeholder="eg. food/travel/shopping"
         type="text"
+        defaultValue={spendingPayload.description}
       />
       <InputGroup
         label="Date"
         state={dateRef}
         type="date"
-        defaultValue={formatDateForInput()}
+        defaultValue={spendingPayload.date || formatDateForInput()}
       />
+
       <SearchBar onFocus={handleFocus} />
 
       {showDropdown && (
         <ul className={spendingStyles.form.dropdown}>
-          <p className="text-left my-2 text-xs text-[#5C6AF5]">Your friends</p>
+          <p className={spendingStyles.searchBar.label}>Your friends</p>
           {response &&
             response.map((friend) => (
               <FriendItem
                 key={friend.friend_id}
                 friend={friend}
-                setContributors={setContributors}
                 setShowDropdown={setShowDropdown}
-                totalAmount={amountRef.current.value}
               />
             ))}
         </ul>
       )}
-      {contributors.map((c) => (
-        <Contributor contributor={c} key={c.friend_id} />
-      ))}
-      <button onClick={handleNewSpending} className={spendingStyles.button}>
-        Continue
-      </button>
+
+      <div className="grid grid-cols-2 gap-2 my-2">
+        {spendingPayload.contributors.map((c) => (
+          <Contributor contributor={c} key={c.friend_id} />
+        ))}
+      </div>
+
+      <button className={spendingStyles.button}>Continue</button>
     </form>
   );
 };

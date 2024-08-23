@@ -10,7 +10,7 @@ const Header = () => {
       <div className={homeStyles.header.wrapper}>
         <div className={homeStyles.header.left}>
           <HiMiniBars3CenterLeft />
-          <p>Home</p>
+          <p className="text-[1rem]">Home</p>
         </div>
         <div className={homeStyles.header.right}>
           <IoIosSearch />

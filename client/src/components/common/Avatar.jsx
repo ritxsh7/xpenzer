@@ -2,16 +2,17 @@ import React from "react";
 import Avatar from "react-avatar";
 import colors from "../../utils/colors.js";
 
-const AvatarComp = ({ name, color }) => {
+const AvatarComp = ({ name, color, size }) => {
   const index = Math.floor(Math.random() * colors.length);
   return (
     <Avatar
+      className="avatar"
       name={name}
       round
-      size="35"
+      size={size || "35"}
       color={color}
       fgColor="white"
-      textSizeRatio={1.4}
+      textSizeRatio={1.75}
     />
   );
 };

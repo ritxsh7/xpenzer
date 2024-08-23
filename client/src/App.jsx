@@ -8,6 +8,7 @@ import AuthProvider from "./pages/AuthProvider";
 import RedirectAlreadyLogin from "./pages/RedirectAlreadyLogin";
 import NewSpendingPage from "./pages/NewSpendingPage";
 import { useSelector } from "react-redux";
+import CheckOutPage from "./pages/CheckOutPage";
 
 function App() {
   const ux = useSelector((store) => store.ux);
@@ -39,6 +40,14 @@ function App() {
               element={
                 <ProtectedPage>
                   <NewSpendingPage />
+                </ProtectedPage>
+              }
+            />
+            <Route
+              path="/new-spending/checkout"
+              element={
+                <ProtectedPage>
+                  <CheckOutPage />
                 </ProtectedPage>
               }
             />

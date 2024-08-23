@@ -1,6 +1,6 @@
 export const homeStyles = {
   header: {
-    container: "text-white items-center text-2xl font-semibold",
+    container: "text-white items-center text-2xl font-semibold w-full",
     left: "flex gap-4 items-center",
     user: "flex items-center gap-1 ml-2 mt-2",
     username: "text-lg ml-1",
@@ -14,7 +14,7 @@ export const homeStyles = {
     heading: "text-md text-[#E5E5E5] text-left",
     month: "text-left text-[#5C6AF5] text-lg",
     amount: "text-[2rem] mt-2 font-medium mb-8 text-left text-white",
-    subbanner: "flex items-center gap-4",
+    subbanner: "flex items-center gap-10",
     badgeTitle: "flex items-center",
     badgeName: "text-xs ml-1 text-[#E5E5E5]",
     arrow: (color) => (color === "red" ? "text-orange-600" : "text-lime-500"),

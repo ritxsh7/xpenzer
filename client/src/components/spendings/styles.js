@@ -13,9 +13,16 @@ export const spendingStyles = {
     container: "text-lg flex items-center gap-3 py-2",
   },
   searchBar: {
-    label: "text-lg text-[#5C6AF5] my-4 text-left",
+    label: "text-lg text-[#5C6AF5] my-2 text-left text-sm",
     container: "flex bg-[#121212] items-center px-2 rounded-md",
     icon: "text-xl text-gray-400",
   },
   button: "bg-[#5c6af5] my-8 w-full p-4 rounded-md",
+  contributor: {
+    container: (showInput) =>
+      `w-full text-lg flex items-center gap-3 p-2 ${
+        showInput && "my-2"
+      } bg-[#121212] rounded-md`,
+  },
+  checkBox: "custom-checkbox",
 };

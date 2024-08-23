@@ -1,29 +1,28 @@
 import React from "react";
 import AvatarComp from "../common/Avatar";
 import { spendingStyles } from "./styles";
+import { useDispatch } from "react-redux";
+import { addSpendingPayloadContributors } from "../../store/functions/spending.payload";
 
-const FriendItem = ({
-  friend,
-  setContributors,
-  setShowDropdown,
-  totalAmount,
-}) => {
-  console.log(totalAmount);
+const FriendItem = ({ friend, setShowDropdown }) => {
+  // States
 
-  const handleAdd = (totalAmount) => {
-    setContributors((curr) => {
-      console.log(totalAmount);
-      const amount = totalAmount / (curr.length + 1);
-      return [...curr, { ...friend, amount }];
-    });
+  const dispatch = useDispatch();
+
+  const handleAdd = () => {
+    dispatch(addSpendingPayloadContributors(friend));
     setShowDropdown(false);
   };
 
   return (
-    <div onClick={() => handleAdd(totalAmount)}>
+    <div onClick={handleAdd}>
       <div className={spendingStyles.friendItem.container}>
-        <AvatarComp name={friend.friend_name} color={friend.profile_color} />
-        <p>{friend.friend_name} </p>
+        <AvatarComp
+          name={friend.friend_name}
+          color={friend.profile_color}
+          size="20"
+        />
+        <p className="text-sm">{friend.friend_name} </p>
       </div>
     </div>
   );
