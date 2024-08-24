@@ -27,8 +27,8 @@ drop table friends;
 update friends set balance = 0 where user_id = 1;
 
 INSERT INTO friends(user_id, friend_id) VALUES
-(11, 12),
-(12, 11);
+(1, 3),
+(3, 1);
 
 CREATE TABLE spendings (
     spending_id SERIAL PRIMARY KEY,
@@ -73,6 +73,25 @@ delete from personal_expenses where true;
 drop table personal_expenses;
 
 -- =========== VIEWS ============
+CREATE OR REPLACE VIEW user_friends AS 
+SELECT 
+    u1.user_id,
+    u2.user_id as friend_id,
+	u2.username as friend_name,
+	COALESCE(f2.balance, 0) - f1.balance AS net_balance
+FROM 
+    friends f1
+LEFT JOIN 
+    friends f2 
+    ON f1.user_id = f2.friend_id 
+    AND f1.friend_id = f2.user_id
+JOIN 
+    users u1 
+    ON f1.user_id = u1.user_id
+JOIN 
+    users u2 
+    ON f1.friend_id = u2.user_id
+
 
 CREATE OR REPLACE VIEW user_contributions AS 
 SELECT
@@ -130,7 +149,7 @@ BEGIN
 	SELECT is_registered INTO check_user 
 	FROM users WHERE user_id = NEW.user_id;
 	
-	IF is_registered = true
+	IF check_user = true
 	THEN
 	INSERT INTO personal_expenses(user_id, amount, description) 
 	VALUES
@@ -151,5 +170,3 @@ AFTER INSERT
 ON contributions
 FOR EACH ROW 	
 EXECUTE PROCEDURE fn_create_contri_expense();
-
-

@@ -5,3 +5,5 @@ development.sql
 queries.pgsql
 .vscode
 .gitignore
+database.json
+vercel.json
