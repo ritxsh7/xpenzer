@@ -97,6 +97,8 @@ body{
   transform: rotate(45deg);
 }
 
-input:-webkit-autofill:active, input:-webkit-autofill:focus{
-  background-color: #121212;
+input[type="text"]{
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #121212 I !important;
 }
