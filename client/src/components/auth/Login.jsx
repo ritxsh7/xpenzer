@@ -8,7 +8,6 @@ import { saveUser } from "../../store/functions/user";
 import { setLoading } from "../../store/functions/ux";
 import logo from "../../assets/logo.png";
 import { GoogleLogin } from "@react-oauth/google";
-import response from "../../../../server/helpers/response";
 
 const Login = () => {
   const phoneRef = useRef(null);
