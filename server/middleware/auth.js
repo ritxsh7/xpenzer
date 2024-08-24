@@ -6,7 +6,7 @@ export const authenticate = (req, res, next) => {
   const token = req.cookies.token;
 
   if (!token) {
-    return response.unAuthorized(res, "Anthorized");
+    return response.unAuthorized(res, "UnAnthorized");
   }
   // VERIFY THE TOKEN
   try {
