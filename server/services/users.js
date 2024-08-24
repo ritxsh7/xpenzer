@@ -29,11 +29,10 @@ class UserService {
   // CREATE UNREGISTERED USER
   createUnregisteredUser = async (user, currUserId) => {
     const CREATE_UNREGISTERED_USER =
-      "INSERT INTO users(username, is_registered) VALUES ($1, $2) RETURNING user_id, username, phone";
+      "INSERT INTO users(username, is_registered) VALUES ($1, false) RETURNING user_id, username";
 
     const { result, error } = await db.query(CREATE_UNREGISTERED_USER, [
       user.friend_name,
-      false,
     ]);
 
     if (result) {

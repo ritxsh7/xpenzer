@@ -53,7 +53,7 @@ class SpendingService {
   // TOTAL AMOUNT
   async getTotalAmount(userId) {
     const GET_TOTAL_SPENDINGS =
-      "SELECT COALESCE(SUM(amount), 0) AS total_spendings FROM spendings WHERE user_id = $1 AND date BETWEEN $2 AND $3 UNION ALL SELECT COALESCE(SUM(amount), 0) AS total_expenses FROM personal_expenses WHERE user_id = $1 AND date BETWEEN $2 AND $3";
+      "SELECT COALESCE(SUM(amount), 0) AS total_spendings FROM spendings WHERE user_id = $1 AND date BETWEEN to_date($2, 'DD/MM/YYYY') AND to_date($3, 'DD/MM/YYYY') UNION ALL SELECT COALESCE(SUM(amount), 0) AS total_expenses FROM personal_expenses WHERE user_id = $1 AND date BETWEEN to_date($2, 'DD/MM/YYYY') AND to_date($3, 'DD/MM/YYYY')";
 
     const { result, error } = await db.query(GET_TOTAL_SPENDINGS, [
       userId,

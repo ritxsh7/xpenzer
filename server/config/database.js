@@ -1,5 +1,7 @@
 import pg from "pg";
 import dotenv from "dotenv";
+import fs from "fs";
+
 dotenv.config();
 
 const pool = new pg.Pool({
@@ -9,8 +11,8 @@ const pool = new pg.Pool({
   port: process.env.POSTGRES_PORT,
   database: process.env.POSTGRES_DATABASE,
   ssl: {
-    rejectUnauthorized: true,
-    ca: process.env.POSTGRES_CA,
+    rejectUnauthorized: false,
+    ca: process.env.POSTGRES_CA.toString(),
   },
 });
 
