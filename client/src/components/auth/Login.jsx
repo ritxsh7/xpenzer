@@ -43,13 +43,13 @@ const Login = () => {
     }
   };
 
-  const handleGoogleLogin = (response) => {
-    console.log(response);
-  };
+  // const handleGoogleLogin = (response) => {
+  //   console.log(response);
+  // };
 
-  const handleGoogleError = (err) => {
-    console.log(response);
-  };
+  // const handleGoogleError = (err) => {
+  //   console.log(response);
+  // };
 
   return (
     <div className={loginStyles.container}>
@@ -76,13 +76,13 @@ const Login = () => {
         <button type="submit" className={loginStyles.button}>
           Login
         </button>
-        <div className="flex flex-col gap-4">
+        {/* <div className="flex flex-col gap-4">
           OR
           <GoogleLogin
             onSuccess={handleGoogleLogin}
             onError={handleGoogleError}
           />
-        </div>
+        </div> */}
       </form>
       {messages.errorMsg && <Alert type="error">{messages.errorMsg}</Alert>}
       {messages.successMsg && (
