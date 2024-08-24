@@ -96,3 +96,7 @@ body{
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
+
+input:-webkit-autofill:active, input:-webkit-autofill:focus{
+  background-color: #121212;
+}
