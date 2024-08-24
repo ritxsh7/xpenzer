@@ -11,7 +11,11 @@ dotenv.config();
 const app = express();
 
 // EXPRESS APP
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+  })
+);
 app.use(cookieParser());
 app.use(express.json());
 
