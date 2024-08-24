@@ -31,6 +31,17 @@ const CheckOutPage = () => {
   };
 
   useEffect(() => {
+    const totalSum = spendingPayload.finalContributors.reduce(
+      (accumulator, contri) => accumulator + Number(contri.amount),
+      0
+    );
+    if (totalSum > spendingPayload.amount) {
+      alert("Sum exceeds the total amount");
+      dispatch(splitAmountEqually());
+    }
+  }, [spendingPayload.finalContributors]);
+
+  useEffect(() => {
     const postNewSpending = async () => {
       const result = await spendingsApi.newSpending(spendingPayload);
       navigate("/");

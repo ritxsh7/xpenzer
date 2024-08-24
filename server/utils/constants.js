@@ -16,10 +16,5 @@ export const timeNow = {
 
 const currentDate = new Date();
 export const daysOfMonth = {
-  startDate: new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth(),
-    1
-  ).toLocaleDateString(),
-  endDate: new Date().toLocaleDateString(),
+  startDate: new Date(currentDate.getFullYear(), currentDate.getMonth(), 1),
 };

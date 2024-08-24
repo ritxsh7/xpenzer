@@ -1,7 +1,7 @@
 import React from "react";
 import AvatarComp from "../common/Avatar";
 import { spendingStyles } from "./styles";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   handleToggleUser,
   onChangeAmount,
@@ -11,11 +11,13 @@ import {
 const Contributor = ({ contributor, showInput, index }) => {
   // Store
 
+  const { contributors } = useSelector((store) => store.spendingPayload);
   const dispatch = useDispatch();
 
   const onChangeUser = (e) => {
+    if (contributors.length === 0) return;
     dispatch(handleToggleUser(e.target.checked));
-    dispatch(splitAmountEqually());
+    // dispatch(splitAmountEqually());
   };
 
   return (
@@ -32,12 +34,12 @@ const Contributor = ({ contributor, showInput, index }) => {
           </p>
           {showInput && (
             <div className="flex ml-auto w-[30%] gap-3">
-              <span>₹</span>
+              <span className="text-sm">₹</span>
               <input
                 type="text"
                 required
                 value={contributor.amount}
-                className="w-full outline-none text-gray-400"
+                className="w-full outline-none text-gray-400 text-sm"
                 onChange={(e) =>
                   dispatch(onChangeAmount({ amount: e.target.value, index }))
                 }
@@ -51,6 +53,7 @@ const Contributor = ({ contributor, showInput, index }) => {
               type="checkbox"
               className={spendingStyles.checkBox}
               defaultChecked
+              disabled={contributors.length === 0}
               onChange={(e) => onChangeUser(e)}
             />
             <p className="text-xs">Include me in this spending</p>

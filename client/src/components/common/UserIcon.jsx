@@ -6,11 +6,11 @@ const UserIcon = () => {
   return (
     <div className={homeStyles.user.container}>
       <div className={homeStyles.user.icon}>
-        <FaUserAlt className="text-lg" />
+        <FaUserAlt className="text-xs" />
       </div>
       <div className={homeStyles.user.message}>
-        <p className="text-sm">Welcome back!</p>
-        <p>Ritesh</p>
+        <p className="text-xs">Welcome back!</p>
+        <p className="text-xs">Ritesh</p>
       </div>
     </div>
   );

@@ -67,6 +67,12 @@ const spendingPayload = createSlice({
         ...state.finalContributors[action.payload.index],
         amount: action.payload.amount,
       };
+      if (state.finalContributors.length === 2) {
+        state.finalContributors[(action.payload.index + 1) % 2] = {
+          ...state.finalContributors[(action.payload.index + 1) % 2],
+          amount: state.amount - action.payload.amount,
+        };
+      }
     },
 
     handleToggleUser: (state, action) => {
