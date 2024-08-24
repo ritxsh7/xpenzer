@@ -3,7 +3,7 @@ import ListItem from "./ListItem";
 import { homeStyles } from "./styles";
 
 const ExpenseList = ({ expenses }) => {
-  return (
+  return expenses.length > 0 ? (
     <div className="py-4">
       {expenses.map((exp) => (
         <div
@@ -14,6 +14,8 @@ const ExpenseList = ({ expenses }) => {
         </div>
       ))}
     </div>
+  ) : (
+    <div className="mt-12">Your have no expenses</div>
   );
 };
 

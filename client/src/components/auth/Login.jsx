@@ -7,6 +7,8 @@ import { useDispatch } from "react-redux";
 import { saveUser } from "../../store/functions/user";
 import { setLoading } from "../../store/functions/ux";
 import logo from "../../assets/logo.png";
+import { GoogleLogin } from "@react-oauth/google";
+import response from "../../../../server/helpers/response";
 
 const Login = () => {
   const phoneRef = useRef(null);
@@ -42,6 +44,14 @@ const Login = () => {
     }
   };
 
+  const handleGoogleLogin = (response) => {
+    console.log(response);
+  };
+
+  const handleGoogleError = (err) => {
+    console.log(response);
+  };
+
   return (
     <div className={loginStyles.container}>
       <img src={logo} />
@@ -58,6 +68,7 @@ const Login = () => {
         <input
           required
           id="password"
+          name="current-password"
           className={loginStyles.input}
           type="password"
           ref={passwordRef}
@@ -66,6 +77,13 @@ const Login = () => {
         <button type="submit" className={loginStyles.button}>
           Login
         </button>
+        <div className="flex flex-col gap-4">
+          OR
+          <GoogleLogin
+            onSuccess={handleGoogleLogin}
+            onError={handleGoogleError}
+          />
+        </div>
       </form>
       {messages.errorMsg && <Alert type="error">{messages.errorMsg}</Alert>}
       {messages.successMsg && (
