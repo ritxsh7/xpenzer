@@ -11,8 +11,8 @@ const AuthProvider = ({ children }) => {
     const checkAuth = async () => {
       try {
         const res = await authApi.autoLogin();
-        if(res.user)
-          dispatch(saveUser(res.user));
+        console.log(res);
+        if (res.user) dispatch(saveUser(res.user));
         // console.log(res);
       } catch (error) {
         console.log(error);
