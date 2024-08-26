@@ -23,6 +23,21 @@ class Friends {
     if (result) return result.rows;
     throw error;
   };
+
+  getFriendsLike = async (userId, name) => {
+    const GET_FRIENDS_LIKE =
+      "SELECT * FROM user_friends WHERE user_id = $1 AND LOWER(friend_name) like LOWER($2)";
+
+    const searchName = `%${name}%`;
+
+    const { result, error } = await db.query(GET_FRIENDS_LIKE, [
+      userId,
+      searchName,
+    ]);
+
+    if (result) return result.rows;
+    throw error;
+  };
 }
 
 export default new Friends();

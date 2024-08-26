@@ -10,3 +10,16 @@ export const getAllFriends = async (req, res) => {
     return response.serverError(res);
   }
 };
+
+export const getFriendsLike = async (req, res) => {
+  try {
+    const result = await friends.getFriendsLike(
+      req.user.userId,
+      req.query.like
+    );
+    return response.ok(res, result);
+  } catch (error) {
+    console.log(error);
+    return response.serverError(res);
+  }
+};
