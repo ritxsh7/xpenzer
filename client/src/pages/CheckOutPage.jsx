@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/home/Header";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  postNewSpending,
   preparePayload,
   setSpendingAmount,
   splitAmountEqually,
@@ -29,17 +28,6 @@ const CheckOutPage = () => {
     dispatch(preparePayload());
     setSubmit(true);
   };
-
-  useEffect(() => {
-    const totalSum = spendingPayload.finalContributors.reduce(
-      (accumulator, contri) => accumulator + Number(contri.amount),
-      0
-    );
-    if (totalSum > spendingPayload.amount) {
-      alert("Sum exceeds the total amount");
-      dispatch(splitAmountEqually());
-    }
-  }, [spendingPayload.finalContributors]);
 
   useEffect(() => {
     const postNewSpending = async () => {
@@ -71,11 +59,12 @@ const CheckOutPage = () => {
           {spendingPayload.description}
         </div>
         <div>
-          {spendingPayload.finalContributors?.map((contributor, i) => (
+          {spendingPayload.contributors.map((contributor, i) => (
             <Contributor
-              key={contributor.friend_name}
+              key={contributor?.friend_name}
               contributor={contributor}
               showInput
+              list
               index={i}
             />
           ))}

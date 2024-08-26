@@ -19,7 +19,7 @@ const SearchBar = ({ onFocus }) => {
           }
           type="text"
           placeholder="eg. Sanket"
-          className={`${spendingStyles.form.input.field} outline-none`}
+          className={`${spendingStyles.form.input.field} outline-none pl-10`}
         ></input>
       </div>
     </>

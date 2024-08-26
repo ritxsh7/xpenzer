@@ -1,60 +1,36 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const payload = JSON.parse(localStorage.getItem("spending-payload"));
+// const payload = JSON.parse(localStorage.getItem("payload"));
 
 const initialState = {
-  amount: payload?.amount || "",
-  description: payload?.description || "",
-  date: payload?.date || "",
-  contributors: payload?.contributors || [],
-  finalContributors: payload?.finalContributors || [],
+  amount: "",
+  description: "",
+  date: "",
+  contributors: [],
   isUser: true,
-  userAmount: 0,
 };
 
 const spendingPayload = createSlice({
   name: "spendingPayload",
   initialState,
   reducers: {
-    setFriends: (state, action) => {
-      state.friends = action.payload;
+    setRefPayload: (state, action) => {
+      console.log(action.payload);
+      const { amount, description, date } = action.payload;
+      state.amount = amount;
+      state.description = description;
+      state.date = date;
     },
+
     setSpendingAmount: (state, action) => {
       state.amount = action.payload;
     },
-    setSpendingPayloadWithOutContributors: (state, action) => {
-      state.amount = action.payload.amount;
-      state.description = action.payload.description;
-      state.date = action.payload.date;
-      state.finalContributors = [
-        {
-          isUser: true,
-          profile_color: action.payload.profile_color,
-          friend_name: action.payload.username,
-        },
-        ...state.contributors,
-      ];
-    },
-    savePayload: (state, action) => {
-      localStorage.setItem(
-        "spending-payload",
-        JSON.stringify({
-          ...action.payload,
-          contributors: state.contributors,
-          finalContributors: state.finalContributors,
-        })
-      );
-    },
 
     splitAmountEqually: (state, action) => {
-      const totalContributors = state.isUser
-        ? state.finalContributors.length
-        : state.finalContributors.length - 1;
-
-      const contriAmount = (state.amount / totalContributors).toFixed(2);
-
-      state.finalContributors = state.finalContributors.map((contri, index) => {
-        if (!state.isUser && index === 0) return { ...contri, amount: 0 };
+      const contriAmount = (state.amount / state.contributors.length).toFixed(
+        2
+      );
+      state.contributors = state.contributors.map((contri) => {
         return {
           ...contri,
           amount: contriAmount,
@@ -62,20 +38,39 @@ const spendingPayload = createSlice({
       });
     },
 
-    onChangeAmount: (state, action) => {
-      state.finalContributors[action.payload.index] = {
-        ...state.finalContributors[action.payload.index],
-        amount: action.payload.amount,
-      };
-      if (state.finalContributors.length === 2) {
-        state.finalContributors[(action.payload.index + 1) % 2] = {
-          ...state.finalContributors[(action.payload.index + 1) % 2],
-          amount: state.amount - action.payload.amount,
-        };
-      }
+    distributeAmount: (state, action) => {
+      const remainingContributors = state.contributors.filter(
+        (contri) => contri.isManual === false
+      );
+
+      const remainingAmount =
+        state.amount -
+        state.contributors
+          .filter((contri) => contri.isManual === true)
+          .reduce((sum, contri) => (sum = sum + Number(contri.amount)), 0);
+
+      state.contributors = state.contributors.map((contri, index) => {
+        if (index !== action.payload.index && !contri.isManual) {
+          return {
+            ...contri,
+            amount: Number(
+              remainingAmount / remainingContributors.length
+            ).toFixed(2),
+          };
+        }
+        return contri;
+      });
     },
 
-    handleToggleUser: (state, action) => {
+    changeContributorAmount: (state, action) => {
+      state.contributors[action.payload.index] = {
+        ...state.contributors[action.payload.index],
+        amount: action.payload.amount,
+        isManual: true,
+      };
+    },
+
+    changeIsUser: (state, action) => {
       state.isUser = action.payload;
     },
 
@@ -102,27 +97,30 @@ const spendingPayload = createSlice({
       localStorage.removeItem("spending-payload");
     },
 
-    addSpendingPayloadContributors: (state, action) => {
-      state.contributors = [...state.contributors, action.payload];
-    },
-    setSpendingPayloadUserAmount: (state, action) => {
-      state.userAmount = action.payload;
+    addContributor: (state, action) => {
+      let isPresent = false;
+      state.contributors.map((contri) => {
+        if (contri.friend_id === action.payload.friend_id || contri.isUser)
+          isPresent = true;
+      });
+      if (!isPresent)
+        state.contributors = [
+          { ...action.payload, isManual: false },
+          ...state.contributors,
+        ];
     },
   },
 });
 
 export const {
-  setFriends,
-  setSpendingPayloadWithOutContributors,
-  addSpendingPayloadContributors,
-  setSpendingPayloadUserAmount,
   setSpendingAmount,
   splitAmountEqually,
-  savePayload,
-  onChangeAmount,
-  handleToggleUser,
+  changeContributorAmount,
+  changeIsUser,
   preparePayload,
-  postNewSpending,
+  addContributor,
+  setRefPayload,
+  distributeAmount,
 } = spendingPayload.actions;
 
 export default spendingPayload.reducer;

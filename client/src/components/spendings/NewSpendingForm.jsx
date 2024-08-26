@@ -11,8 +11,8 @@ import friendsApi from "../../api/modules/friends";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  savePayload,
-  setSpendingPayloadWithOutContributors,
+  addContributor,
+  setRefPayload,
   splitAmountEqually,
 } from "../../store/functions/spending.payload";
 
@@ -42,11 +42,19 @@ const NewSpendingForm = () => {
       date: dateRef.current.value,
       amount: amountRef.current.value,
       description: descriptionRef.current.value,
-      username,
     };
-    dispatch(setSpendingPayloadWithOutContributors(payload));
+    // localStorage.setItem(
+    //   "payload",
+    //   JSON.stringify({
+    //     ...payload,
+    //     contributors: spendingPayload.contributors,
+    //   })
+    // );
+    dispatch(setRefPayload(payload));
+    dispatch(
+      addContributor({ friend_name: username, amount: 0, isUser: true })
+    );
     dispatch(splitAmountEqually());
-    dispatch(savePayload(payload));
     navigate("/new-spending/checkout");
   };
 
@@ -98,7 +106,7 @@ const NewSpendingForm = () => {
 
       <div className="grid grid-cols-2 gap-2 my-2">
         {spendingPayload.contributors.map((c) => (
-          <Contributor contributor={c} key={c.friend_id} />
+          <Contributor contributor={c} key={c.friend_id || new Date()} />
         ))}
       </div>
 

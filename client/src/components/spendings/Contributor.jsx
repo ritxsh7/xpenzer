@@ -3,12 +3,12 @@ import AvatarComp from "../common/Avatar";
 import { spendingStyles } from "./styles";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  handleToggleUser,
-  onChangeAmount,
-  splitAmountEqually,
+  changeIsUser,
+  changeContributorAmount,
+  distributeAmount,
 } from "../../store/functions/spending.payload";
 
-const Contributor = ({ contributor, showInput, index }) => {
+const Contributor = ({ contributor, showInput, index, list }) => {
   // Store
 
   const { contributors } = useSelector((store) => store.spendingPayload);
@@ -16,12 +16,11 @@ const Contributor = ({ contributor, showInput, index }) => {
 
   const onChangeUser = (e) => {
     if (contributors.length === 0) return;
-    dispatch(handleToggleUser(e.target.checked));
-    // dispatch(splitAmountEqually());
+    dispatch(changeIsUser(e.target.checked));
   };
 
   return (
-    contributor && (
+    (contributor.friend_name || list) && (
       <div>
         <div className={spendingStyles.contributor.container(showInput)}>
           <AvatarComp
@@ -40,14 +39,17 @@ const Contributor = ({ contributor, showInput, index }) => {
                 required
                 value={contributor.amount}
                 className="w-full outline-none text-gray-400 text-sm"
-                onChange={(e) =>
-                  dispatch(onChangeAmount({ amount: e.target.value, index }))
-                }
+                onChange={(e) => {
+                  dispatch(
+                    changeContributorAmount({ amount: e.target.value, index })
+                  );
+                  dispatch(distributeAmount({ amount: e.target.value, index }));
+                }}
               ></input>
             </div>
           )}
         </div>
-        {contributor.isUser && (
+        {/* {contributor.isUser && (
           <div className="flex my-2 mb-8 w-full items-center justify-center gap-2">
             <input
               type="checkbox"
@@ -58,7 +60,7 @@ const Contributor = ({ contributor, showInput, index }) => {
             />
             <p className="text-xs">Include me in this spending</p>
           </div>
-        )}
+        )} */}
       </div>
     )
   );

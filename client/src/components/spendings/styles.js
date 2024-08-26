@@ -14,8 +14,8 @@ export const spendingStyles = {
   },
   searchBar: {
     label: "text-lg text-[#5C6AF5] my-2 text-left text-sm",
-    container: "flex bg-[#121212] items-center px-2 rounded-md",
-    icon: "text-xl text-gray-400",
+    container: "flex bg-[#121212] items-center rounded-md",
+    icon: "text-xl text-gray-400 absolute ml-2",
   },
   button: "bg-[#5c6af5] my-8 w-full p-3 rounded-md text-sm",
   contributor: {

@@ -2,7 +2,7 @@ import React from "react";
 import AvatarComp from "../common/Avatar";
 import { spendingStyles } from "./styles";
 import { useDispatch } from "react-redux";
-import { addSpendingPayloadContributors } from "../../store/functions/spending.payload";
+import { addContributor } from "../../store/functions/spending.payload";
 
 const FriendItem = ({ friend, setShowDropdown }) => {
   // States
@@ -10,7 +10,12 @@ const FriendItem = ({ friend, setShowDropdown }) => {
   const dispatch = useDispatch();
 
   const handleAdd = () => {
-    dispatch(addSpendingPayloadContributors(friend));
+    const contributor = {
+      friend_id: friend.friend_id,
+      friend_name: friend.friend_name,
+      amount: 0,
+    };
+    dispatch(addContributor(contributor));
     setShowDropdown(false);
   };
 
