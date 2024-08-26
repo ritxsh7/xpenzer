@@ -29,9 +29,7 @@ const NewSpendingForm = () => {
 
   // Store
   const spendingPayload = useSelector((store) => store.spendingPayload);
-  const {
-    user: { username },
-  } = useSelector((store) => store.user);
+  const { user } = useSelector((store) => store.user);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -49,7 +47,7 @@ const NewSpendingForm = () => {
     };
     dispatch(setRefPayload(payload));
     dispatch(
-      addContributor({ friend_name: username, amount: 0, isUser: true })
+      addContributor({ friend_name: user.username, amount: 0, isUser: true })
     );
     dispatch(splitAmountEqually());
     dispatch(savePayload(payload));

@@ -11,10 +11,9 @@ import {
   removeContributor,
 } from "../../store/functions/spending.payload";
 
-const Contributor = ({ contributor, showInput, index, list }) => {
+const Contributor = ({ contributor, showInput, index }) => {
   // Store
 
-  const { contributors } = useSelector((store) => store.spendingPayload);
   const dispatch = useDispatch();
 
   const handleToggleContributor = (e) => {
@@ -26,11 +25,11 @@ const Contributor = ({ contributor, showInput, index, list }) => {
 
   return (
     (contributor.friend_id || showInput) && (
-      <div className="flex gap-2 items-center">
+      <div className={spendingStyles.contributor.wrapper}>
         {showInput && (
           <input
             type="checkbox"
-            className="custom-checkbox"
+            className={spendingStyles.contributor.checkbox}
             defaultChecked
             onChange={(contributor) => handleToggleContributor(contributor)}
           ></input>
@@ -45,13 +44,13 @@ const Contributor = ({ contributor, showInput, index, list }) => {
             {contributor.isUser ? "You" : contributor.friend_name}
           </p>
           {showInput && (
-            <div className="flex w-[40%] ml-auto gap-2 items-center">
+            <div className={spendingStyles.contributor.input}>
               <span className="text-sm">₹</span>
               <input
                 type="text"
                 required
                 value={contributor.amount}
-                className="w-full outline-none text-gray-400 text-sm p-2 rounded-md"
+                className={spendingStyles.contributor.field}
                 onChange={(e) => {
                   dispatch(
                     changeContributorAmount({ amount: e.target.value, index })

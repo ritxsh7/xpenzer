@@ -19,12 +19,6 @@ export const spendingStyles = {
     icon: "text-xl text-gray-400 absolute ml-2",
   },
   button: "bg-[#5c6af5] my-8 w-full p-3 rounded-md text-sm",
-  contributor: {
-    container: (showInput) =>
-      `w-full text-lg flex items-center gap-3 p-2 ${
-        showInput && "my-2 p-4"
-      } bg-[#121212] rounded-md`,
-  },
   checkBox: "custom-checkbox",
   checkoutPage: {
     container: "p-5 flex flex-col items-center h-svh",
@@ -34,5 +28,15 @@ export const spendingStyles = {
     amountInput:
       "w-[50%] max-w-full h-[3rem] bg-transparent outline-none mx-2 px-2 text-center text-3xl",
     description: "text-sm bg-[#121212] w-[50%] p-2 mb-8 rounded-md",
+  },
+  contributor: {
+    wrapper: "flex gap-2 items-center",
+    input: "flex w-[40%] ml-auto gap-2 items-center",
+    field: "w-full outline-none text-gray-400 text-sm p-2 rounded-md",
+    checkbox: "custom-checkbox",
+    container: (showInput) =>
+      `w-full text-lg flex items-center gap-3 p-2 ${
+        showInput && "my-2 p-4"
+      } bg-[#121212] rounded-md`,
   },
 };
