@@ -12,6 +12,7 @@ import { spendingStyles } from "../components/spendings/styles";
 import { spendingsApi } from "../api/modules/spendings";
 import { setLoading } from "../store/functions/ux";
 import { useNavigate } from "react-router-dom";
+import { prepareSpendingPayload } from "../utils/payload";
 
 const CheckOutPage = () => {
   // Store
@@ -21,23 +22,19 @@ const CheckOutPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [submit, setSubmit] = useState(false);
-
   // Handlers
   const handleNewSpending = async () => {
-    dispatch(preparePayload());
-    setSubmit(true);
-  };
-
-  useEffect(() => {
-    const postNewSpending = async () => {
-      const result = await spendingsApi.newSpending(spendingPayload);
-      navigate("/");
-      window.location.reload();
+    const contributorsPayload = prepareSpendingPayload(
+      spendingPayload.contributors
+    );
+    const payload = {
+      amount: spendingPayload.amount,
+      description: spendingPayload.description,
+      date: spendingPayload.date,
+      contributors: contributorsPayload,
     };
-    if (submit) postNewSpending();
-  }, [spendingPayload, dispatch]);
-
+    console.log(payload);
+  };
   return (
     <div className="p-5 flex flex-col items-center h-svh">
       <Header />
@@ -64,7 +61,6 @@ const CheckOutPage = () => {
               key={contributor?.friend_name}
               contributor={contributor}
               showInput
-              list
               index={i}
             />
           ))}

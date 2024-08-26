@@ -13,6 +13,7 @@ const FriendItem = ({ friend, setShowDropdown }) => {
     const contributor = {
       friend_id: friend.friend_id,
       friend_name: friend.friend_name,
+      isRegistered: true,
       amount: 0,
     };
     dispatch(addContributor(contributor));

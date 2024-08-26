@@ -21,7 +21,7 @@ export const spendingStyles = {
   contributor: {
     container: (showInput) =>
       `w-full text-lg flex items-center gap-3 p-2 ${
-        showInput && "my-2"
+        showInput && "my-2 p-4"
       } bg-[#121212] rounded-md`,
   },
   checkBox: "custom-checkbox",

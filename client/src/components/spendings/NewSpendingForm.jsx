@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addContributor,
+  savePayload,
   setRefPayload,
   splitAmountEqually,
 } from "../../store/functions/spending.payload";
@@ -43,18 +44,13 @@ const NewSpendingForm = () => {
       amount: amountRef.current.value,
       description: descriptionRef.current.value,
     };
-    // localStorage.setItem(
-    //   "payload",
-    //   JSON.stringify({
-    //     ...payload,
-    //     contributors: spendingPayload.contributors,
-    //   })
-    // );
     dispatch(setRefPayload(payload));
     dispatch(
       addContributor({ friend_name: username, amount: 0, isUser: true })
     );
     dispatch(splitAmountEqually());
+    dispatch(savePayload(payload));
+
     navigate("/new-spending/checkout");
   };
 

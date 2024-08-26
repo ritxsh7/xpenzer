@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-// const payload = JSON.parse(localStorage.getItem("payload"));
+const payload = JSON.parse(localStorage.getItem("payload"));
 
 const initialState = {
-  amount: "",
-  description: "",
-  date: "",
-  contributors: [],
+  amount: payload?.amount || "",
+  description: payload?.description || "",
+  date: payload?.date || "",
+  contributors: payload?.contributors || [],
   isUser: true,
 };
 
@@ -49,17 +49,19 @@ const spendingPayload = createSlice({
           .filter((contri) => contri.isManual === true)
           .reduce((sum, contri) => (sum = sum + Number(contri.amount)), 0);
 
-      state.contributors = state.contributors.map((contri, index) => {
-        if (index !== action.payload.index && !contri.isManual) {
-          return {
-            ...contri,
-            amount: Number(
-              remainingAmount / remainingContributors.length
-            ).toFixed(2),
-          };
-        }
-        return contri;
-      });
+      if (remainingAmount > 0) {
+        state.contributors = state.contributors.map((contri, index) => {
+          if (index !== action.payload.index && !contri.isManual) {
+            return {
+              ...contri,
+              amount: Number(
+                remainingAmount / remainingContributors.length
+              ).toFixed(2),
+            };
+          }
+          return contri;
+        });
+      }
     },
 
     changeContributorAmount: (state, action) => {
@@ -68,6 +70,22 @@ const spendingPayload = createSlice({
         amount: action.payload.amount,
         isManual: true,
       };
+    },
+
+    removeContributor: (state, action) => {
+      state.contributors = state.contributors.filter(
+        (contri) => contri.friend_id !== action.payload
+      );
+    },
+
+    savePayload: (state, action) => {
+      localStorage.setItem(
+        "payload",
+        JSON.stringify({
+          ...action.payload,
+          contributors: state.contributors,
+        })
+      );
     },
 
     changeIsUser: (state, action) => {
@@ -120,7 +138,9 @@ export const {
   preparePayload,
   addContributor,
   setRefPayload,
+  savePayload,
   distributeAmount,
+  removeContributor,
 } = spendingPayload.actions;
 
 export default spendingPayload.reducer;
