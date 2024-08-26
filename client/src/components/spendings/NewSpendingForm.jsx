@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { formatDateForInput } from "../../utils/date";
 import InputGroup from "./InputGroup";
 import SearchBar from "./SearchBar";
@@ -6,7 +6,6 @@ import FriendItem from "./FriendItem";
 import Contributor from "./Contributor";
 import { spendingStyles } from "./styles";
 import useFetch from "../../hooks/useFetch";
-
 import friendsApi from "../../api/modules/friends";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,14 +16,16 @@ import {
   splitAmountEqually,
 } from "../../store/functions/spending.payload";
 
+// Component
+
 const NewSpendingForm = () => {
   // States
 
   const dateRef = useRef(null);
   const amountRef = useRef(null);
   const descriptionRef = useRef(null);
-  const isUserPresentRef = useRef(null);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [searchFriend, setSearchFriend] = useState([]);
 
   // Store
   const spendingPayload = useSelector((store) => store.spendingPayload);
@@ -35,8 +36,10 @@ const NewSpendingForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Fetch friend list
   const { response } = useFetch(friendsApi.getAllFriends);
 
+  // Navigate to checkout page
   const handleNewSpending = (e) => {
     e.preventDefault();
     const payload = {
@@ -50,12 +53,22 @@ const NewSpendingForm = () => {
     );
     dispatch(splitAmountEqually());
     dispatch(savePayload(payload));
-
     navigate("/new-spending/checkout");
   };
 
+  // Show friend list
   const handleFocus = (value) => {
     setShowDropdown(value);
+  };
+
+  // Search friends
+  const handleSearch = async (e) => {
+    try {
+      const similarFriends = await friendsApi.getFriendLike(e.target.value);
+      setSearchFriend(similarFriends.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -84,23 +97,38 @@ const NewSpendingForm = () => {
         defaultValue={spendingPayload.date || formatDateForInput()}
       />
 
-      <SearchBar onFocus={handleFocus} />
+      <SearchBar onFocus={handleFocus} handleSearch={handleSearch} />
 
       {showDropdown && (
-        <ul className={spendingStyles.form.dropdown}>
-          <p className={spendingStyles.searchBar.label}>Your friends</p>
-          {response &&
-            response.map((friend) => (
-              <FriendItem
-                key={friend.friend_id}
-                friend={friend}
-                setShowDropdown={setShowDropdown}
-              />
-            ))}
-        </ul>
+        <>
+          {searchFriend.length > 0 ? (
+            <ul className={spendingStyles.form.dropdown}>
+              <p className={spendingStyles.searchBar.label}>Results</p>
+              {searchFriend.map((friend) => (
+                <FriendItem
+                  key={friend.friend_id}
+                  friend={friend}
+                  setShowDropdown={setShowDropdown}
+                />
+              ))}
+            </ul>
+          ) : (
+            <ul className={spendingStyles.form.dropdown}>
+              <p className={spendingStyles.searchBar.label}>Your friends</p>
+              {response &&
+                response.map((friend) => (
+                  <FriendItem
+                    key={friend.friend_id}
+                    friend={friend}
+                    setShowDropdown={setShowDropdown}
+                  />
+                ))}
+            </ul>
+          )}
+        </>
       )}
 
-      <div className="grid grid-cols-2 gap-2 my-2">
+      <div className={spendingStyles.contributorList}>
         {spendingPayload.contributors.map((c) => (
           <Contributor contributor={c} key={c.friend_id || new Date()} />
         ))}

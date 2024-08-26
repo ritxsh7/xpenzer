@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Header from "../components/home/Header";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  preparePayload,
   setSpendingAmount,
   splitAmountEqually,
 } from "../store/functions/spending.payload";
 import Contributor from "../components/spendings/Contributor";
-import { homeStyles } from "../components/home/styles";
 import { spendingStyles } from "../components/spendings/styles";
-import { spendingsApi } from "../api/modules/spendings";
-import { setLoading } from "../store/functions/ux";
 import { useNavigate } from "react-router-dom";
 import { prepareSpendingPayload } from "../utils/payload";
+import { ToastContainer, toast } from "react-toastify";
+import toasts from "../utils/toasts";
+import { spendingsApi } from "../api/modules/spendings";
+import { setLoading } from "../store/functions/ux";
 
 const CheckOutPage = () => {
   // Store
@@ -27,24 +27,44 @@ const CheckOutPage = () => {
     const contributorsPayload = prepareSpendingPayload(
       spendingPayload.contributors
     );
-    const payload = {
-      amount: spendingPayload.amount,
-      description: spendingPayload.description,
-      date: spendingPayload.date,
-      contributors: contributorsPayload,
-    };
-    console.log(payload);
+
+    if (contributorsPayload.total === Number(spendingPayload.amount)) {
+      const payload = {
+        amount: spendingPayload.amount,
+        description: spendingPayload.description,
+        date: spendingPayload.date,
+        contributors: contributorsPayload,
+      };
+      try {
+        dispatch(setLoading(true));
+        const result = await spendingsApi.newSpending(payload);
+      } catch (error) {
+        toast.error(error.message);
+      } finally {
+        localStorage.removeItem("payload");
+        dispatch(setLoading(false));
+        navigate("/");
+        window.location.reload();
+      }
+    } else {
+      toast.warn(
+        "Distribution exceeds total amount of " + spendingPayload.amount,
+        toasts.warning
+      );
+      dispatch(splitAmountEqually());
+    }
   };
+
   return (
-    <div className="p-5 flex flex-col items-center h-svh">
+    <div className={spendingStyles.checkoutPage.container}>
       <Header />
-      <div className="flex flex-col items-center relative min-h-[90vh]">
-        <h2 className="mt-8 text-lg text-[#5c6af5]">Total Amount</h2>
-        <div className="flex my-4 flex-col items-center justify-center">
+      <div className={spendingStyles.checkoutPage.summary}>
+        <h2 className={spendingStyles.checkoutPage.amount}>Total Amount</h2>
+        <div className={spendingStyles.checkoutPage.amountEdit}>
           <span className="text-2xl">₹</span>
           <input
             maxLength="10"
-            className="w-[50%] max-w-full h-[3rem] bg-transparent outline-none mx-2 px-2 text-center text-3xl"
+            className={spendingStyles.checkoutPage.amountInput}
             defaultValue={spendingPayload.amount}
             onChange={(e) => {
               dispatch(setSpendingAmount(e.target.value));
@@ -52,7 +72,7 @@ const CheckOutPage = () => {
             }}
           ></input>
         </div>
-        <div className="text-sm bg-[#121212] w-[50%] p-2 mb-8 rounded-md">
+        <div className={spendingStyles.checkoutPage.description}>
           {spendingPayload.description}
         </div>
         <div>
@@ -72,6 +92,7 @@ const CheckOutPage = () => {
           Add a spending
         </button>
       </div>
+      <ToastContainer style={toasts.style} />
     </div>
   );
 };

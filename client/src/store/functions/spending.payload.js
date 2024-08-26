@@ -15,7 +15,6 @@ const spendingPayload = createSlice({
   initialState,
   reducers: {
     setRefPayload: (state, action) => {
-      console.log(action.payload);
       const { amount, description, date } = action.payload;
       state.amount = amount;
       state.description = description;

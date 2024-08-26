@@ -9,6 +9,7 @@ import RedirectAlreadyLogin from "./pages/RedirectAlreadyLogin";
 import NewSpendingPage from "./pages/NewSpendingPage";
 import { useSelector } from "react-redux";
 import CheckOutPage from "./pages/CheckOutPage";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const ux = useSelector((store) => store.ux);

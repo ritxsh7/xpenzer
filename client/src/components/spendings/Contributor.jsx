@@ -51,7 +51,7 @@ const Contributor = ({ contributor, showInput, index, list }) => {
                 type="text"
                 required
                 value={contributor.amount}
-                className="w-full outline-none text-gray-400 text-sm p-2"
+                className="w-full outline-none text-gray-400 text-sm p-2 rounded-md"
                 onChange={(e) => {
                   dispatch(
                     changeContributorAmount({ amount: e.target.value, index })

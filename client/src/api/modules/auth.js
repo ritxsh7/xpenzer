@@ -18,7 +18,6 @@ export const authApi = {
   autoLogin: async (auth) => {
     try {
       const res = await client.get(authEndpoints.autoLogin);
-      console.log(res);
       return res;
     } catch (error) {
       throw error;

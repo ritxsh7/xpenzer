@@ -8,12 +8,14 @@ export const prepareSpendingPayload = (contributors) => {
       } else {
         accumulator.user = contri;
       }
+      accumulator.total = accumulator.total + Number(contri.amount);
       return accumulator;
     },
     {
       registered: [],
       unregistered: [],
       user: null,
+      total: 0,
     }
   );
   return payload;
