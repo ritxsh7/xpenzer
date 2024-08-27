@@ -3,13 +3,22 @@ import { HiMiniBars3CenterLeft } from "react-icons/hi2";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { IoIosSearch } from "react-icons/io";
 import { homeStyles } from "./styles";
+import { useDispatch } from "react-redux";
+import { setDrawer } from "../../store/functions/ux";
 
 const Header = () => {
+  // Store
+  const dispatch = useDispatch();
+
+  const handleDrawer = () => {
+    dispatch(setDrawer(true));
+  };
+
   return (
     <div className={homeStyles.header.container}>
       <div className={homeStyles.header.wrapper}>
         <div className={homeStyles.header.left}>
-          <HiMiniBars3CenterLeft />
+          <HiMiniBars3CenterLeft onClick={handleDrawer} />
           <p className="text-[1rem]">Home</p>
         </div>
         <div className={homeStyles.header.right}>

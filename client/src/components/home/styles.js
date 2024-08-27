@@ -1,6 +1,7 @@
 export const homeStyles = {
   header: {
-    container: "text-white items-center text-2xl font-semibold w-full",
+    container:
+      "text-white items-center text-2xl font-semibold w-full cursor-pointer",
     left: "flex gap-4 items-center",
     user: "flex items-center gap-1 ml-2 mt-2",
     username: "text-lg ml-1",

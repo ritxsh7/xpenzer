@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   loading: false,
   errorMessage: "",
+  isDrawerOpen: false,
 };
 
 const ux = createSlice({
@@ -15,8 +16,12 @@ const ux = createSlice({
     setError: (state, action) => {
       state.errorMessage = action.payload;
     },
+    setDrawer: (state, action) => {
+      console.log(action.payload);
+      state.isDrawerOpen = action.payload;
+    },
   },
 });
 
-export const { setLoading, setError } = ux.actions;
+export const { setLoading, setError, setDrawer } = ux.actions;
 export default ux.reducer;

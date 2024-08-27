@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setError } from "../store/functions/ux";
 import { useCallback, useEffect, useState } from "react";
 
-const useFetch = (fetcher, params = []) => {
+const useFetch = (fetcher, params = [], dispatcher) => {
   const [response, setResponse] = useState(null);
   const dispatch = useDispatch();
   const ux = useSelector((store) => store.ux);
@@ -12,6 +12,9 @@ const useFetch = (fetcher, params = []) => {
     try {
       const res = await fetcher(...params);
       setResponse(res);
+      if (dispatcher) {
+        dispatch(dispatcher(res));
+      }
     } catch (err) {
       console.log(err);
       dispatch(setError(err));
