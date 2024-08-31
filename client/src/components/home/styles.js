@@ -2,7 +2,7 @@ export const homeStyles = {
   header: {
     container:
       "text-white items-center text-2xl font-semibold w-full cursor-pointer",
-    left: "flex gap-4 items-center",
+    left: "flex flex-col items-center",
     user: "flex items-center gap-1 ml-2 mt-2",
     username: "text-lg ml-1",
     wrapper: "flex justify-between items-center gap-5",
@@ -55,5 +55,5 @@ export const homeStyles = {
     imgStyle: "rounded-full",
   },
   newIcon:
-    "w-[4rem] h-[4rem] flex items-center justify-center text-4xl rounded-[50%] fixed bottom-6 right-6 bg-[#5C6AF5]",
+    "w-[4rem] h-[4rem] flex items-center justify-center text-4xl rounded-[50%] fixed bottom-20 right-6 bg-[#5C6AF5]",
 };

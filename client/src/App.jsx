@@ -1,5 +1,10 @@
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useParams,
+} from "react-router-dom";
 import Login from "./components/auth/Login";
 import HomePage from "./pages/HomePage";
 import GlobalLoader from "./components/common/GlobalLoader";
@@ -13,20 +18,21 @@ import "react-toastify/dist/ReactToastify.css";
 import useFetch from "./hooks/useFetch";
 import friendsApi from "./api/modules/friends";
 import { setFriends } from "./store/functions/friends";
-import NavDrawer from "./components/common/Drawer";
+import Drawer from "./components/common/Drawer";
 
 function App() {
   // Store
   const ux = useSelector((store) => store.ux);
 
   // Fetch friends
-  const { response } = useFetch(friendsApi.getAllFriends, [], setFriends);
+  useFetch(friendsApi.getAllFriends, [], setFriends);
 
   return (
     <AuthProvider>
       <div className="app">
-        <GlobalLoader loading={ux.loading} />
         <Router>
+          <GlobalLoader loading={ux.loading} />
+          <Drawer />
           <Routes>
             <Route
               path="/login"
