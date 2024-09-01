@@ -1,21 +1,21 @@
 import React from "react";
 import navbar from "../../utils/navbar.jsx";
 import { NavLink, useLocation } from "react-router-dom";
+import styles from "./styles.js";
 
 const Drawer = () => {
+  // drawer comp
+
+  // Url reading
   const { pathname } = useLocation();
 
   return (
-    <ul className="fixed bg-[#121212] z-10 bottom-0 text-left flex w-full py-3 px-2 items-center justify-around max-w-[450px] mx-auto">
+    <ul className={styles.drawer.container}>
       {navbar.map((item) => (
         <NavLink to={item.url} key={item.name}>
-          <div
-            className={`flex flex-col items-center h-10 justify-between ${
-              pathname == item.url ? "text-blue-600 font-medium" : ""
-            }`}
-          >
+          <div className={styles.drawer.link(pathname)}>
             <div className={`${item.size}`}>{item.icon}</div>
-            <p className="text-xs">{item.name}</p>
+            <p className={styles.drawer.name}>{item.name}</p>
           </div>
         </NavLink>
       ))}
