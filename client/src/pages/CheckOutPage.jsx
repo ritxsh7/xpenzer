@@ -13,6 +13,7 @@ import { ToastContainer, toast } from "react-toastify";
 import toasts from "../utils/toasts";
 import { spendingsApi } from "../api/modules/spendings";
 import { setLoading } from "../store/functions/ux";
+import Drawer from "../components/common/Drawer";
 
 const CheckOutPage = () => {
   // Store
@@ -93,6 +94,7 @@ const CheckOutPage = () => {
         </button>
       </div>
       <ToastContainer style={toasts.style} />
+      <Drawer />
     </div>
   );
 };

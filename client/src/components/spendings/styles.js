@@ -33,7 +33,7 @@ export const spendingStyles = {
     wrapper: "flex gap-2 items-center",
     input: "flex w-[40%] ml-auto gap-2 items-center",
     field: "w-full outline-none text-gray-400 text-sm p-2 rounded-md",
-    checkbox: "custom-checkbox",
+    checkbox: "checkBox",
     container: (showInput) =>
       `w-full text-lg flex items-center gap-3 p-2 ${
         showInput && "my-2 p-4"

@@ -3,17 +3,16 @@ import AvatarComp from "../common/Avatar";
 import { spendingStyles } from "./styles";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  changeIsUser,
   changeContributorAmount,
   distributeAmount,
   splitAmountEqually,
-  addContributor,
   removeContributor,
 } from "../../store/functions/spending.payload";
 
 const Contributor = ({ contributor, showInput, index }) => {
   // Store
 
+  const { contributors } = useSelector((store) => store.spendingPayload);
   const dispatch = useDispatch();
 
   const handleToggleContributor = (e) => {
@@ -31,6 +30,7 @@ const Contributor = ({ contributor, showInput, index }) => {
             type="checkbox"
             className={spendingStyles.contributor.checkbox}
             defaultChecked
+            disabled={contributors.length === 1}
             onChange={(contributor) => handleToggleContributor(contributor)}
           ></input>
         )}

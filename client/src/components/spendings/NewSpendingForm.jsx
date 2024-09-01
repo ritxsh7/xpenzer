@@ -40,6 +40,7 @@ const NewSpendingForm = () => {
   // Navigate to checkout page
   const handleNewSpending = (e) => {
     e.preventDefault();
+
     const payload = {
       date: dateRef.current.value,
       amount: amountRef.current.value,
@@ -70,11 +71,14 @@ const NewSpendingForm = () => {
   };
 
   return (
-    <form className={spendingStyles.form.container}>
+    <form
+      className={spendingStyles.form.container}
+      onSubmit={handleNewSpending}
+    >
       <InputGroup
         label="Amount"
         placeholder="₹ XXXX"
-        type="text"
+        type="number"
         state={amountRef}
         defaultValue={spendingPayload.amount}
       />
@@ -129,9 +133,7 @@ const NewSpendingForm = () => {
         ))}
       </div>
 
-      <button onClick={handleNewSpending} className={spendingStyles.button}>
-        Continue
-      </button>
+      <button className={spendingStyles.button}>Continue</button>
     </form>
   );
 };
