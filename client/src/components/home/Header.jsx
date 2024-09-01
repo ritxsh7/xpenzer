@@ -3,9 +3,10 @@ import logo from "../../assets/header-logo.png";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { IoIosSearch } from "react-icons/io";
 import { homeStyles } from "./styles";
-import { useLocation } from "react-router-dom";
 
 const Header = () => {
+  /* Header comp here */
+
   return (
     <div className={homeStyles.header.container}>
       <div className={homeStyles.header.wrapper}>

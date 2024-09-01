@@ -5,10 +5,12 @@ import { useDispatch } from "react-redux";
 import { addContributor } from "../../store/functions/spending.payload";
 
 const FriendItem = ({ friend, setShowDropdown }) => {
-  // States
+  /* FriendItem comp here */
 
+  // Store
   const dispatch = useDispatch();
 
+  // Handlers
   const handleAdd = () => {
     const contributor = {
       friend_id: friend.friend_id,

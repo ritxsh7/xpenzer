@@ -2,6 +2,8 @@ import React from "react";
 import Avatar from "react-avatar";
 
 const AvatarComp = ({ name, color, size }) => {
+  /* Avatar comp here */
+
   // const index = Math.floor(Math.random() * colors.length);
   return (
     <Avatar

@@ -4,7 +4,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import styles from "./styles.js";
 
 const Drawer = () => {
-  // drawer comp
+  /* Drawer comp here */
 
   // Url reading
   const { pathname } = useLocation();
@@ -13,7 +13,7 @@ const Drawer = () => {
     <ul className={styles.drawer.container}>
       {navbar.map((item) => (
         <NavLink to={item.url} key={item.name}>
-          <div className={styles.drawer.link(pathname)}>
+          <div className={styles.drawer.link(pathname, item.url)}>
             <div className={`${item.size}`}>{item.icon}</div>
             <p className={styles.drawer.name}>{item.name}</p>
           </div>

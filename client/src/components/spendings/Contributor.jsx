@@ -10,11 +10,13 @@ import {
 } from "../../store/functions/spending.payload";
 
 const Contributor = ({ contributor, showInput, index }) => {
-  // Store
+  /* Contributor comp here */
 
+  // Store
   const { contributors } = useSelector((store) => store.spendingPayload);
   const dispatch = useDispatch();
 
+  // Handlers
   const handleToggleContributor = (e) => {
     if (!e.target.checked) {
       dispatch(removeContributor(contributor.friend_id));

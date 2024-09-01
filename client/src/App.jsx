@@ -20,8 +20,9 @@ import friendsApi from "./api/modules/friends";
 import { setFriends } from "./store/functions/friends";
 
 function App() {
-  // Store
+  /* App comp here */
 
+  // Store
   const ux = useSelector((store) => store.ux);
 
   // Fetch friends

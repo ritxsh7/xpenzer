@@ -10,12 +10,18 @@ import CreateNewIcon from "../components/home/CreateNewIcon";
 import { NavLink } from "react-router-dom";
 import Drawer from "../components/common/Drawer";
 
+// Lazy imports
 const Banner = lazy(() => import("../components/home/Banner"));
 const SpendingList = lazy(() => import("../components/home/SpendingList"));
 const ExpenseList = lazy(() => import("../components/home/ExpenseList"));
 
 const HomePage = () => {
+  /* HomePage comp here */
+
+  // States
   const [activeTab, setActiveTab] = useState("spendings");
+
+  // Fetch spendings
   const { response } = useFetch(spendingsApi.getAllSpendings);
 
   return (

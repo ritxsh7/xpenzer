@@ -16,11 +16,13 @@ import { setLoading } from "../store/functions/ux";
 import Drawer from "../components/common/Drawer";
 
 const CheckOutPage = () => {
+  /* CheckoutPage comp here */
+
   // Store
-
   const spendingPayload = useSelector((store) => store.spendingPayload);
-
   const dispatch = useDispatch();
+
+  // Navigator
   const navigate = useNavigate();
 
   // Handlers
