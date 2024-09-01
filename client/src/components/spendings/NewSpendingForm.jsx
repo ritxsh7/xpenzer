@@ -70,10 +70,7 @@ const NewSpendingForm = () => {
   };
 
   return (
-    <form
-      className={spendingStyles.form.container}
-      onSubmit={handleNewSpending}
-    >
+    <form className={spendingStyles.form.container}>
       <InputGroup
         label="Amount"
         placeholder="₹ XXXX"
@@ -132,7 +129,9 @@ const NewSpendingForm = () => {
         ))}
       </div>
 
-      <button className={spendingStyles.button}>Continue</button>
+      <button onClick={handleNewSpending} className={spendingStyles.button}>
+        Continue
+      </button>
     </form>
   );
 };

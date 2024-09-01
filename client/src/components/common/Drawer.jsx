@@ -6,7 +6,7 @@ const Drawer = () => {
   const { pathname } = useLocation();
 
   return (
-    <ul className="fixed bg-[#121212] bottom-0 text-left flex w-full py-3 px-2 items-center justify-around max-w-[450px] mx-auto">
+    <ul className="fixed bg-[#121212] z-10 bottom-0 text-left flex w-full py-3 px-2 items-center justify-around max-w-[450px] mx-auto">
       {navbar.map((item) => (
         <NavLink to={item.url} key={item.name}>
           <div

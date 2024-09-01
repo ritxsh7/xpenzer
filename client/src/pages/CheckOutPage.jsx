@@ -86,10 +86,10 @@ const CheckOutPage = () => {
           ))}
         </div>
         <button
-          className={`${spendingStyles.button} absolute bottom-0 my-0`}
+          className={`${spendingStyles.button} absolute bottom-8 my-0`}
           onClick={handleNewSpending}
         >
-          Add a spending
+          Add spending
         </button>
       </div>
       <ToastContainer style={toasts.style} />
