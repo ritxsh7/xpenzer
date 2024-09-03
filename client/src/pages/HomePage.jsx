@@ -46,7 +46,6 @@ const HomePage = () => {
           <NavLink to="/new-spending">
             <CreateNewIcon />
           </NavLink>
-          <Drawer />
         </>
       )}
     </div>

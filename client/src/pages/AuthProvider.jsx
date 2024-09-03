@@ -13,6 +13,7 @@ const AuthProvider = ({ children }) => {
     const checkAuth = async () => {
       try {
         const res = await authApi.autoLogin();
+        console.log(res);
         dispatch(saveUser(res.user));
       } catch (error) {
       } finally {

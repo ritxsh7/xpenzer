@@ -96,7 +96,6 @@ const CheckOutPage = () => {
         </button>
       </div>
       <ToastContainer style={toasts.style} />
-      <Drawer />
     </div>
   );
 };

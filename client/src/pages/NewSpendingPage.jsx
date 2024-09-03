@@ -11,7 +11,6 @@ const NewSpendingPage = () => {
     <div className={spendingStyles.container}>
       <Header />
       <NewSpendingForm />
-      <Drawer />
     </div>
   );
 };

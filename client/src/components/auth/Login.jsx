@@ -10,14 +10,18 @@ import logo from "../../assets/logo.png";
 import { GoogleLogin } from "@react-oauth/google";
 
 const Login = () => {
+  /* Login comp here */
+
   const phoneRef = useRef(null);
   const passwordRef = useRef(null);
 
+  //States
   const [messages, setMessages] = useState({
     errorMsg: "",
     successMsg: "",
   });
 
+  //Navbar
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -31,8 +35,9 @@ const Login = () => {
     try {
       dispatch(setLoading(true));
       const res = await authApi.login(auth);
+      console.log(res);
       setMessages({ successMsg: res.message });
-      dispatch(saveUser(res.user));
+      dispatch(saveUser(res.data));
       navigate("/");
     } catch (error) {
       navigate("/login");

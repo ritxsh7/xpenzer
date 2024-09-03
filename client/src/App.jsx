@@ -18,6 +18,7 @@ import "react-toastify/dist/ReactToastify.css";
 import useFetch from "./hooks/useFetch";
 import friendsApi from "./api/modules/friends";
 import { setFriends } from "./store/functions/friends";
+import Drawer from "./components/common/Drawer";
 
 function App() {
   /* App comp here */
@@ -43,27 +44,37 @@ function App() {
               }
             />
             <Route
-              path="/"
+              path="/*"
               element={
-                <ProtectedPage>
-                  <HomePage />
-                </ProtectedPage>
-              }
-            />
-            <Route
-              path="/new-spending"
-              element={
-                <ProtectedPage>
-                  <NewSpendingPage />
-                </ProtectedPage>
-              }
-            />
-            <Route
-              path="/new-spending/checkout"
-              element={
-                <ProtectedPage>
-                  <CheckOutPage />
-                </ProtectedPage>
+                <>
+                  <Drawer />
+                  <Routes>
+                    <Route
+                      path="/"
+                      element={
+                        <ProtectedPage>
+                          <HomePage />
+                        </ProtectedPage>
+                      }
+                    />
+                    <Route
+                      path="/new-spending"
+                      element={
+                        <ProtectedPage>
+                          <NewSpendingPage />
+                        </ProtectedPage>
+                      }
+                    />
+                    <Route
+                      path="/new-spending/checkout"
+                      element={
+                        <ProtectedPage>
+                          <CheckOutPage />
+                        </ProtectedPage>
+                      }
+                    />
+                  </Routes>
+                </>
               }
             />
           </Routes>
