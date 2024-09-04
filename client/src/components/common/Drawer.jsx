@@ -13,7 +13,9 @@ const Drawer = () => {
     <ul className={styles.drawer.container}>
       {navbar.map((item) => (
         <NavLink to={item.url} key={item.name}>
-          <div className={styles.drawer.link(pathname, item.url)}>
+          <div
+            className={styles.drawer.link(pathname, item.url, item.subRoutes)}
+          >
             <div className={`${item.size}`}>{item.icon}</div>
             <p className={styles.drawer.name}>{item.name}</p>
           </div>
