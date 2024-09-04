@@ -23,15 +23,13 @@ const FriendItem = ({ friend, setShowDropdown }) => {
   };
 
   return (
-    <div onClick={handleAdd}>
-      <div className={spendingStyles.friendItem.container}>
-        <AvatarComp
-          name={friend.friend_name}
-          color={friend.profile_color}
-          size="20"
-        />
-        <p className="text-sm">{friend.friend_name} </p>
-      </div>
+    <div className={spendingStyles.friendItem.container} onClick={handleAdd}>
+      <AvatarComp
+        name={friend.friend_name}
+        color={friend.profile_color}
+        size="20"
+      />
+      <p className="text-sm">{friend.friend_name} </p>
     </div>
   );
 };

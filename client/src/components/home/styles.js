@@ -7,6 +7,7 @@ export const homeStyles = {
     username: "text-lg ml-1",
     wrapper: "flex justify-between items-center gap-5",
     right: "flex gap-2 text-md",
+    logo: "w-[40vw] max-w-[10rem]",
   },
   banner: {
     thisMonth: "text-sm mb-2 text-left",

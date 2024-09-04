@@ -11,7 +11,7 @@ const Header = () => {
     <div className={homeStyles.header.container}>
       <div className={homeStyles.header.wrapper}>
         <div className={homeStyles.header.left}>
-          <img src={logo} className="w-[40vw]"></img>
+          <img src={logo} className={homeStyles.header.logo}></img>
         </div>
         <div className={homeStyles.header.right}>
           <IoIosSearch />
