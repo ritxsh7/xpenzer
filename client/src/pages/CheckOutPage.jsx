@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "../components/home/Header";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -51,12 +51,23 @@ const CheckOutPage = () => {
       }
     } else {
       toast.warn(
-        "Distribution exceeds total amount of " + spendingPayload.amount,
+        "Distribution does not match the total amount of " +
+          spendingPayload.amount,
         toasts.warning
       );
       dispatch(splitAmountEqually());
     }
   };
+
+  useEffect(() => {
+    if (spendingPayload.falseDistribution) {
+      toast.warn(
+        "Distribution does not match the total amount of " +
+          spendingPayload.amount
+      );
+      dispatch(splitAmountEqually());
+    }
+  }, [spendingPayload.falseDistribution]);
 
   return (
     <div className={spendingStyles.checkoutPage.container}>
