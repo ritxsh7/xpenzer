@@ -6,9 +6,9 @@ class SpendingService {
   // ALL THE SPENDINGS ALL TIME / PAST MONTH
   async getAllSpendings(userId, all) {
     const GET_ALL_SPENDINGS =
-      "SELECT * FROM spendings WHERE user_id = $1 ORDER BY date DESC";
+      "SELECT * FROM spendings WHERE user_id = $1 ORDER BY date DESC, spending_id DESC";
     const GET_THIS_MONTHS_SPENDINGS =
-      "SELECT * FROM spendings WHERE user_id = $1 AND date BETWEEN $2 AND $3 ORDER BY date DESC";
+      "SELECT * FROM spendings WHERE user_id = $1 AND date BETWEEN $2 AND $3 ORDER BY date DESC, spending_id DESC";
 
     const params = all
       ? [userId]
