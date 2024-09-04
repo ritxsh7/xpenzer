@@ -19,6 +19,7 @@ const navbar = [
   {
     name: "New Expense",
     url: "/new-spending",
+    subRoutes: ["/new-spending/checkout"],
     icon: <RiPlayListAddFill />,
     size: "text-xl",
   },

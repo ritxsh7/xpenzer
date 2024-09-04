@@ -8,6 +8,7 @@ const initialState = {
   date: payload?.date || "",
   contributors: payload?.contributors || [],
   isUser: true,
+  falseDistribution: false,
 };
 
 const spendingPayload = createSlice({
@@ -35,6 +36,7 @@ const spendingPayload = createSlice({
           amount: contriAmount,
         };
       });
+      state.falseDistribution = false;
     },
 
     distributeAmount: (state, action) => {
@@ -60,6 +62,8 @@ const spendingPayload = createSlice({
           }
           return contri;
         });
+      } else {
+        state.falseDistribution = true;
       }
     },
 
@@ -115,11 +119,17 @@ const spendingPayload = createSlice({
     },
 
     addContributor: (state, action) => {
+      console.log(action.payload);
+
       let isPresent = false;
       state.contributors.map((contri) => {
-        if (contri.friend_id === action.payload.friend_id || contri.isUser)
+        if (
+          contri.friend_id === action.payload.friend_id ||
+          (contri.isUser && action.payload.isUser)
+        )
           isPresent = true;
       });
+      console.log(isPresent);
       if (!isPresent)
         state.contributors = [
           { ...action.payload, isManual: false },
