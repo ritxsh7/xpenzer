@@ -7,29 +7,28 @@ const useFetch = (fetcher, params = [], dispatcher) => {
   const dispatch = useDispatch();
   const ux = useSelector((store) => store.ux);
 
-  const fetchData = useCallback(async () => {
-    dispatch(setLoading(true));
-    try {
-      const res = await fetcher(...params);
-      setResponse(res);
-      if (dispatcher) {
-        dispatch(dispatcher(res));
-      }
-    } catch (err) {
-      console.log(err);
-      dispatch(setError(err));
-    } finally {
-      dispatch(setLoading(false));
-    }
-  }, [fetcher]);
-
   useEffect(() => {
-    let isMounted = true;
-    if (isMounted) fetchData();
-    return () => {
-      isMounted = false;
+    // Fetch data from api
+
+    const fetchData = async () => {
+      /* fetch data body here */
+
+      dispatch(setLoading(true));
+      try {
+        const res = await fetcher(params);
+        setResponse(res);
+        if (dispatcher) {
+          dispatch(dispatcher(res));
+        }
+      } catch (err) {
+        console.log(err);
+        dispatch(setError(err));
+      } finally {
+        dispatch(setLoading(false));
+      }
     };
-  }, []);
+    fetchData();
+  }, [params]);
 
   return { response: response?.data, loading: ux.loading };
 };

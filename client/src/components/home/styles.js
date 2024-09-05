@@ -1,4 +1,5 @@
 export const homeStyles = {
+  container: "p-5 min-h-[110vh] pb-32",
   header: {
     container:
       "text-white items-center text-2xl font-semibold w-full cursor-pointer",
