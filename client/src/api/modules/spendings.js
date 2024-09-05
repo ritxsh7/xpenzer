@@ -1,7 +1,7 @@
 import { client } from "../client";
 
 const spendingsEndpoints = {
-  getAllSpendings: "/spendings/get-all",
+  getAllSpendings: (page) => `/spendings/get-all?page=${page}`,
   getThisMonthsSpendings: "/spendings/get-all?all=true",
   getById: (id) => `/spendings/spending/${id}`,
   getSpendingsAmount: "/spendings/total",
@@ -9,13 +9,9 @@ const spendingsEndpoints = {
 };
 
 export const spendingsApi = {
-  getAllSpendings: async (limit) => {
+  getAllSpendings: async ({ page }) => {
     try {
-      const res = await client.get(
-        limit
-          ? spendingsEndpoints.getThisMonthsSpendings
-          : spendingsEndpoints.getAllSpendings
-      );
+      const res = await client.get(spendingsEndpoints.getAllSpendings(page));
       return res;
     } catch (error) {
       throw error;
