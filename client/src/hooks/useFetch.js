@@ -28,7 +28,7 @@ const useFetch = (fetcher, params = [], dispatcher) => {
       }
     };
     fetchData();
-  }, [params]);
+  }, []);
 
   return { response: response?.data, loading: ux.loading };
 };

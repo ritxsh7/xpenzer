@@ -4,8 +4,16 @@ import { homeStyles } from "./styles";
 import { spendingsApi } from "../../api/modules/spendings";
 import useFetch from "../../hooks/useFetch.js";
 import { currentMonth } from "../../utils/date.js";
+import { DatePicker } from "antd";
+import DateRangePicker from "../common/DateRangePicker.jsx";
+
+// RangePicker
+const { RangePicker } = DatePicker;
 
 const Banner = () => {
+  /* Banner comp here */
+
+  //Badges
   const badges = [
     {
       name: "Personal expenses",
@@ -18,8 +26,11 @@ const Banner = () => {
       element: <FaArrowDown className={homeStyles.banner.arrow("lime")} />,
     },
   ];
+
+  // Get response
   const { response } = useFetch(spendingsApi.getTotalSpendings);
 
+  // Set banner data
   if (response) {
     var total = response[0].total_spendings;
     var personal = response[1].total_spendings;
@@ -29,7 +40,7 @@ const Banner = () => {
 
   return (
     <div className={homeStyles.banner.container}>
-      <p className={homeStyles.banner.month}>{currentMonth()}</p>
+      {/* <p className={homeStyles.banner.month}>{currentMonth()}</p> */}
       <h2 className={homeStyles.banner.heading}>Total spendings</h2>
       <h1 className={homeStyles.banner.amount}>₹{response ? total : "0"}</h1>
       <div className={homeStyles.banner.subbanner}>

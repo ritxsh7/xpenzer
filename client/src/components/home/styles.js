@@ -13,10 +13,10 @@ export const homeStyles = {
   banner: {
     thisMonth: "text-sm mb-2 text-left",
     container:
-      "bg-[#27262B] min-h-[11rem] w-full my-8 rounded-lg text-[#83d4e2d1] p-3",
-    heading: "text-sm text-[#E5E5E5] text-left",
+      "bg-[#27262B] min-h-[8rem] w-full mb-8 rounded-lg text-[#83d4e2d1] p-3",
+    heading: "text-sm text-[#5C6AF5] text-left",
     month: "text-left text-[#5C6AF5] text-sm",
-    amount: "text-[1.5rem] mt-2 font-medium mb-6 text-left text-white",
+    amount: "text-[1.5rem] mt-2 font-medium mb-4 text-left text-white",
     subbanner: "flex items-center gap-8",
     badgeTitle: "flex items-center",
     badgeName: "text-[11px] ml-1 text-[#E5E5E5]",

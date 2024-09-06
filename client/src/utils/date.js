@@ -4,6 +4,24 @@ export const dateFormat = {
   month: "short",
 };
 
+export const dateRangeFormat = {
+  day: "2-digit",
+  month: "short",
+  year: "2-digit",
+};
+
+export const defaultDateRange = () => {
+  const today = new Date();
+  return {
+    start: new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      1
+    ).toLocaleDateString("en-IN", dateRangeFormat),
+    end: today.toLocaleDateString("en-IN", dateRangeFormat),
+  };
+};
+
 export const formatDateForInput = () => {
   const date = new Date();
   const year = date.getFullYear();
