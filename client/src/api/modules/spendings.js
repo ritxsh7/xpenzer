@@ -9,15 +9,21 @@ const spendingsEndpoints = {
 };
 
 export const spendingsApi = {
+<<<<<<< HEAD
   getAllSpendings: async ({ page }) => {
     try {
       const res = await client.get(spendingsEndpoints.getAllSpendings(page));
+=======
+  getAllSpendings: async ({ limit }) => {
+    try {
+      const res = await client.get(spendingsEndpoints.getAllSpendings(limit));
+>>>>>>> 722bbec2e1f819fd7cb90ef2f591af633d25772a
       return res;
     } catch (error) {
       throw error;
     }
   },
-  getById: async (id) => {
+  getById: async ({ id }) => {
     try {
       const res = await client.get(spendingsEndpoints.getById(id));
       return res;
@@ -39,7 +45,6 @@ export const spendingsApi = {
       return res;
     } catch (error) {
       console.log(error);
-
       throw error;
     }
   },
