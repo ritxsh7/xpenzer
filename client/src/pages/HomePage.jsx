@@ -8,11 +8,8 @@ import ListItemSkeleton from "../components/skeletons/ListSkeleton";
 import useFetch from "../hooks/useFetch";
 import CreateNewIcon from "../components/home/CreateNewIcon";
 import { NavLink } from "react-router-dom";
-<<<<<<< HEAD
-=======
 import Drawer from "../components/common/Drawer";
 import { homeStyles } from "../components/home/styles";
->>>>>>> 722bbec2e1f819fd7cb90ef2f591af633d25772a
 
 // Lazy imports
 const Banner = lazy(() => import("../components/home/Banner"));
@@ -29,14 +26,14 @@ const HomePage = () => {
   const [expenses, setExpenses] = useState([]);
 
   // Fetch spendings
-  // const { response } = useFetch(spendingsApi.getAllSpendings, { limit: page });
+  const { response } = useFetch(spendingsApi.getAllSpendings, { limit: page });
 
-  // useEffect(() => {
-  //   if (response) {
-  //     setSpendings(response[0]);
-  //     setExpenses(response[1]);
-  //   }
-  // }, [response]);
+  useEffect(() => {
+    if (response) {
+      setSpendings(response[0]);
+      setExpenses(response[1]);
+    }
+  }, [response]);
 
   return (
     <div className={homeStyles.container}>
