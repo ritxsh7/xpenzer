@@ -4,7 +4,7 @@ import { spendingsApi } from "../../api/modules/spendings";
 import useFetch from "../../hooks/useFetch";
 
 const ContributorList = ({ id }) => {
-  const { response } = useFetch(spendingsApi.getById, [id]);
+  const { response } = useFetch(spendingsApi.getById, { id });
   if (response) {
     if (response.length > 0) {
       return (

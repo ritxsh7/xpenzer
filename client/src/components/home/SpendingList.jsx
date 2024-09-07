@@ -1,7 +1,6 @@
 import React from "react";
 
 import SpendingListItem from "./SpendingListItem";
-import Alert from "../common/Alert";
 
 const SpendingList = ({ spendings }) => {
   return spendings.length > 0 ? (

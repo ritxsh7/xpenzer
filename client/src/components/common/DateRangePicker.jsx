@@ -1,45 +1,49 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "./DateRangePicker.css";
 import { FaArrowsAltH } from "react-icons/fa";
-import { defaultDateRange } from "../../utils/date";
+import styles from "./styles";
 
-const DateRangePicker = () => {
+const DateRangePicker = ({ dateRange, setDateRange }) => {
   /* DatePicker comp here */
 
-  const style =
-    "bg-transparent border-b-[1px] border-[#aaaaa] p-2 text-xs w-[5rem] outline-none text-white";
-
-  const { start, end } = defaultDateRange();
-  console.log(start, end);
-
-  const [isOpen, setIsOpen] = useState(false);
+  const handleDateRange = (e, where) => {
+    if (where === "start") {
+      setDateRange({
+        ...dateRange,
+        start: e,
+      });
+    } else {
+      setDateRange({
+        ...dateRange,
+        end: e,
+      });
+    }
+  };
 
   return (
-    <div className="flex flex-col items-left my-6">
-      <p className="text-left text-[#5C6AF5] text-xs">Filter by Date Range</p>
-      <div className="flex justify-between items-center rounded-md w-[100px]">
+    <div className={styles.dateRange.container}>
+      <div className={styles.dateRange.wrapper}>
         <DatePicker
-          selected={start}
-          onChange={(date) => setStartDate(date)}
+          selected={dateRange.start}
+          onChange={(e) => handleDateRange(e, "start")}
           selectsStart
-          startDate={start}
-          endDate={end}
+          startDate={dateRange.start}
+          endDate={dateRange.end}
           dateFormat="MMM d, yy"
-          className={style}
+          className={styles.dateRange.input}
         />
-        <span className="text-sm text-white" onClick={() => setIsOpen(true)}>
+        <span className={styles.dateRange.icon}>
           <FaArrowsAltH />
         </span>
         <DatePicker
-          selected={end}
-          onChange={(date) => setEndDate(date)}
+          selected={dateRange.end}
+          onChange={handleDateRange}
           selectsEnd
-          startDate={start}
-          endDate={end}
+          startDate={dateRange.start}
+          endDate={dateRange.end}
           dateFormat="MMM d, yy"
-          className={style}
+          className={styles.dateRange.input}
         />
       </div>
     </div>

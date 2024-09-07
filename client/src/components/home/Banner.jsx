@@ -40,7 +40,6 @@ const Banner = () => {
 
   return (
     <div className={homeStyles.banner.container}>
-      {/* <p className={homeStyles.banner.month}>{currentMonth()}</p> */}
       <h2 className={homeStyles.banner.heading}>Total spendings</h2>
       <h1 className={homeStyles.banner.amount}>₹{response ? total : "0"}</h1>
       <div className={homeStyles.banner.subbanner}>
