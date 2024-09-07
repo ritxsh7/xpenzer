@@ -5,9 +5,13 @@ import spendings from "../../services/spendings.js";
 
 export const getAllSpendings = async (req, res) => {
   try {
-    const { all, page } = req.query;
-    console.log(page);
-    const spendingList = spendings.getAllSpendings(req.user.userId, true, page);
+    const { start, end, page } = req.query;
+    const spendingList = spendings.getAllSpendings(
+      req.user.userId,
+      start,
+      end,
+      page
+    );
     const expenseList = spendings.getAllExpenses(req.user.userId);
 
     const resultList = await Promise.all([spendingList, expenseList]);

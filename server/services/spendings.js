@@ -4,18 +4,16 @@ import { dateNow } from "../utils/constants.js";
 
 class SpendingService {
   // ALL THE SPENDINGS ALL TIME / PAST MONTH
-  async getAllSpendings(userId, all, page) {
+  async getAllSpendings(userId, start, end, page) {
     const GET_ALL_SPENDINGS =
-      "SELECT * FROM spendings WHERE user_id = $1 ORDER BY date DESC, spending_id DESC LIMIT 5 OFFSET $2";
-    const GET_THIS_MONTHS_SPENDINGS =
-      "SELECT * FROM spendings WHERE user_id = $1 AND date BETWEEN $2 AND $3 ORDER BY date DESC, spending_id DESC";
+      "SELECT * FROM spendings WHERE user_id = $1 AND date BETWEEN $2::DATE AND $3::DATE ORDER BY date DESC, spending_id DESC";
 
-    const params = all
-      ? [userId, page * 5]
-      : [userId, daysOfMonth.startDate, daysOfMonth.endDate];
+    const { result, error } = await db.query(GET_ALL_SPENDINGS, [
+      userId,
+      new Date(start),
+      new Date(end),
+    ]);
 
-    const SQL = all ? GET_ALL_SPENDINGS : GET_THIS_MONTHS_SPENDINGS;
-    const { result, error } = await db.query(SQL, params);
     if (result) return result.rows;
     if (error) throw error;
   }
