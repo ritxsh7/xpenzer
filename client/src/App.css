@@ -241,3 +241,33 @@ input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+
+.react-datepicker__header {
+  background-color: #5C6AF5;
+  border-bottom: none;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--in-range {
+  background-color: #5C6AF5;
+  color: #fff;
+}
+
+.react-datepicker__day--keyboard-selected {
+  background-color: #5C6AF5;
+}
+
+.react-datepicker__day--in-range {
+  background-color: #121212;
+}
+
+.react-datepicker__current-month,
+.react-datepicker-time__header {
+  color: #fff;
+}
+
+.react-datepicker__navigation--previous,
+.react-datepicker__navigation--next {
+  filter: invert(1);
+}

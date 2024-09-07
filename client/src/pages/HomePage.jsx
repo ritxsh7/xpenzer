@@ -5,12 +5,13 @@ import UserIcon from "../components/common/UserIcon";
 import SwitchTab from "../components/home/SwitchTab";
 import BannerSkeleton from "../components/skeletons/BannerSkeleton";
 import ListItemSkeleton from "../components/skeletons/ListSkeleton";
-import useFetch from "../hooks/useFetch";
+import { defaultDateRange } from "../utils/date";
 import CreateNewIcon from "../components/home/CreateNewIcon";
 import { NavLink } from "react-router-dom";
-import Drawer from "../components/common/Drawer";
 import { homeStyles } from "../components/home/styles";
 import DateRangePicker from "../components/common/DateRangePicker";
+import { useDispatch } from "react-redux";
+import { setLoading } from "../store/functions/ux";
 
 // Lazy imports
 const Banner = lazy(() => import("../components/home/Banner"));
@@ -20,48 +21,63 @@ const ExpenseList = lazy(() => import("../components/home/ExpenseList"));
 const HomePage = () => {
   /* HomePage comp here */
 
+  // Store
+  const dispatch = useDispatch();
+
   // States
-  const [page, setPage] = useState(2);
   const [activeTab, setActiveTab] = useState("spendings");
   const [spendings, setSpendings] = useState([]);
   const [expenses, setExpenses] = useState([]);
 
-  // Fetch spendings
-  const { response } = useFetch(spendingsApi.getAllSpendings, { limit: page });
+  const [page, setPage] = useState(0);
+  const { start, end } = defaultDateRange();
 
+  const [dateRange, setDateRange] = useState({
+    start,
+    end,
+  });
+
+  // Fetch spendings
   useEffect(() => {
-    if (response) {
-      setSpendings(response[0]);
-      setExpenses(response[1]);
-    }
-  }, [response]);
+    const getAllSpendings = async () => {
+      try {
+        dispatch(setLoading(true));
+        const { data } = await spendingsApi.getAllSpendings({
+          limit: page,
+          dateRange,
+        });
+        setSpendings(data[0]);
+        setExpenses(data[1]);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        dispatch(setLoading(false));
+      }
+    };
+    getAllSpendings();
+  }, [dateRange, page]);
 
   return (
     <div className={homeStyles.container}>
-      {response && (
-        <>
-          <Header />
-          <UserIcon />
-          <DateRangePicker />
-          <Suspense fallback={<BannerSkeleton />}>
-            <Banner />
-            <SwitchTab activeTab={activeTab} setActiveTab={setActiveTab} />
-          </Suspense>
-          {activeTab === "spendings" ? (
-            <Suspense fallback={<ListItemSkeleton />}>
-              <SpendingList spendings={spendings} />
-            </Suspense>
-          ) : (
-            <Suspense fallback={<ListItemSkeleton />}>
-              <ExpenseList expenses={expenses} />
-            </Suspense>
-          )}
-          {/* <button onClick={() => setPage(2)}>Next 5</button> */}
-          <NavLink to="/new-spending">
-            <CreateNewIcon />
-          </NavLink>
-        </>
+      <Header />
+      <UserIcon />
+      <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
+      <Suspense fallback={<BannerSkeleton />}>
+        <Banner />
+        <SwitchTab activeTab={activeTab} setActiveTab={setActiveTab} />
+      </Suspense>
+      {activeTab === "spendings" ? (
+        <Suspense fallback={<ListItemSkeleton />}>
+          <SpendingList spendings={spendings} />
+        </Suspense>
+      ) : (
+        <Suspense fallback={<ListItemSkeleton />}>
+          <ExpenseList expenses={expenses} />
+        </Suspense>
       )}
+      <NavLink to="/new-spending">
+        <CreateNewIcon />
+      </NavLink>
     </div>
   );
 };
