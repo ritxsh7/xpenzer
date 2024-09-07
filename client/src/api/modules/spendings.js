@@ -1,17 +1,19 @@
 import { client } from "../client";
 
 const spendingsEndpoints = {
-  getAllSpendings: (page) => `/spendings/get-all?page=${page}`,
-  getThisMonthsSpendings: "/spendings/get-all?all=true",
+  getAllSpendings: (page, dateRange) =>
+    `/spendings/get-all?start=${dateRange.start}&end=${dateRange.end}&page=${page}`,
   getById: (id) => `/spendings/spending/${id}`,
   getSpendingsAmount: "/spendings/total",
   newSpending: "/spendings/spending/new",
 };
 
 export const spendingsApi = {
-  getAllSpendings: async ({ limit }) => {
+  getAllSpendings: async ({ limit, dateRange }) => {
     try {
-      const res = await client.get(spendingsEndpoints.getAllSpendings(limit));
+      const res = await client.get(
+        spendingsEndpoints.getAllSpendings(limit, dateRange)
+      );
       return res;
     } catch (error) {
       throw error;
