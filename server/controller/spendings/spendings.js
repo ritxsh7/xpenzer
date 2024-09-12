@@ -20,6 +20,8 @@ export const getAllSpendings = async (req, res) => {
 export const createNewSpending = async (req, res) => {
   const { amount, description, contributors, date } = req.body;
 
+  console.log(contributors);
+
   try {
     // NO CONTRIBUTORS => ADD AS PERSONAL EXPENSE
     if (contributors.length == 0) {

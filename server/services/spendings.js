@@ -23,8 +23,8 @@ class SpendingService {
       "SELECT * FROM personal_expenses WHERE user_id = $1 AND date BETWEEN $2::DATE AND $3::DATE ORDER BY date DESC, expense_id DESC";
     const { result, error } = await db.query(GET_ALL_EXPENSES, [
       userId,
-      start,
-      end,
+      new Date(start),
+      new Date(end),
     ]);
     if (result) return result.rows;
     if (error) throw error;

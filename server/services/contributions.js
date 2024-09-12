@@ -38,6 +38,9 @@ class Contributions {
       userList,
       currUserId
     );
+
+    console.log(newUsers);
+
     const newUnregisteredContributions = await this.createManyContributions(
       spending_id,
       newUsers

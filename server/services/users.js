@@ -54,7 +54,7 @@ class UserService {
 
     return newUsers.map((user, index) => {
       return {
-        userId: user.user_id,
+        friend_id: user.user_id,
         amount: users[index].amount,
       };
     });
