@@ -119,7 +119,7 @@ const spendingPayload = createSlice({
     },
 
     addContributor: (state, action) => {
-      console.log(action.payload);
+      // console.log(action.payload);
 
       let isPresent = false;
       state.contributors.map((contri) => {
@@ -129,7 +129,8 @@ const spendingPayload = createSlice({
         )
           isPresent = true;
       });
-      console.log(isPresent);
+      // console.log(isPresent);
+
       if (!isPresent)
         state.contributors = [
           { ...action.payload, isManual: false },

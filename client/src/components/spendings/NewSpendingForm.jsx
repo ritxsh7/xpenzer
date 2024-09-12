@@ -26,6 +26,7 @@ const NewSpendingForm = () => {
   const descriptionRef = useRef(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const [searchFriend, setSearchFriend] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
 
   // Store
   const spendingPayload = useSelector((store) => store.spendingPayload);
@@ -62,12 +63,17 @@ const NewSpendingForm = () => {
 
   // Search friends
   const handleSearch = async (e) => {
+    setSearchValue(e.target.value);
     try {
       const similarFriends = await friendsApi.getFriendLike(e.target.value);
       setSearchFriend(similarFriends.data);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleUnRegistered = () => {
+    console.log(searchValue);
   };
 
   return (
@@ -98,10 +104,10 @@ const NewSpendingForm = () => {
 
       <SearchBar onFocus={handleFocus} handleSearch={handleSearch} />
 
-      {showDropdown && (
-        <>
+      {showDropdown && searchValue && (
+        <ul className={spendingStyles.form.dropdown}>
           {searchFriend.length > 0 ? (
-            <ul className={spendingStyles.form.dropdown}>
+            <>
               <p className={spendingStyles.searchBar.label}>Results</p>
               {searchFriend.map((friend) => (
                 <FriendItem
@@ -110,21 +116,32 @@ const NewSpendingForm = () => {
                   setShowDropdown={setShowDropdown}
                 />
               ))}
-            </ul>
+            </>
           ) : (
-            <ul className={spendingStyles.form.dropdown}>
-              <p className={spendingStyles.searchBar.label}>Your friends</p>
-              {response &&
-                response.map((friend) => (
-                  <FriendItem
-                    key={friend.friend_id}
-                    friend={friend}
-                    setShowDropdown={setShowDropdown}
-                  />
-                ))}
-            </ul>
+            <div className={spendingStyles.form.unregistered.wrapper}>
+              <p>No search results found</p>
+              <div
+                className={spendingStyles.form.unregistered.btn}
+                onClick={handleUnRegistered}
+              >
+                Add as temporary friend
+              </div>
+            </div>
           )}
-        </>
+        </ul>
+      )}
+      {!searchValue && (
+        <ul className={spendingStyles.form.dropdown}>
+          <p className={spendingStyles.searchBar.label}>Your friends</p>
+          {response &&
+            response.map((friend) => (
+              <FriendItem
+                key={friend.friend_id}
+                friend={friend}
+                setShowDropdown={setShowDropdown}
+              />
+            ))}
+        </ul>
       )}
 
       <div className={spendingStyles.contributorList}>

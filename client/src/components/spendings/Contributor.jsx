@@ -8,6 +8,7 @@ import {
   splitAmountEqually,
   removeContributor,
 } from "../../store/functions/spending.payload";
+import { RxCross2 } from "react-icons/rx";
 
 const Contributor = ({ contributor, showInput, index }) => {
   /* Contributor comp here */
@@ -45,7 +46,7 @@ const Contributor = ({ contributor, showInput, index }) => {
           <p className="text-sm">
             {contributor.isUser ? "You" : contributor.friend_name}
           </p>
-          {showInput && (
+          {showInput ? (
             <div className={spendingStyles.contributor.input}>
               <span className="text-sm">₹</span>
               <input
@@ -61,6 +62,10 @@ const Contributor = ({ contributor, showInput, index }) => {
                 }}
               ></input>
             </div>
+          ) : (
+            <RxCross2
+              onClick={() => dispatch(removeContributor(contributor.friend_id))}
+            />
           )}
         </div>
       </div>

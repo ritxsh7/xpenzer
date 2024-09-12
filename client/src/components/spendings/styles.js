@@ -8,6 +8,10 @@ export const spendingStyles = {
     },
     dropdown:
       "w-full max-h-[200px] rounded-md px-4 overflow-y-scroll my-4 bg-[#121212] hide-scrollbar",
+    unregistered: {
+      wrapper: "text-xs p-2",
+      btn: "bg-[#5c6af5] p-2 my-5 rounded-md",
+    },
   },
   contributorList: "grid grid-cols-2 gap-2 my-2",
   friendItem: {
