@@ -72,8 +72,19 @@ const NewSpendingForm = () => {
     }
   };
 
+  // Add unregistered friend
   const handleUnRegistered = () => {
     console.log(searchValue);
+
+    dispatch(
+      addContributor({
+        friend_id: Math.floor(Math.random() * 10),
+        friend_name: searchValue,
+        isRegistered: false,
+        amount: 0,
+      })
+    );
+    setSearchValue("");
   };
 
   return (
@@ -102,51 +113,55 @@ const NewSpendingForm = () => {
         defaultValue={spendingPayload.date || formatDateForInput()}
       />
 
-      <SearchBar onFocus={handleFocus} handleSearch={handleSearch} />
+      <SearchBar
+        onFocus={handleFocus}
+        handleSearch={handleSearch}
+        value={searchValue}
+      />
 
-      {showDropdown && searchValue && (
-        <ul className={spendingStyles.form.dropdown}>
-          {searchFriend.length > 0 ? (
-            <>
-              <p className={spendingStyles.searchBar.label}>Results</p>
-              {searchFriend.map((friend) => (
+      {showDropdown &&
+        (searchValue ? (
+          <ul className={spendingStyles.form.dropdown}>
+            {searchFriend.length > 0 ? (
+              <>
+                <p className={spendingStyles.searchBar.label}>Results</p>
+                {searchFriend.map((friend) => (
+                  <FriendItem
+                    key={friend.friend_id}
+                    friend={friend}
+                    setShowDropdown={setShowDropdown}
+                  />
+                ))}
+              </>
+            ) : (
+              <div className={spendingStyles.form.unregistered.wrapper}>
+                <p>No search results found</p>
+                <div
+                  className={spendingStyles.form.unregistered.btn}
+                  onClick={handleUnRegistered}
+                >
+                  Add as temporary friend
+                </div>
+              </div>
+            )}
+          </ul>
+        ) : (
+          <ul className={spendingStyles.form.dropdown}>
+            <p className={spendingStyles.searchBar.label}>Your friends</p>
+            {response &&
+              response.map((friend) => (
                 <FriendItem
                   key={friend.friend_id}
                   friend={friend}
                   setShowDropdown={setShowDropdown}
                 />
               ))}
-            </>
-          ) : (
-            <div className={spendingStyles.form.unregistered.wrapper}>
-              <p>No search results found</p>
-              <div
-                className={spendingStyles.form.unregistered.btn}
-                onClick={handleUnRegistered}
-              >
-                Add as temporary friend
-              </div>
-            </div>
-          )}
-        </ul>
-      )}
-      {!searchValue && (
-        <ul className={spendingStyles.form.dropdown}>
-          <p className={spendingStyles.searchBar.label}>Your friends</p>
-          {response &&
-            response.map((friend) => (
-              <FriendItem
-                key={friend.friend_id}
-                friend={friend}
-                setShowDropdown={setShowDropdown}
-              />
-            ))}
-        </ul>
-      )}
+          </ul>
+        ))}
 
       <div className={spendingStyles.contributorList}>
         {spendingPayload.contributors.map((c) => (
-          <Contributor contributor={c} key={c.friend_id || new Date()} />
+          <Contributor contributor={c} key={c.friend_id || c.friend_name} />
         ))}
       </div>
 

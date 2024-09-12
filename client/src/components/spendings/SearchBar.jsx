@@ -2,7 +2,7 @@ import React from "react";
 import { RiUserSearchFill } from "react-icons/ri";
 import { spendingStyles } from "./styles";
 
-const SearchBar = ({ onFocus, handleSearch }) => {
+const SearchBar = ({ onFocus, handleSearch, value }) => {
   return (
     <>
       <p className={spendingStyles.searchBar.label}>Add contributors</p>
@@ -12,8 +12,9 @@ const SearchBar = ({ onFocus, handleSearch }) => {
         </span>
         <input
           onChange={handleSearch}
+          value={value}
           onFocus={() => onFocus(true)}
-          onBlur={(e) =>
+          onBlur={() =>
             setTimeout(() => {
               onFocus(false);
             }, 100)

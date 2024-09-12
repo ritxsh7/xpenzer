@@ -95,46 +95,27 @@ const spendingPayload = createSlice({
       state.isUser = action.payload;
     },
 
-    preparePayload: (state, action) => {
-      const payload = state.finalContributors.reduce(
-        (accumulator, contri) => {
-          if (contri.friend_id) {
-            accumulator["registered"].push(contri);
-          } else if (contri.isUser) {
-            accumulator["user"] = [contri];
-          } else {
-            accumulator["unregistered"].push(contri);
-          }
-          return accumulator;
-        },
-        {
-          registered: [],
-          unregistered: [],
-          user: [],
-        }
-      );
-      state.contributors = payload;
-      state.finalContributors = null;
-      localStorage.removeItem("spending-payload");
-    },
-
     addContributor: (state, action) => {
-      // console.log(action.payload);
-
       let isPresent = false;
       state.contributors.map((contri) => {
-        if (
-          contri.friend_id === action.payload.friend_id ||
-          (contri.isUser && action.payload.isUser)
-        )
-          isPresent = true;
+        if (contri.friend_id) {
+          if (
+            contri.friend_id === action.payload.friend_id ||
+            (contri.isUser && action.payload.isUser)
+          )
+            isPresent = true;
+        }
+        if (contri.friend_name) {
+          if (contri.friend_name === action.payload.friend_name) {
+            isPresent = true;
+          }
+        }
       });
-      // console.log(isPresent);
 
       if (!isPresent)
         state.contributors = [
-          { ...action.payload, isManual: false },
           ...state.contributors,
+          { ...action.payload, isManual: false },
         ];
     },
   },

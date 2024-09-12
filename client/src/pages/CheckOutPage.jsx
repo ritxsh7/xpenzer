@@ -31,6 +31,8 @@ const CheckOutPage = () => {
       spendingPayload.contributors
     );
 
+    console.log(contributorsPayload);
+
     if (contributorsPayload.total === Number(spendingPayload.amount)) {
       const payload = {
         amount: spendingPayload.amount,
@@ -100,7 +102,7 @@ const CheckOutPage = () => {
           ))}
         </div>
         <button
-          className={`${spendingStyles.button} absolute bottom-8 my-0`}
+          className={`${spendingStyles.button}`}
           onClick={handleNewSpending}
         >
           Add spending

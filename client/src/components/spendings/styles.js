@@ -26,7 +26,7 @@ export const spendingStyles = {
   checkBox: "custom-checkbox",
   checkoutPage: {
     container: "p-5 flex flex-col items-center h-svh",
-    summary: "flex flex-col items-center relative min-h-[90vh]",
+    summary: "flex flex-col items-center relative min-h-[110vh]",
     amount: "mt-8 text-lg text-[#5c6af5]",
     amountEdit: "flex my-4 flex-col items-center justify-center",
     amountInput:

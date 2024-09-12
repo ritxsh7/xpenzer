@@ -1,12 +1,14 @@
 export const prepareSpendingPayload = (contributors) => {
   const payload = contributors.reduce(
     (accumulator, contri) => {
-      if (contri.isRegistered) {
-        accumulator.registered.push(contri);
-      } else if (contri.isUnregistered) {
-        accumulator.unregistered.push(contri);
-      } else {
+      if (contri.isUser) {
         accumulator.user = contri;
+      } else {
+        if (contri.isRegistered) {
+          accumulator.registered.push(contri);
+        } else {
+          accumulator.unregistered.push(contri);
+        }
       }
       accumulator.total = accumulator.total + Number(contri.amount);
       return accumulator;
