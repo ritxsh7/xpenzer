@@ -1,16 +1,21 @@
 import db from "../config/database.js";
+import colors from "../utils/colors.js";
 import friends from "./friends.js";
 
 class UserService {
   // CREATE USER
   createUser = async (username, phone, password) => {
     const CREATE_USER =
-      "INSERT INTO users(username, phone, password) VALUES ($1, $2, $3) RETURNING username, password, phone";
+      "INSERT INTO users(username, phone, password, profile_color) VALUES ($1, $2, $3, $4) RETURNING username, password, phone";
+
+    const randomIndex = Math.floor(Math.random() * colors.length);
+    const randomColor = colors[randomIndex];
 
     const { result, error } = await db.query(CREATE_USER, [
       username,
       phone,
       password,
+      randomColor,
     ]);
     if (result) return result.rows[0];
     throw error;
