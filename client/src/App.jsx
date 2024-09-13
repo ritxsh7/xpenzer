@@ -19,6 +19,7 @@ import useFetch from "./hooks/useFetch";
 import friendsApi from "./api/modules/friends";
 import { setFriends } from "./store/functions/friends";
 import Drawer from "./components/common/Drawer";
+import FriendsPage from "./pages/FriendsPage";
 
 function App() {
   /* App comp here */
@@ -70,6 +71,14 @@ function App() {
                       element={
                         <ProtectedPage>
                           <CheckOutPage />
+                        </ProtectedPage>
+                      }
+                    />
+                    <Route
+                      path="/friends"
+                      element={
+                        <ProtectedPage>
+                          <FriendsPage />
                         </ProtectedPage>
                       }
                     />
