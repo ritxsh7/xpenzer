@@ -3,7 +3,7 @@ import { FiSearch } from "react-icons/fi";
 
 const SearchBar = ({ searchTerm, setSearchTerm }) => {
   return (
-    <div className="relative mb-6">
+    <div className="relative w-5/6">
       <FiSearch size={20} className="absolute left-3 top-3 text-gray-400" />
       <input
         type="text"
