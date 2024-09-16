@@ -2,8 +2,10 @@ import React from "react";
 import Header from "../components/home/Header";
 import { useState } from "react";
 import SearchBar from "../components/friends/SearchBar";
-import { FiPlus } from "react-icons/fi";
+import { IoMdPersonAdd } from "react-icons/io";
 import StatsCard from "../components/friends/StatsCard";
+import FriendCard from "../components/friends/FriendCard";
+import NewFriendModal from "../components/friends/NewFriendModal";
 
 const FriendsPage = () => {
   /*Friendspage comp here */
@@ -11,9 +13,9 @@ const FriendsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const [friends, setFriends] = useState([
-    { id: 1, name: "John Doe", balance: 200.0, avatar: "JD" },
-    { id: 2, name: "Jane Smith", balance: -50.0, avatar: "JS" },
-    { id: 3, name: "Sam Wilson", balance: 0.0, avatar: "SW" },
+    { id: 1, name: "John Doe", balance: 200.0 },
+    { id: 2, name: "Jane Smith", balance: -50.0 },
+    { id: 3, name: "Sam Wilson", balance: 0.0 },
   ]);
 
   const filteredFriends = friends.filter((friend) =>
@@ -27,121 +29,32 @@ const FriendsPage = () => {
     avatar: "",
   });
 
-  // Function to handle adding a new friend
-  const addNewFriend = () => {
-    if (newFriend.name.trim()) {
-      setFriends([
-        ...friends,
-        {
-          id: friends.length + 1,
-          name: newFriend.name,
-          balance: parseFloat(newFriend.balance) || 0,
-          avatar: newFriend.avatar || newFriend.name.slice(0, 2).toUpperCase(),
-        },
-      ]);
-      setNewFriend({ name: "", balance: 0, avatar: "" }); // Reset form
-      setModalOpen(false); // Close modal
-    } else {
-      alert("Friend's name cannot be empty.");
-    }
-  };
-
   return (
     <div className="p-5">
       <Header />
-      <div className="p-4 text-white bg-black min-h-screen">
-        {/* Search Bar */}
-        <div>
-          <StatsCard color="bg-blue-600" />
-          <StatsCard color="bg-lime-600" />
-          <StatsCard color="bg-red-600" />
+      <div className=" text-white bg-black min-h-screen">
+        <div className="flex justify-between">
+          <StatsCard color="bg-lime-600" score={30} name="Lendings" />
+          <StatsCard color="bg-red-600" score={10} name="Borrowed" />
         </div>
 
-        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        <div className="flex items-center h-[3rem] my-2 gap-4">
+          <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+          <div className="text-2xl" onClick={() => setModalOpen(true)}>
+            <IoMdPersonAdd />
+          </div>
+        </div>
 
         {/* Friends List */}
         <div>
           {filteredFriends.length > 0 ? (
-            filteredFriends.map((friend) => (
-              <div
-                key={friend.id}
-                className="flex items-center justify-between p-4 mb-2 bg-[#1f1f1f] rounded-lg shadow-md"
-              >
-                <div className="flex items-center">
-                  {/* Avatar */}
-                  <div className="bg-gray-600 rounded-full h-10 w-10 flex items-center justify-center text-white text-lg mr-3">
-                    {friend.avatar}
-                  </div>
-                  {/* Name */}
-                  <span className="font-semibold">{friend.name}</span>
-                </div>
-                {/* Balance */}
-                <div
-                  className={`text-sm ${
-                    friend.balance < 0
-                      ? "text-red-500"
-                      : friend.balance > 0
-                      ? "text-green-500"
-                      : "text-gray-400"
-                  }`}
-                >
-                  ₹{friend.balance.toFixed(2)}
-                </div>
-              </div>
-            ))
+            filteredFriends.map((friend) => <FriendCard {...friend} />)
           ) : (
             <div className="text-center text-gray-400">No friends found</div>
           )}
         </div>
       </div>
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-[#121212] p-6 rounded-lg shadow-lg max-w-sm w-full">
-            <h2 className="text-xl mb-4">Add New Friend</h2>
-            <input
-              type="text"
-              placeholder="Friend's Name"
-              value={newFriend.name}
-              onChange={(e) =>
-                setNewFriend({ ...newFriend, name: e.target.value })
-              }
-              className="w-full bg-[#1f1f1f] text-white py-2 px-4 mb-4 rounded-lg focus:outline-none"
-            />
-            <input
-              type="text"
-              placeholder="Balance (₹)"
-              value={newFriend.balance}
-              onChange={(e) =>
-                setNewFriend({ ...newFriend, balance: e.target.value })
-              }
-              className="w-full bg-[#1f1f1f] text-white py-2 px-4 mb-4 rounded-lg focus:outline-none"
-            />
-            <input
-              type="text"
-              placeholder="Avatar (Optional)"
-              value={newFriend.avatar}
-              onChange={(e) =>
-                setNewFriend({ ...newFriend, avatar: e.target.value })
-              }
-              className="w-full bg-[#1f1f1f] text-white py-2 px-4 mb-4 rounded-lg focus:outline-none"
-            />
-            <div className="flex justify-between">
-              <button
-                onClick={() => setModalOpen(false)}
-                className="bg-red-500 py-2 px-4 rounded-lg"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={addNewFriend}
-                className="bg-green-500 py-2 px-4 rounded-lg"
-              >
-                Add Friend
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <NewFriendModal isOpen={isModalOpen} />
     </div>
   );
 };
