@@ -55,7 +55,7 @@ CREATE TABLE contributions (
     FOREIGN KEY (spending_id) REFERENCES spendings(spending_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
-SELECT * FROM contributions WHERE spending_id = 1;
+SELECT * FROM contributions;
 delete from contributions where true;
 drop table contributions;
 
@@ -92,7 +92,7 @@ ORDER BY
     date;
 
 SELECT * FROM spendings_by_date;
-
+drop view spendings_by_date
 
 CREATE VIEW expenses_by_date AS
 SELECT 
@@ -111,6 +111,7 @@ GROUP BY
 ORDER BY 
     date;
 SELECT * FROM expenses_by_date;
+drop view expenses_by_date
 
 
 CREATE OR REPLACE VIEW user_friends AS 
@@ -131,6 +132,9 @@ JOIN
 JOIN 
     users u2 
     ON f1.friend_id = u2.user_id
+	
+	
+drop view user_friends;
 
 
 CREATE OR REPLACE VIEW user_contributions AS 
