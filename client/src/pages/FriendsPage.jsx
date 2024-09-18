@@ -54,7 +54,7 @@ const FriendsPage = () => {
           )}
         </div>
       </div>
-      <NewFriendModal isOpen={isModalOpen} />
+      <NewFriendModal isOpen={isModalOpen} setModalOpen={setModalOpen} />
     </div>
   );
 };

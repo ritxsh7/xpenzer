@@ -1,46 +1,40 @@
 import React, { useState, useEffect } from "react";
 import { IoMdClose } from "react-icons/io";
 
-const NewFriendModal = ({ isOpen, onClose, onAddFriend }) => {
+const NewFriendModal = ({ isOpen, setModalOpen, onAddFriend }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [contacts, setContacts] = useState([]);
 
   const [filteredContacts, setFilteredContacts] = useState([]);
-
-  console.log("contacts" in navigator);
 
   const handleAddFriend = (contact) => {
     onAddFriend(contact);
     onClose();
   };
 
-  useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => {
-        document
-          .getElementById("modal-content")
-          .classList.remove("translate-y-[-20rem]");
-      }, 50);
-    }
-  }, [isOpen]);
-
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-start">
+    <div
+      className={`${
+        isOpen ? "block" : "hidden"
+      } fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-start`}
+    >
       <div
         id="modal-content"
-        className="w-full max-w-md bg-[#121212] p-6 rounded-lg shadow-lg transform transition-transform duration-300 translate-y-[-20rem]"
+        className={`w-full fixed max-w-md  h-[90vh] bg-[#121212] p-6 rounded-lg shadow-lg transform transition-transform ease-in-out duration-1000 ${
+          isOpen ? "translate-y-0" : "-translate-y-full"
+        } `}
       >
         {/* Close button */}
         <div className="flex justify-end">
           <IoMdClose
             className="text-2xl text-gray-400 cursor-pointer"
-            onClick={onClose}
+            onClick={() => setModalOpen(false)}
           />
         </div>
 
-        <h2 className="text-2xl text-white font-bold mb-4">Add New Friend</h2>
+        <h2 className="text-lg text-[#5c6af5] font-bold mb-4">
+          Add a new friend
+        </h2>
 
         {/* Search bar */}
         <input
@@ -68,7 +62,9 @@ const NewFriendModal = ({ isOpen, onClose, onAddFriend }) => {
               </div>
             ))
           ) : (
-            <div className="text-center text-gray-400">No contacts found</div>
+            <div className="text-center mt-8 text-gray-400">
+              No contacts found
+            </div>
           )}
         </div>
       </div>
