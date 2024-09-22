@@ -6,6 +6,7 @@ import { IoMdPersonAdd } from "react-icons/io";
 import StatsCard from "../components/friends/StatsCard";
 import FriendCard from "../components/friends/FriendCard";
 import NewFriendModal from "../components/friends/NewFriendModal";
+import styles from "../components/friends/styles";
 
 const FriendsPage = () => {
   /*Friendspage comp here */
@@ -23,37 +24,46 @@ const FriendsPage = () => {
   );
 
   const [isModalOpen, setModalOpen] = useState(false);
+
   const [newFriend, setNewFriend] = useState({
     name: "",
     balance: 0,
     avatar: "",
   });
 
+  const handleModelOpen = () => {
+    setModalOpen(true);
+  };
+
   return (
     <div className="p-5">
       <Header />
-      <div className=" text-white bg-black min-h-screen">
-        <div className="flex justify-between">
+
+      <div className={styles.friendsPage.wrapper}>
+        {/* stats */}
+        <div className={styles.friendsPage.stats}>
           <StatsCard color="bg-lime-600" score={30} name="Lendings" />
           <StatsCard color="bg-red-600" score={10} name="Borrowed" />
         </div>
 
-        <div className="flex items-center h-[3rem] my-2 gap-4">
+        {/* searchbar */}
+        <div className={styles.friendsPage.searchBar}>
           <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-          <div className="text-2xl" onClick={() => setModalOpen(true)}>
+          <div className={styles.friendsPage.icon} onClick={handleModelOpen}>
             <IoMdPersonAdd />
           </div>
         </div>
 
-        {/* Friends List */}
+        {/* friends list */}
         <div>
           {filteredFriends.length > 0 ? (
             filteredFriends.map((friend) => <FriendCard {...friend} />)
           ) : (
-            <div className="text-center text-gray-400">No friends found</div>
+            <div className={styles.friendsPage.message}>No friends found</div>
           )}
         </div>
       </div>
+
       <NewFriendModal isOpen={isModalOpen} setModalOpen={setModalOpen} />
     </div>
   );
