@@ -57,7 +57,9 @@ const FriendsPage = () => {
         {/* friends list */}
         <div>
           {filteredFriends.length > 0 ? (
-            filteredFriends.map((friend) => <FriendCard {...friend} />)
+            filteredFriends.map((friend) => (
+              <FriendCard key={friend.name} {...friend} />
+            ))
           ) : (
             <div className={styles.friendsPage.message}>No friends found</div>
           )}
