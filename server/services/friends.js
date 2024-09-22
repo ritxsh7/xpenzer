@@ -38,6 +38,15 @@ class Friends {
     if (result) return result.rows;
     throw error;
   };
+
+  getUsersLike = async (phone) => {
+    const GET_FRIENDS_LIKE = "SELECT * FROM users WHERE phone LIKE $1";
+
+    const { result, error } = await db.query(GET_FRIENDS_LIKE, [`%${phone}%`]);
+
+    if (result) return result.rows;
+    throw error;
+  };
 }
 
 export default new Friends();

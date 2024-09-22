@@ -23,3 +23,13 @@ export const getFriendsLike = async (req, res) => {
     return response.serverError(res);
   }
 };
+
+export const getUsersLike = async (req, res) => {
+  try {
+    const result = await friends.getUsersLike(req.query.like);
+    return response.ok(res, result);
+  } catch (error) {
+    console.log(error);
+    return response.serverError(res);
+  }
+};
