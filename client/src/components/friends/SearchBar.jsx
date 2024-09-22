@@ -1,19 +1,17 @@
 import React from "react";
 import { FiSearch } from "react-icons/fi";
+import styles from "./styles";
 
 const SearchBar = ({ searchTerm, setSearchTerm }) => {
   return (
-    <div className="relative w-5/6">
-      <FiSearch
-        size={20}
-        className="absolute left-3 top-[50%] -translate-y-[50%] text-gray-400"
-      />
+    <div className={styles.newFriend.searchBar.wrapper}>
+      <FiSearch size={20} className={styles.newFriend.searchBar.icon} />
       <input
         type="text"
         placeholder="Search friends"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="w-full bg-[#121212] text-white py-3 px-10 rounded-xl"
+        className={styles.newFriend.searchBar.input}
       />
     </div>
   );

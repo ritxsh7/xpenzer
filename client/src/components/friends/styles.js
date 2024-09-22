@@ -16,6 +16,12 @@ export default {
     header: "text-lg text-[#5c6af5] text-left font-bold mb-4 ",
     search:
       "w-full p-3 mb-4 bg-[#121212] text-white text-sm border-none rounded-xl",
+    searchBar: {
+      wrapper: "relative w-5/6",
+      icon: "absolute left-3 top-[50%] -translate-y-[50%] text-gray-400",
+      input: "w-full bg-[#121212] text-white py-3 px-10 rounded-xl",
+    },
+    left: "flex items-center gap-2",
     contactList: "h-40 overflow-y-auto",
     searchResult: {
       wrapper:
@@ -24,5 +30,19 @@ export default {
       button: "text-[#5C6AF5]",
       message: "text-center mt-8 text-gray-400",
     },
+  },
+  friendCard: {
+    wrapper:
+      "flex items-center justify-between p-3 mb-3  bg-[#1f1f1f] rounded-lg shadow-md",
+    avatar: "flex items-center justify-between",
+    name: "ml-3 text-sm",
+    amount: (balance) =>
+      `text-sm font-semibold ${
+        balance < 0
+          ? "text-red-600"
+          : balance > 0
+          ? "text-lime-600"
+          : "text-gray-400"
+      }`,
   },
 };

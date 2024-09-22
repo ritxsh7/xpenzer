@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { IoMdClose } from "react-icons/io";
 import styles from "./styles";
+import friendsApi from "../../api/modules/friends";
+import AvatarComp from "../common/Avatar";
 
 const NewFriendModal = ({ isOpen, setModalOpen, onAddFriend }) => {
-  const [searchTerm, setSearchTerm] = useState("");
   const [contacts, setContacts] = useState([]);
 
-  const [filteredContacts, setFilteredContacts] = useState([]);
+  const handleSearchContact = async (e) => {
+    if (!e.target.value) return;
+    try {
+      const users = await friendsApi.getUsersLike(e.target.value);
+      setContacts(users.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleAddFriend = (contact) => {
     onAddFriend(contact);
@@ -27,27 +36,32 @@ const NewFriendModal = ({ isOpen, setModalOpen, onAddFriend }) => {
 
       {/* Search bar */}
       <input
-        type="text"
+        type="tel"
         placeholder="Search by phone number"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={handleSearchContact}
         className={styles.newFriend.search}
       />
 
       {/* Contacts List */}
       <div className={styles.newFriend.contactList}>
-        {filteredContacts.length > 0 ? (
-          filteredContacts.map((contact, i) => (
+        {contacts.length > 0 ? (
+          contacts.map((contact, i) => (
             <div
               key={i}
               className={styles.newFriend.searchResult.wrapper}
               onClick={() => handleAddFriend(contact)}
             >
-              <div>
-                <p>{contact.name}</p>
-                <p className={styles.newFriend.searchResult.contact}>
-                  {contact.phone}
-                </p>
+              <div className={styles.newFriend.left}>
+                <AvatarComp
+                  name={contact.username}
+                  color={contact.profile_name}
+                />
+                <div className="text-left">
+                  <p className="text-sm">{contact.username}</p>
+                  <p className={styles.newFriend.searchResult.contact}>
+                    {contact.phone}
+                  </p>
+                </div>
               </div>
               <button className={styles.newFriend.searchResult.button}>
                 Add
