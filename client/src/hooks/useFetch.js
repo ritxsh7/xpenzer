@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setError } from "../store/functions/ux";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const useFetch = (fetcher, params = [], dispatcher) => {
   const [response, setResponse] = useState(null);

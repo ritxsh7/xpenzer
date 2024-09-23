@@ -31,12 +31,10 @@ const NewSpendingForm = () => {
   // Store
   const spendingPayload = useSelector((store) => store.spendingPayload);
   const { user } = useSelector((store) => store.user);
+  const { friends } = useSelector((store) => store.friends);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  // Fetch friend list
-  const { response } = useFetch(friendsApi.getAllFriends);
 
   // Navigate to checkout page
   const handleNewSpending = (e) => {
@@ -148,8 +146,8 @@ const NewSpendingForm = () => {
         ) : (
           <ul className={spendingStyles.form.dropdown}>
             <p className={spendingStyles.searchBar.label}>Your friends</p>
-            {response &&
-              response.map((friend) => (
+            {friends &&
+              friends.map((friend) => (
                 <FriendItem
                   key={friend.friend_id}
                   friend={friend}

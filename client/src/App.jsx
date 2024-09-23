@@ -4,7 +4,6 @@ import Login from "./components/auth/Login";
 import HomePage from "./pages/HomePage";
 import GlobalLoader from "./components/common/GlobalLoader";
 import ProtectedPage from "./pages/ProtectedPage";
-import AuthProvider from "./pages/AuthProvider";
 import RedirectAlreadyLogin from "./pages/RedirectAlreadyLogin";
 import NewSpendingPage from "./pages/NewSpendingPage";
 import { useSelector } from "react-redux";
@@ -28,7 +27,7 @@ function App() {
   useFetch(friendsApi.getAllFriends, [], setFriends);
 
   return (
-    <AuthProvider>
+    <>
       <div className="app">
         <Router>
           <ToastContainer style={toasts.style} />
@@ -87,7 +86,7 @@ function App() {
           </Routes>
         </Router>
       </div>
-    </AuthProvider>
+    </>
   );
 }
 
