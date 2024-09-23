@@ -7,29 +7,23 @@ import StatsCard from "../components/friends/StatsCard";
 import FriendCard from "../components/friends/FriendCard";
 import NewFriendModal from "../components/friends/NewFriendModal";
 import styles from "../components/friends/styles";
+import { useSelector } from "react-redux";
 
 const FriendsPage = () => {
   /*Friendspage comp here */
 
+  //stores
+  const friends = useSelector((store) => store.friends);
+  console.log(friends);
+
+  //states
   const [searchTerm, setSearchTerm] = useState("");
-
-  const [friends, setFriends] = useState([
-    { id: 1, name: "John Doe", balance: 200.0 },
-    { id: 2, name: "Jane Smith", balance: -50.0 },
-    { id: 3, name: "Sam Wilson", balance: 0.0 },
-  ]);
-
-  const filteredFriends = friends.filter((friend) =>
-    friend.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const [newFriend, setNewFriend] = useState({
-    name: "",
-    balance: 0,
-    avatar: "",
-  });
+  //search friend
+  const filteredFriends = friends.friends.filter((friend) =>
+    friend.friend_name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleModelOpen = () => {
     setModalOpen(true);
@@ -42,8 +36,16 @@ const FriendsPage = () => {
       <div className={styles.friendsPage.wrapper}>
         {/* stats */}
         <div className={styles.friendsPage.stats}>
-          <StatsCard color="bg-lime-600" score={30} name="Lendings" />
-          <StatsCard color="bg-red-600" score={10} name="Borrowed" />
+          <StatsCard
+            color="bg-lime-600"
+            score={Number(friends.lendings * -1)}
+            name="Lendings"
+          />
+          <StatsCard
+            color="bg-red-600"
+            score={Number(friends.borrowings)}
+            name="Borrowed"
+          />
         </div>
 
         {/* searchbar */}
