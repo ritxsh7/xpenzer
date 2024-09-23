@@ -14,7 +14,6 @@ const FriendsPage = () => {
 
   //stores
   const friends = useSelector((store) => store.friends);
-  console.log(friends);
 
   //states
   const [searchTerm, setSearchTerm] = useState("");
@@ -60,7 +59,7 @@ const FriendsPage = () => {
         <div>
           {filteredFriends.length > 0 ? (
             filteredFriends.map((friend) => (
-              <FriendCard key={friend.name} {...friend} />
+              <FriendCard key={friend.friend_name} {...friend} />
             ))
           ) : (
             <div className={styles.friendsPage.message}>No friends found</div>

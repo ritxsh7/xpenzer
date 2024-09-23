@@ -26,6 +26,7 @@ const HomePage = () => {
 
   // States
   const [activeTab, setActiveTab] = useState("spendings");
+  // const [fetching, isFetching]
   const [spendings, setSpendings] = useState([]);
   const [expenses, setExpenses] = useState([]);
 
@@ -66,14 +67,16 @@ const HomePage = () => {
         <Banner />
         <SwitchTab activeTab={activeTab} setActiveTab={setActiveTab} />
       </Suspense>
-      {activeTab === "spendings" ? (
+      {activeTab === "spendings" && spendings ? (
         <Suspense fallback={<ListItemSkeleton />}>
           <SpendingList spendings={spendings} />
         </Suspense>
       ) : (
-        <Suspense fallback={<ListItemSkeleton />}>
-          <ExpenseList expenses={expenses} />
-        </Suspense>
+        expenses && (
+          <Suspense fallback={<ListItemSkeleton />}>
+            <ExpenseList expenses={expenses} />
+          </Suspense>
+        )
       )}
       <NavLink to="/new-spending">
         <CreateNewIcon />
