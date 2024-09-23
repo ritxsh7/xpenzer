@@ -22,7 +22,7 @@ export default {
       input: "w-full bg-[#121212] text-white py-3 px-10 rounded-xl",
     },
     left: "flex items-center gap-2",
-    contactList: "h-40 overflow-y-auto",
+    contactList: "",
     searchResult: {
       wrapper:
         "flex justify-between items-center p-2 text-white bg-[#1E1E1E] rounded-md mb-2 hover:bg-[#333] cursor-pointer",

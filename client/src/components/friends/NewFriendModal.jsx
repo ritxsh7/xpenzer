@@ -63,11 +63,7 @@ const NewFriendModal = ({ isOpen, setModalOpen }) => {
       <div className={styles.newFriend.contactList}>
         {contacts.length > 0 ? (
           contacts.map((contact, i) => (
-            <div
-              key={i}
-              className={styles.newFriend.searchResult.wrapper}
-              onClick={() => handleAddFriend(contact)}
-            >
+            <div key={i} className={styles.newFriend.searchResult.wrapper}>
               <div className={styles.newFriend.left}>
                 <AvatarComp
                   name={contact.username}
@@ -82,7 +78,7 @@ const NewFriendModal = ({ isOpen, setModalOpen }) => {
               </div>
               <button
                 className={styles.newFriend.searchResult.button}
-                onClick={handleAddFriend}
+                onClick={() => handleAddFriend(contact)}
               >
                 Add
               </button>
