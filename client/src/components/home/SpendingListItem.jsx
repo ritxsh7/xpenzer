@@ -13,7 +13,7 @@ const SpendingListItem = (spending) => {
       onClick={() => setExpand(!expand)}
     >
       <ListItem spending={spending} />
-      {expand && <ContributorList id={spending.spending_id} />}
+      {<ContributorList id={spending.spending_id} open={expand} />}
     </div>
   );
 };

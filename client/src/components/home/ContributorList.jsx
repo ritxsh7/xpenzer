@@ -3,12 +3,16 @@ import Contributor from "./Contributor";
 import { spendingsApi } from "../../api/modules/spendings";
 import useFetch from "../../hooks/useFetch";
 
-const ContributorList = ({ id }) => {
+const ContributorList = ({ id, open }) => {
   const { response } = useFetch(spendingsApi.getById, { id });
   if (response) {
     if (response.length > 0) {
       return (
-        <div className="border-gray-500 mt-2 border-t-[1px] py-1">
+        <div
+          className={` ${
+            open ? "max-h-[300px] py-1 mt-2" : "max-h-0 py-0"
+          } overflow-hidden transition-all duration-200 ease-in-out`}
+        >
           {response?.map((contri) => (
             <Contributor key={contri.contri_id} {...contri} />
           ))}
