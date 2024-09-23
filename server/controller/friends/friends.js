@@ -33,3 +33,15 @@ export const getUsersLike = async (req, res) => {
     return response.serverError(res);
   }
 };
+
+export const addFriend = async (req, res) => {
+  // console.log(req.user.userId, req.query.fid);
+  try {
+    const result = await friends.addFriend(req.user.userId, req.query.fid);
+    return response.ok(res, result, "Friend added successfully");
+  } catch (error) {
+    console.log(error);
+    let message = error.code === "23505" ? "Friend already exists" : "";
+    return response.serverError(res, message);
+  }
+};
