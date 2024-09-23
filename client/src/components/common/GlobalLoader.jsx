@@ -8,6 +8,7 @@ const GlobalLoader = ({ loading }) => {
       color="#83D3E2"
       width="100%"
       cssOverride={{
+        zIndex: "100",
         position: "fixed",
         top: "50%",
         right: "50%",

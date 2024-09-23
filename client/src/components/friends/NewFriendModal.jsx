@@ -1,10 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import styles from "./styles";
 import friendsApi from "../../api/modules/friends";
 import AvatarComp from "../common/Avatar";
+import { useDispatch } from "react-redux";
+import { setLoading } from "../../store/functions/ux";
+import { toast } from "react-toastify";
 
-const NewFriendModal = ({ isOpen, setModalOpen, onAddFriend }) => {
+const NewFriendModal = ({ isOpen, setModalOpen }) => {
+  /* NewFriendModal here */
+
+  //stores
+  const dispatch = useDispatch();
+
+  //states
   const [contacts, setContacts] = useState([]);
 
   const handleSearchContact = async (e) => {
@@ -17,9 +26,17 @@ const NewFriendModal = ({ isOpen, setModalOpen, onAddFriend }) => {
     }
   };
 
-  const handleAddFriend = (contact) => {
-    onAddFriend(contact);
-    onClose();
+  const handleAddFriend = async (contact) => {
+    try {
+      dispatch(setLoading(true));
+      const response = await friendsApi.newFriend(contact.user_id);
+      toast.success(response.message);
+      setModalOpen(false);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      dispatch(setLoading(false));
+    }
   };
 
   return (
@@ -63,7 +80,10 @@ const NewFriendModal = ({ isOpen, setModalOpen, onAddFriend }) => {
                   </p>
                 </div>
               </div>
-              <button className={styles.newFriend.searchResult.button}>
+              <button
+                className={styles.newFriend.searchResult.button}
+                onClick={handleAddFriend}
+              >
                 Add
               </button>
             </div>

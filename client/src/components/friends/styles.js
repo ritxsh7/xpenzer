@@ -38,9 +38,9 @@ export default {
     name: "ml-3 text-sm",
     amount: (balance) =>
       `text-sm font-semibold ${
-        balance < 0
+        balance > 0
           ? "text-red-600"
-          : balance > 0
+          : balance < 0
           ? "text-lime-600"
           : "text-gray-400"
       }`,
