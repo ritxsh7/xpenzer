@@ -25,6 +25,7 @@ CREATE TABLE friends (
     FOREIGN KEY (friend_id) REFERENCES users(user_id)
 );
 SELECT * FROM friends;
+delete from friends where true;
 drop table friends;
 update friends set balance = 0 where user_id = 1;
 
@@ -135,6 +136,8 @@ JOIN
     users u2 
     ON f1.friend_id = u2.user_id
 	
+SELECT * FROM user_friends;
+SELECT SUM(net_balance) FROM user_friends WHERE user_id = 1 AND net_balance < 0
 	
 drop view user_friends;
 
