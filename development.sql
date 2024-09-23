@@ -13,6 +13,8 @@ drop table users;
 alter table 
 delete from users where phone is null;
 
+SELECT * FROM users WHERE phone LIKE '84%';
+
 CREATE TABLE friends (
     user_id INT,
     friend_id INT,
@@ -27,8 +29,8 @@ drop table friends;
 update friends set balance = 0 where user_id = 1;
 
 INSERT INTO friends(user_id, friend_id) VALUES
-(1, 3),
-(3, 1);
+(1, 2),
+(2, 1);	
 
 CREATE TABLE spendings (
     spending_id SERIAL PRIMARY KEY,
