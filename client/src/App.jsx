@@ -1,10 +1,5 @@
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useParams,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./components/auth/Login";
 import HomePage from "./pages/HomePage";
 import GlobalLoader from "./components/common/GlobalLoader";
@@ -20,6 +15,8 @@ import friendsApi from "./api/modules/friends";
 import { setFriends } from "./store/functions/friends";
 import Drawer from "./components/common/Drawer";
 import FriendsPage from "./pages/FriendsPage";
+import { ToastContainer } from "react-toastify";
+import toasts from "./utils/toasts";
 
 function App() {
   /* App comp here */
@@ -34,6 +31,7 @@ function App() {
     <AuthProvider>
       <div className="app">
         <Router>
+          <ToastContainer style={toasts.style} />
           <GlobalLoader loading={ux.loading} />
           <Routes>
             <Route

@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   friends: [],
+  lendings: 0,
+  borrowings: 0,
 };
 
 const friendsReducer = createSlice({
@@ -9,7 +11,9 @@ const friendsReducer = createSlice({
   initialState,
   reducers: {
     setFriends: (state, action) => {
-      state.friends = action.payload;
+      state.friends = action.payload.friends;
+      state.borrowings = action.payload.borrowings;
+      state.lendings = action.payload.lendings;
     },
   },
 });

@@ -18,7 +18,7 @@ const useFetch = (fetcher, params = [], dispatcher) => {
         const res = await fetcher(params);
         setResponse(res);
         if (dispatcher) {
-          dispatch(dispatcher(res));
+          dispatch(dispatcher(res.data));
         }
       } catch (err) {
         console.log(err);
