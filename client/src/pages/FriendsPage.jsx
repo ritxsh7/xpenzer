@@ -49,7 +49,11 @@ const FriendsPage = () => {
 
         {/* searchbar */}
         <div className={styles.friendsPage.searchBar}>
-          <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+          <SearchBar
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            placeholder="Search friends"
+          />
           <div className={styles.friendsPage.icon} onClick={handleModelOpen}>
             <IoMdPersonAdd />
           </div>
