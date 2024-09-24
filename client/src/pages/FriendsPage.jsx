@@ -8,6 +8,7 @@ import FriendCard from "../components/friends/FriendCard";
 import NewFriendModal from "../components/friends/NewFriendModal";
 import styles from "../components/friends/styles";
 import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 
 const FriendsPage = () => {
   /*Friendspage comp here */
@@ -63,7 +64,12 @@ const FriendsPage = () => {
         <div>
           {filteredFriends.length > 0 ? (
             filteredFriends.map((friend) => (
-              <FriendCard key={friend.friend_name} {...friend} />
+              <NavLink
+                to={`/friends/transactions/${friend.friend_id}`}
+                key={friend.friend_id}
+              >
+                <FriendCard {...friend} />
+              </NavLink>
             ))
           ) : (
             <div className={styles.friendsPage.message}>No friends found</div>
