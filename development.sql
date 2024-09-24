@@ -141,6 +141,31 @@ SELECT SUM(net_balance) FROM user_friends WHERE user_id = 1 AND net_balance < 0
 	
 drop view user_friends;
 
+SELECT 
+	spending_user, 
+	SUM(contri_amount),
+	json_agg(                        
+		json_build_object(
+           'cid',contri_id,
+           'amount',contri_amount,
+           'description', description
+        )) as byUser
+FROM user_contributions 
+WHERE spending_user = 1 AND contri_user = 3
+GROUP BY spending_user
+UNION ALL
+SELECT 
+	spending_user, 
+	SUM(contri_amount),
+	json_agg(                        
+		json_build_object(
+           'cid',contri_id,
+           'amount',contri_amount,
+           'description', description
+        )) as byUser
+FROM user_contributions 
+WHERE spending_user = 3 AND contri_user = 1
+GROUP BY spending_user;
 
 CREATE OR REPLACE VIEW user_contributions AS 
 SELECT
