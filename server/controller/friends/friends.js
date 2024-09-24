@@ -45,3 +45,40 @@ export const addFriend = async (req, res) => {
     return response.serverError(res, message);
   }
 };
+
+export const getMutualContributions = async (req, res) => {
+  // console.log(req.user.userId, req.query.fid);
+  try {
+    const [friendContris, userContris] = await friends.getContributions(
+      req.user.userId,
+      req.query.fid
+    );
+
+    let aggregatedResult = [];
+
+    friendContris?.byuser.map((contri) =>
+      aggregatedResult.push({ ...contri, byFriend: true })
+    );
+
+    userContris?.byuser.map((contri) =>
+      aggregatedResult.push({ ...contri, byFriend: false })
+    );
+
+    aggregatedResult.sort((a, b) =>
+      a.date < b.date ? 1 : a.date > b.date ? -1 : 0
+    );
+
+    return response.ok(
+      res,
+      {
+        lendings: friendContris?.sum,
+        borrowings: userContris?.sum,
+        transactions: aggregatedResult,
+      },
+      "Contributions fetched successfully"
+    );
+  } catch (error) {
+    console.log(error);
+    return response.serverError(res);
+  }
+};

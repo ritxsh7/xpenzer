@@ -70,6 +70,47 @@ class Friends {
     if (result) return result.rows;
     throw error;
   };
+
+  getContributions = async (userId, friendId, date) => {
+    const GET_MUTUAL_CONTRIBUTIONS = `
+      SELECT 
+        spending_user, 
+        SUM(contri_amount),
+        json_agg(                        
+          json_build_object(
+            'cid',contri_id,
+            'amount',contri_amount,
+            'date', spending_date,
+            'description', description
+          )) as byUser
+        FROM user_contributions 
+        WHERE spending_user = $1 AND contri_user = $2
+        GROUP BY spending_user
+        UNION ALL
+        SELECT 
+          spending_user,
+          SUM(contri_amount),
+          json_agg(                        
+            json_build_object(
+              'cid',contri_id,
+              'amount',contri_amount,
+              'date', spending_date,
+              'description', description
+          )) as byFriend
+        FROM user_contributions 
+        WHERE spending_user = $2 AND contri_user = $1
+        GROUP BY spending_user`;
+
+    const { result, error } = await db.query(GET_MUTUAL_CONTRIBUTIONS, [
+      userId,
+      friendId,
+    ]);
+
+    console.log(result);
+
+    if (result) return result.rows;
+    throw error;
+  };
 }
 
 export default new Friends();
