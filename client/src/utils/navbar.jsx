@@ -13,13 +13,14 @@ const navbar = [
   {
     name: "Friends",
     url: "/friends",
+    subRoutes: ["transactions"],
     icon: <MdPeopleAlt />,
     size: "text-xl",
   },
   {
     name: "New Expense",
     url: "/new-spending",
-    subRoutes: ["/new-spending/checkout"],
+    subRoutes: ["checkout"],
     icon: <RiPlayListAddFill />,
     size: "text-xl",
   },

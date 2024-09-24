@@ -16,6 +16,7 @@ import Drawer from "./components/common/Drawer";
 import FriendsPage from "./pages/FriendsPage";
 import { ToastContainer } from "react-toastify";
 import toasts from "./utils/toasts";
+import FriendDetailsPage from "./pages/FriendDetailsPage";
 
 function App() {
   /* App comp here */
@@ -76,6 +77,14 @@ function App() {
                       element={
                         <ProtectedPage>
                           <FriendsPage />
+                        </ProtectedPage>
+                      }
+                    />
+                    <Route
+                      path="/friends/transactions/:id"
+                      element={
+                        <ProtectedPage>
+                          <FriendDetailsPage />
                         </ProtectedPage>
                       }
                     />
