@@ -5,7 +5,8 @@ const friendsEndpoints = {
   getFriendLike: (name) => `/friends?like=${name}`,
   getUsersLike: (name) => `/friends/users?like=${name}`,
   newFriend: (fid) => `/friends/new?fid=${fid}`,
-  getTransactions: (fid) => `/friends/transactions?fid=${fid}`,
+  getTransactions: (fid, start, end) =>
+    `/friends/transactions?fid=${fid}&start=${start}&end=${end}`,
 };
 
 const friendsApi = {
@@ -41,9 +42,11 @@ const friendsApi = {
       throw error;
     }
   },
-  getTransactions: async (fid) => {
+  getTransactions: async (fid, start, end) => {
     try {
-      const res = await client.get(friendsEndpoints.getTransactions(fid));
+      const res = await client.get(
+        friendsEndpoints.getTransactions(fid, start, end)
+      );
       return res;
     } catch (error) {
       throw error;

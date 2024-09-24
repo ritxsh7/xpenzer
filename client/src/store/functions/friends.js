@@ -4,6 +4,7 @@ const initialState = {
   friends: [],
   lendings: 0,
   borrowings: 0,
+  currentFriend: null,
 };
 
 const friendsReducer = createSlice({

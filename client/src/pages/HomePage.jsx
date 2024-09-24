@@ -10,7 +10,7 @@ import CreateNewIcon from "../components/home/CreateNewIcon";
 import { NavLink } from "react-router-dom";
 import { homeStyles } from "../components/home/styles";
 import DateRangePicker from "../components/common/DateRangePicker";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../store/functions/ux";
 
 // Lazy imports
@@ -23,10 +23,10 @@ const HomePage = () => {
 
   // Store
   const dispatch = useDispatch();
+  const { user } = useSelector((store) => store.user);
 
   // States
   const [activeTab, setActiveTab] = useState("spendings");
-  // const [fetching, isFetching]
   const [spendings, setSpendings] = useState([]);
   const [expenses, setExpenses] = useState([]);
 
@@ -61,7 +61,11 @@ const HomePage = () => {
   return (
     <div className={homeStyles.container}>
       <Header />
-      <UserIcon />
+      <UserIcon
+        name={user.username}
+        color={user.profile}
+        text="Welcome back!"
+      />
       <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
       <Suspense fallback={<BannerSkeleton />}>
         <Banner />

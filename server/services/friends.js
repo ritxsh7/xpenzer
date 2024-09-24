@@ -71,8 +71,8 @@ class Friends {
     throw error;
   };
 
-  getContributions = async (userId, friendId, date) => {
-    const GET_MUTUAL_CONTRIBUTIONS = `
+  getContributions = async (userId, friendId, start, end) => {
+    const GET_FRIEND_CONTRIBUTIONS = `
       SELECT 
         spending_user, 
         SUM(contri_amount),
@@ -83,10 +83,11 @@ class Friends {
             'date', spending_date,
             'description', description
           )) as byUser
-        FROM user_contributions 
-        WHERE spending_user = $1 AND contri_user = $2
-        GROUP BY spending_user
-        UNION ALL
+        FROM user_contributions
+        WHERE spending_user = $1 AND contri_user = $2 AND spending_date BETWEEN $3::DATE AND $4::DATE
+        GROUP BY spending_user, spending_date ORDER BY spending_date DESC`;
+
+    const GET_USER_CONTRIBUTIONS = `
         SELECT 
           spending_user,
           SUM(contri_amount),
@@ -98,18 +99,31 @@ class Friends {
               'description', description
           )) as byFriend
         FROM user_contributions 
-        WHERE spending_user = $2 AND contri_user = $1
-        GROUP BY spending_user`;
+        WHERE spending_user = $2 AND contri_user = $1 AND spending_date BETWEEN $3::DATE AND $4::DATE
+        GROUP BY spending_user, spending_date ORDER BY spending_date DESC`;
 
-    const { result, error } = await db.query(GET_MUTUAL_CONTRIBUTIONS, [
-      userId,
-      friendId,
-    ]);
+    try {
+      const friendContributions = await db.query(GET_FRIEND_CONTRIBUTIONS, [
+        userId,
+        friendId,
+        new Date(start),
+        new Date(end),
+      ]);
 
-    console.log(result);
+      const userContributions = await db.query(GET_USER_CONTRIBUTIONS, [
+        userId,
+        friendId,
+        new Date(start),
+        new Date(end),
+      ]);
 
-    if (result) return result.rows;
-    throw error;
+      return {
+        friendContributions: friendContributions.result.rows[0],
+        userContributions: userContributions.result.rows[0],
+      };
+    } catch (error) {
+      throw error;
+    }
   };
 }
 

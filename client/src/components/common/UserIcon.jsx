@@ -1,22 +1,17 @@
 import React from "react";
-import { FaUserAlt } from "react-icons/fa";
+import AvatarComp from "../common/Avatar";
 import { homeStyles } from "../home/styles";
 import { useSelector } from "react-redux";
 
-const UserIcon = () => {
+const UserIcon = ({ name, text, color }) => {
   /* UserIcon comp here */
-
-  // Store
-  const { user } = useSelector((store) => store.user);
 
   return (
     <div className={homeStyles.user.container}>
-      <div className={homeStyles.user.icon}>
-        <FaUserAlt className="text-xs" />
-      </div>
+      <AvatarComp name={name} color={color} />
       <div className={homeStyles.user.message}>
-        <p className="text-xs">Welcome back!</p>
-        <p className="text-xs">{user.username}</p>
+        <p className="text-xs">{text}</p>
+        <p className="text-xs">{name}</p>
       </div>
     </div>
   );

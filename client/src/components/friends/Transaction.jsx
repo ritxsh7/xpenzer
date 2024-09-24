@@ -12,7 +12,7 @@ const Transaction = ({ item }) => {
         </p>
       </div>
       <div className={homeStyles.spendingItemList.right(item.byFriend)}>
-        {item.byFriend ? "+ " : "- "}₹{item.amount}
+        {item.byFriend ? "+" : "-"}₹{item.amount}
       </div>
     </div>
   );

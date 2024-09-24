@@ -47,32 +47,32 @@ export const addFriend = async (req, res) => {
 };
 
 export const getMutualContributions = async (req, res) => {
-  // console.log(req.user.userId, req.query.fid);
+  // console.log(req.query.start, req.query.end);
+
   try {
-    const [friendContris, userContris] = await friends.getContributions(
-      req.user.userId,
-      req.query.fid
-    );
+    const { friendContributions, userContributions } =
+      await friends.getContributions(
+        req.user.userId,
+        req.query.fid,
+        req.query.start,
+        req.query.end
+      );
 
     let aggregatedResult = [];
 
-    friendContris?.byuser.map((contri) =>
+    friendContributions?.byuser.map((contri) =>
       aggregatedResult.push({ ...contri, byFriend: true })
     );
 
-    userContris?.byuser.map((contri) =>
+    userContributions?.byfriend.map((contri) =>
       aggregatedResult.push({ ...contri, byFriend: false })
-    );
-
-    aggregatedResult.sort((a, b) =>
-      a.date < b.date ? 1 : a.date > b.date ? -1 : 0
     );
 
     return response.ok(
       res,
       {
-        lendings: friendContris?.sum,
-        borrowings: userContris?.sum,
+        lendings: friendContributions?.sum,
+        borrowings: userContributions?.sum,
         transactions: aggregatedResult,
       },
       "Contributions fetched successfully"
