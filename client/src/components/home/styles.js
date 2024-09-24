@@ -39,17 +39,20 @@ export const homeStyles = {
     active: "bg-[#5C6AF5] text-white",
   },
   spendingItemList: {
-    wrapper: "w-full p-1 my-4 max-w-md mx-auto bg-[#27262B] rounded-lg",
-    container: "flex justify-between bg-[#27262B] p-1 rounded-lg",
+    wrapper: "w-full p-1 my-4 max-w-md mx-auto bg-[#1f1f1f] rounded-lg",
+    container: "flex justify-between bg-[#1f1f1f] p-1 rounded-lg",
     left: "flex flex-col items-start",
-    right:
-      "flex flex-col text-sm justify-center text-orange-600 tracking-[0.2rem]",
+    right: (plus) =>
+      `flex flex-col text-sm justify-center ${
+        plus ? "text-lime-500" : "text-red-500"
+      } tracking-[0.2rem]`,
     expandable: "",
   },
   contributor: {
     container: "px-2 py-2 flex items-center justify-between",
     profile: "text-lg flex items-center gap-3",
     amount: "text-lime-500 text-sm",
+    username: "text-sm",
   },
   image: {
     imgWrapper: "flex flex-row items-center",

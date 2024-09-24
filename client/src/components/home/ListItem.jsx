@@ -11,7 +11,7 @@ const ListItem = ({ spending }) => {
           {new Date(spending.date).toLocaleDateString("en-IN", dateFormat)}
         </p>
       </div>
-      <div className={homeStyles.spendingItemList.right}>
+      <div className={homeStyles.spendingItemList.right()}>
         ₹{spending.amount}
       </div>
     </div>
