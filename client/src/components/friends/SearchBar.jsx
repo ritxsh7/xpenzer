@@ -2,13 +2,13 @@ import React from "react";
 import { FiSearch } from "react-icons/fi";
 import styles from "./styles";
 
-const SearchBar = ({ searchTerm, setSearchTerm }) => {
+const SearchBar = ({ searchTerm, setSearchTerm, placeholder }) => {
   return (
     <div className={styles.newFriend.searchBar.wrapper}>
       <FiSearch size={20} className={styles.newFriend.searchBar.icon} />
       <input
         type="text"
-        placeholder="Search friends"
+        placeholder={placeholder}
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className={styles.newFriend.searchBar.input}

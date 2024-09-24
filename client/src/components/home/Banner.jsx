@@ -3,9 +3,8 @@ import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { homeStyles } from "./styles";
 import { spendingsApi } from "../../api/modules/spendings";
 import useFetch from "../../hooks/useFetch.js";
-import { currentMonth } from "../../utils/date.js";
 import { DatePicker } from "antd";
-import DateRangePicker from "../common/DateRangePicker.jsx";
+import { useSelector } from "react-redux";
 
 // RangePicker
 const { RangePicker } = DatePicker;
@@ -30,13 +29,15 @@ const Banner = () => {
   // Get response
   const { response } = useFetch(spendingsApi.getTotalSpendings);
 
+  // store
+  const { lendings } = useSelector((store) => store.friends);
+
   // Set banner data
   if (response) {
     var total = response[0].total_spendings;
     var personal = response[1].total_spendings;
-    var lendings = (total - personal).toFixed(2);
-    var amounts = [personal, lendings];
   }
+  let amounts = [personal, lendings * -1];
 
   return (
     <div className={homeStyles.banner.container}>
@@ -50,7 +51,7 @@ const Banner = () => {
               <p className={homeStyles.banner.badgeName}>{badge.name}</p>
             </div>
             <h2 className={homeStyles.banner.badgeAmount(badge.color)}>
-              ₹{response ? amounts[i] : "0"}
+              ₹{response ? Number(amounts[i]).toFixed(2) : "0"}
             </h2>
           </div>
         ))}
