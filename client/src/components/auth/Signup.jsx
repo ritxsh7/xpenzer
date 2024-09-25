@@ -1,39 +1,40 @@
-import React, { useRef, useState } from "react";
+import { useRef } from "react";
+import React from "react";
 import { loginStyles } from "./styles";
 import { authApi } from "../../api/modules/auth";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { saveUser } from "../../store/functions/user";
 import { setLoading } from "../../store/functions/ux";
-import { GoogleLogin } from "@react-oauth/google";
 
-const Login = ({ setAuthState, setMessages }) => {
-  /* Login comp here */
+const Signup = ({ setAuthState, setMessages }) => {
+  /*Signup comp here */
+
+  const dispatch = useDispatch();
 
   const phoneRef = useRef(null);
   const passwordRef = useRef(null);
+  const confirmPasswordRef = useRef(null);
+  const usernameRef = useRef(null);
 
-  //Navbar
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  // LOGIN FUNCTION
-  const handleLogin = async (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
+
+    if (passwordRef.current.value !== confirmPasswordRef.current.value) {
+      setMessages({ errorMsg: "Passwords dont match" });
+      return;
+    }
+
     const auth = {
+      username: usernameRef.current.value,
       phone: phoneRef.current.value,
       password: passwordRef.current.value,
     };
     try {
       dispatch(setLoading(true));
-      const res = await authApi.login(auth);
+      const res = await authApi.signup(auth);
       console.log(res);
       setMessages({ successMsg: res.message });
-      dispatch(saveUser(res.data));
-      navigate("/");
-      window.location.reload();
+      setAuthState({ login: true });
     } catch (error) {
-      navigate("/login");
       console.log(error);
       setMessages({ errorMsg: error.message });
     } finally {
@@ -41,18 +42,17 @@ const Login = ({ setAuthState, setMessages }) => {
     }
   };
 
-  // const handleGoogleLogin = (response) => {
-  //   console.log(response);
-  // };
-
-  // const handleGoogleError = (err) => {
-  //   console.log(response);
-  // };
-
   return (
-    <div className={loginStyles.container}>
-      <h3 className={loginStyles.heading}>{loginStyles.headingText} </h3>
-      <form className={loginStyles.form} onSubmit={handleLogin}>
+    <div>
+      <form className={loginStyles.form} onSubmit={handleSignup}>
+        <input
+          id="username"
+          className={loginStyles.input}
+          type="text"
+          ref={usernameRef}
+          required
+          placeholder="name eg: Mahesh dalle"
+        ></input>
         <input
           id="phone"
           className={loginStyles.input}
@@ -70,23 +70,24 @@ const Login = ({ setAuthState, setMessages }) => {
           ref={passwordRef}
           placeholder="password"
         ></input>
+        <input
+          required
+          name="confirm-password"
+          className={loginStyles.input}
+          type="password"
+          ref={confirmPasswordRef}
+          placeholder="confirm password"
+        ></input>
         <button type="submit" className={loginStyles.button}>
-          Login
+          Sign up
         </button>
-        {/* <div className="flex flex-col gap-4">
-          OR
-          <GoogleLogin
-            onSuccess={handleGoogleLogin}
-            onError={handleGoogleError}
-          />
-        </div> */}
         <p>
-          Not a user?{" "}
+          Already a user?{" "}
           <span
             className="text-blue-400 underline"
-            onClick={() => setAuthState({ login: false })}
+            onClick={() => setAuthState({ login: true })}
           >
-            Sign up
+            Login
           </span>
         </p>
       </form>
@@ -94,4 +95,4 @@ const Login = ({ setAuthState, setMessages }) => {
   );
 };
 
-export default Login;
+export default Signup;

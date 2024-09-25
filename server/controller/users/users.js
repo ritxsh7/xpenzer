@@ -32,7 +32,11 @@ export const signupUser = async (req, res) => {
     return response.ok(res, newUser, "Signup success");
   } catch (error) {
     console.log(error);
-    return response.serverError(res, "Error while signing up user");
+    let message =
+      error.code === "23505"
+        ? "User already exists"
+        : "Error while signing up user";
+    return response.serverError(res, message);
   }
 };
 

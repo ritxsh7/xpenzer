@@ -17,6 +17,7 @@ import FriendsPage from "./pages/FriendsPage";
 import { ToastContainer } from "react-toastify";
 import toasts from "./utils/toasts";
 import FriendDetailsPage from "./pages/FriendDetailsPage";
+import AuthPage from "./pages/AuthPage";
 
 function App() {
   /* App comp here */
@@ -38,7 +39,7 @@ function App() {
               path="/login"
               element={
                 <RedirectAlreadyLogin>
-                  <Login />
+                  <AuthPage />
                 </RedirectAlreadyLogin>
               }
             />

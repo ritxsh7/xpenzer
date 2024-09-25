@@ -15,6 +15,14 @@ export const authApi = {
       throw error;
     }
   },
+  signup: async (auth) => {
+    try {
+      const res = await client.post(authEndpoints.signup, auth);
+      return res;
+    } catch (error) {
+      throw error;
+    }
+  },
   autoLogin: async (auth) => {
     try {
       const res = await client.get(authEndpoints.autoLogin);
