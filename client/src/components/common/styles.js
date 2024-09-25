@@ -17,4 +17,18 @@ export default {
       }`,
     name: "text-xs",
   },
+  modal: {
+    wrapper:
+      "fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50",
+    content: (open) =>
+      `p-4 w-[80%] h-[150px] text-sm rounded-lg bg-[#1F1F1F] flex flex-col transform transition-all duration-1000 ease-in-out ${
+        open ? "scale-100" : "scale-0"
+      }`,
+    text: "mb-auto",
+    buttons: "flex justify-between",
+    button: (color) =>
+      `w-[45%] p-1 ${
+        color === "blue" ? "bg-blue-600" : "bg-red-600"
+      } rounded-md text-sm`,
+  },
 };

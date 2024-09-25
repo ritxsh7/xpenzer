@@ -1,10 +1,9 @@
 import pg from "pg";
 import dotenv from "dotenv";
-import fs from "fs";
 
 dotenv.config();
 
-const pool = new pg.Pool({
+export const pool = new pg.Pool({
   user: process.env.POSTGRES_USERNAME,
   password: process.env.POSTGRES_PASSWORD,
   host: process.env.POSTGRES_HOST,

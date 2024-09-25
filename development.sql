@@ -28,6 +28,8 @@ SELECT * FROM friends;
 delete from friends where true;
 drop table friends;
 update friends set balance = 0 where user_id = 1;
+UPDATE friends SET balance = balance - '400' WHERE user_id = 1 AND friend_id =3
+alter column friends alter column balance tye float
 
 INSERT INTO friends(user_id, friend_id) VALUES
 (1, 2),
@@ -53,11 +55,16 @@ INSERT INTO spendings(user_id, amount, description) VALUES
 CREATE TABLE contributions (
     contri_id SERIAL PRIMARY KEY,
     spending_id INT,
+	spending_user INT,
     user_id INT,
     amount DECIMAL(10, 2),
     FOREIGN KEY (spending_id) REFERENCES spendings(spending_id),
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+	FOREIGN KEY (spending_user) REFERENCES users(user_id)
 );
+ALTER TABLE contributions ADD COLUMN settled BOOLEAN DEFAULT false
+ALTER TABLE contributions ALTER COLUMN spending_user SET NOT NULL
+
 SELECT * FROM contributions;
 delete from contributions where true;
 drop table contributions;
@@ -143,7 +150,6 @@ drop view user_friends;
 
 SELECT 
 	spending_user, 
-	SUM(contri_amount),
 	json_agg(                        
 		json_build_object(
            'cid',contri_id,
@@ -151,28 +157,28 @@ SELECT
            'description', description
         )) as byUser
 FROM user_contributions 
-WHERE spending_user = 1 AND contri_user = 3
-GROUP BY spending_user
+WHERE spending_user = 1 AND contri_user = 3 AND spending_date BETWEEN '2024-09-01' AND '2024-09-25'
+GROUP BY spending_user, spending_date
 UNION ALL
-SELECT 
-	spending_user, 
-	SUM(contri_amount),
-	json_agg(                        
-		json_build_object(
-           'cid',contri_id,
-           'amount',contri_amount,
-           'description', description
-        )) as byUser
-FROM user_contributions 
-WHERE spending_user = 3 AND contri_user = 1
-GROUP BY spending_user;
 
+SELECT 
+      spending_user, 
+        contri_id,
+        contri_user,
+        settled, contri_username, contri_amount, description
+        FROM user_contributions
+        WHERE spending_user = 1 AND contri_user = 3
+        ORDER BY spending_date DESC
+		
+		
 CREATE OR REPLACE VIEW user_contributions AS 
 SELECT
 s.spending_id,
-s.user_id as spending_user, 
-c.contri_id , 
-c.user_id as contri_user, 
+s.user_id as spending_user,
+s.date as spending_date,
+c.contri_id, 
+c.user_id as contri_user,
+c.settled as settled,
 u.username as contri_username, 
 c.amount as contri_amount, 
 s.amount as spending_amount ,

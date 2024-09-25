@@ -7,6 +7,8 @@ const friendsEndpoints = {
   newFriend: (fid) => `/friends/new?fid=${fid}`,
   getTransactions: (fid, start, end) =>
     `/friends/transactions?fid=${fid}&start=${start}&end=${end}`,
+  settleBalance: `friends/settle-balance`,
+  settleTransaction: "friends/settle-transaction",
 };
 
 const friendsApi = {
@@ -47,6 +49,26 @@ const friendsApi = {
       const res = await client.get(
         friendsEndpoints.getTransactions(fid, start, end)
       );
+      return res;
+    } catch (error) {
+      throw error;
+    }
+  },
+  settleBalance: async (fid) => {
+    try {
+      const res = await client.patch(friendsEndpoints.settleBalance, { fid });
+      return res;
+    } catch (error) {
+      throw error;
+    }
+  },
+  settleTransaction: async (fid, amount, contriId) => {
+    try {
+      const res = await client.put(friendsEndpoints.settleTransaction, {
+        fid,
+        amount,
+        contriId,
+      });
       return res;
     } catch (error) {
       throw error;

@@ -47,6 +47,7 @@ export const createNewSpending = async (req, res) => {
       contributors.registered?.length > 0 &&
       (await contributions.createManyContributions(
         newSpending.spending_id,
+        req.user.userId,
         contributors.registered
       ));
 
@@ -61,7 +62,7 @@ export const createNewSpending = async (req, res) => {
 
     //IF USER IS PRESENT THEN ADD PERSONAL EXPENSE
     const userExpense =
-      contributors.user.amount > 0 &&
+      contributors.user?.amount > 0 &&
       (await expenses.createNewExpense(
         req.user.userId,
         contributors.user.amount,

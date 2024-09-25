@@ -1,5 +1,6 @@
 import friends from "../../services/friends.js";
 import response from "../../helpers/response.js";
+import db from "../../config/database.js";
 
 export const getAllFriends = async (req, res) => {
   try {
@@ -58,25 +59,56 @@ export const getMutualContributions = async (req, res) => {
         req.query.end
       );
 
+    // return response.ok(res, { friendContributions, userContributions });
+
     let aggregatedResult = [];
 
-    friendContributions?.byuser.map((contri) =>
+    friendContributions?.map((contri) =>
       aggregatedResult.push({ ...contri, byFriend: true })
     );
 
-    userContributions?.byfriend.map((contri) =>
+    userContributions?.map((contri) =>
       aggregatedResult.push({ ...contri, byFriend: false })
     );
 
     return response.ok(
       res,
       {
-        lendings: friendContributions?.sum,
-        borrowings: userContributions?.sum,
         transactions: aggregatedResult,
       },
       "Contributions fetched successfully"
     );
+  } catch (error) {
+    console.log(error);
+    return response.serverError(res);
+  }
+};
+
+export const settleBalance = async (req, res) => {
+  const { fid } = req.body;
+
+  try {
+    const result = await friends.settleBalance(req.user.userId, fid);
+    return response.ok(res, result);
+  } catch (error) {
+    console.log(error);
+    return response.serverError(res);
+  }
+};
+
+export const settleTransction = async (req, res) => {
+  const { fid, contriId, amount } = req.body;
+
+  // console.log(fid, contriId,  parseInt(amount));
+
+  try {
+    const result = await friends.settleTransactions(
+      req.user.userId,
+      fid,
+      contriId,
+      amount
+    );
+    return response.ok(res, result);
   } catch (error) {
     console.log(error);
     return response.serverError(res);

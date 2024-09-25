@@ -40,6 +40,7 @@ const FriendsPage = () => {
             color="bg-lime-600"
             score={Number(friends.lendings * -1)}
             name="Lendings"
+            up
           />
           <StatsCard
             color="bg-red-600"

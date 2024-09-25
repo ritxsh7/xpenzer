@@ -36,6 +36,7 @@ const NewFriendModal = ({ isOpen, setModalOpen }) => {
       toast.error(error.message);
     } finally {
       dispatch(setLoading(false));
+      window.location.reload();
     }
   };
 

@@ -1,6 +1,8 @@
 import db from "../config/database.js";
 
 class Friends {
+  /*Friends service class */
+
   createUnregisteredFriend = async (userId, friendId) => {
     // CREATE UNREGISTERED FRIEND
     const CREATE_UNREGISTERED_FRIEND =
@@ -75,55 +77,93 @@ class Friends {
     const GET_FRIEND_CONTRIBUTIONS = `
       SELECT 
         spending_user, 
-        SUM(contri_amount),
-        json_agg(                        
-          json_build_object(
-            'cid',contri_id,
-            'amount',contri_amount,
-            'date', spending_date,
-            'description', description
-          )) as byUser
+        contri_id,
+        contri_user,
+        spending_date,
+        settled, contri_username, contri_amount, description
         FROM user_contributions
-        WHERE spending_user = $1 AND contri_user = $2 AND spending_date BETWEEN $3::DATE AND $4::DATE
-        GROUP BY spending_user, spending_date ORDER BY spending_date DESC`;
+        WHERE spending_user = $1 AND contri_user = $2 AND spending_date BETWEEN $3 AND $4
+        ORDER BY spending_date DESC, contri_id DESC`;
 
     const GET_USER_CONTRIBUTIONS = `
         SELECT 
-          spending_user,
-          SUM(contri_amount),
-          json_agg(                        
-            json_build_object(
-              'cid',contri_id,
-              'amount',contri_amount,
-              'date', spending_date,
-              'description', description
-          )) as byFriend
+        spending_user,
+        contri_id,
+        contri_user,
+        spending_date,
+        settled, contri_username, contri_amount, description
         FROM user_contributions 
-        WHERE spending_user = $2 AND contri_user = $1 AND spending_date BETWEEN $3::DATE AND $4::DATE
-        GROUP BY spending_user, spending_date ORDER BY spending_date DESC`;
+        WHERE spending_user = $2 AND contri_user = $1 AND spending_date BETWEEN $3 AND $4
+        ORDER BY spending_date DESC, contri_id DESC`;
 
-    try {
-      const friendContributions = await db.query(GET_FRIEND_CONTRIBUTIONS, [
-        userId,
-        friendId,
-        new Date(start),
-        new Date(end),
-      ]);
+    const friendContributions = await db.query(GET_FRIEND_CONTRIBUTIONS, [
+      userId,
+      friendId,
+      new Date(start),
+      new Date(end),
+    ]);
 
-      const userContributions = await db.query(GET_USER_CONTRIBUTIONS, [
-        userId,
-        friendId,
-        new Date(start),
-        new Date(end),
-      ]);
+    const userContributions = await db.query(GET_USER_CONTRIBUTIONS, [
+      userId,
+      friendId,
+      new Date(start),
+      new Date(end),
+    ]);
 
-      return {
-        friendContributions: friendContributions.result.rows[0],
-        userContributions: userContributions.result.rows[0],
-      };
-    } catch (error) {
-      throw error;
+    // console.log(friendContributions, userContributions);
+
+    if (friendContributions.error || userContributions.error) {
+      throw friendContributions.error || userContributions.error;
     }
+    return {
+      friendContributions: friendContributions.result.rows,
+      userContributions: userContributions.result.rows,
+    };
+  };
+
+  settleBalance = async (userId, friendId) => {
+    const CLEAR_BALANCE =
+      "UPDATE friends SET balance = 0 WHERE user_id = $1 AND friend_id = $2";
+
+    const CLEAR_ALL_TRANSACTIONS =
+      "UPDATE contributions SET settled = true WHERE spending_user = $1 and user_id = $2";
+
+    const [clearBalance, clearAllTransactions] = await Promise.all([
+      db.query(CLEAR_BALANCE, [userId, friendId]),
+      db.query(CLEAR_ALL_TRANSACTIONS, [userId, friendId]),
+    ]);
+
+    if (clearBalance.error || clearAllTransactions.error) {
+      throw clearBalance.error || clearAllTransactions.error;
+    }
+    return {
+      balanceCleared: clearBalance.result.rows,
+      transactionsCleared: clearAllTransactions.result.rows,
+    };
+  };
+
+  settleTransactions = async (userId, friendId, contri_id, amount) => {
+    console.log({ userId, friendId, contri_id, amount });
+
+    const SETTLE_TRANSACTIONS =
+      "UPDATE contributions SET settled = true WHERE contri_id = $1";
+    const UPDATE_BALANCE =
+      "UPDATE friends SET balance = balance - $3 WHERE user_id = $1 AND friend_id = $2";
+
+    const [settleTransactions, updateBalance] = await Promise.all([
+      db.query(SETTLE_TRANSACTIONS, [contri_id]),
+      db.query(UPDATE_BALANCE, [userId, friendId, amount]),
+    ]);
+
+    console.log(settleTransactions, updateBalance);
+
+    if (settleTransactions?.error || updateBalance?.error) {
+      throw settleTransactions?.error || updateBalance?.error;
+    }
+    return {
+      settleTransactions: settleTransactions?.result.rows,
+      updateBalance: updateBalance?.result.rows,
+    };
   };
 }
 
