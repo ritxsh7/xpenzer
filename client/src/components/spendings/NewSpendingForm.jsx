@@ -60,6 +60,12 @@ const NewSpendingForm = () => {
 
   // Show friend list
   const handleFocus = (value) => {
+    setTimeout(() => {
+      window.scrollTo({
+        top: window.screenY + 400,
+        behavior: "smooth",
+      });
+    }, 100);
     setShowDropdown(value);
   };
 
@@ -138,7 +144,7 @@ const NewSpendingForm = () => {
                   <FriendItem
                     key={friend.friend_id}
                     friend={friend}
-                    setShowDropdown={setShowDropdown}
+                    setSearchValue={setSearchValue}
                   />
                 ))}
               </>

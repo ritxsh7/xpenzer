@@ -1,7 +1,7 @@
 export const spendingStyles = {
-  container: "p-5 h-[100vh] flex flex-col",
+  container: "p-5 h-[120vh] flex flex-col",
   form: {
-    container: "bg-transparent p-4 my-4",
+    container: "bg-transparent px-4 mb-2 pb-20",
     input: {
       label: "text-sm text-[#5C6AF5] mt-3 mb-2",
       field: "p-3 rounded-md w-full text-sm",
