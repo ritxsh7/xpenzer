@@ -9,7 +9,9 @@ export default {
   newFriend: {
     wrapper: (isOpen) =>
       `top-0 left-0 fixed max-w-md  h-full w-full bg-black p-4 rounded-lg shadow-lg transform transition-all ease-in-out duration-300 ${
-        isOpen ? "translate-x-0" : "translate-x-full"
+        isOpen
+          ? "translate-x-0 md:translate-x-[35vw]"
+          : "translate-x-full md:translate-x-[100vw]"
       } `,
     icon: "flex justify-end",
     iconCross: "text-2xl text-gray-400 cursor-pointer fixed top-4 right-4",

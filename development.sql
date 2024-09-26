@@ -11,7 +11,7 @@ CREATE TABLE users (
 SELECT * FROM users;
 drop table users;
 alter table 
-delete from users where phone is null;
+delete from users where username = 'Upendra';
 
 SELECT * FROM users WHERE phone LIKE '84%';
 
@@ -24,11 +24,12 @@ CREATE TABLE friends (
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (friend_id) REFERENCES users(user_id)
 );
+
 SELECT * FROM friends;
 delete from friends where true;
 drop table friends;
 update friends set balance = 0 where user_id = 1;
-UPDATE friends SET balance = balance - '400' WHERE user_id = 1 AND friend_id =3
+UPDATE friends SET balance = 40.00 WHERE user_id = 1 AND friend_id =3
 alter column friends alter column balance tye float
 
 INSERT INTO friends(user_id, friend_id) VALUES
@@ -64,6 +65,7 @@ CREATE TABLE contributions (
 );
 ALTER TABLE contributions ADD COLUMN settled BOOLEAN DEFAULT false
 ALTER TABLE contributions ALTER COLUMN spending_user SET NOT NULL
+UPDATE contributions SET settled = true WHERE contri_id = 7
 
 SELECT * FROM contributions;
 delete from contributions where true;

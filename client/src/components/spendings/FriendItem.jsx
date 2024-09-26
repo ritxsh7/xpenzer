@@ -1,17 +1,23 @@
-import React from "react";
+import { useState } from "react";
 import AvatarComp from "../common/Avatar";
 import { spendingStyles } from "./styles";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addContributor } from "../../store/functions/spending.payload";
 
-const FriendItem = ({ friend, setShowDropdown }) => {
+const FriendItem = ({ friend }) => {
   /* FriendItem comp here */
+
+  //states
+  const [added, setAdded] = useState(false);
 
   // Store
   const dispatch = useDispatch();
+  const { contributors } = useSelector((store) => store.spendingPayload);
+  console.log();
 
   // Handlers
-  const handleAdd = () => {
+  const handleAdd = (e) => {
+    setAdded(true);
     const contributor = {
       friend_id: friend.friend_id,
       friend_name: friend.friend_name,
@@ -19,11 +25,16 @@ const FriendItem = ({ friend, setShowDropdown }) => {
       amount: 0,
     };
     dispatch(addContributor(contributor));
-    setShowDropdown(false);
   };
 
   return (
-    <div className={spendingStyles.friendItem.container} onClick={handleAdd}>
+    <div
+      className={`${spendingStyles.friendItem.container} ${
+        contributors.find((f) => f.friend_id == friend.friend_id) &&
+        "bg-gray-800"
+      }`}
+      onClick={handleAdd}
+    >
       <AvatarComp
         name={friend.friend_name}
         color={friend.profile_color}

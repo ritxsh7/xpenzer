@@ -19,11 +19,15 @@ import {
 // Component
 
 const NewSpendingForm = () => {
-  // States
+  /* NewSpendingForm here */
 
+  //refs
   const dateRef = useRef(null);
   const amountRef = useRef(null);
   const descriptionRef = useRef(null);
+  const dropdownRef = useRef(null);
+
+  //states
   const [showDropdown, setShowDropdown] = useState(false);
   const [searchFriend, setSearchFriend] = useState([]);
   const [searchValue, setSearchValue] = useState("");
@@ -72,7 +76,7 @@ const NewSpendingForm = () => {
 
   // Add unregistered friend
   const handleUnRegistered = () => {
-    console.log(searchValue);
+    // console.log(searchValue);
 
     dispatch(
       addContributor({
@@ -112,14 +116,21 @@ const NewSpendingForm = () => {
       />
 
       <SearchBar
+        dropdownRef={dropdownRef}
         onFocus={handleFocus}
         handleSearch={handleSearch}
         value={searchValue}
       />
 
+      <div className={spendingStyles.contributorList}>
+        {spendingPayload.contributors.map((c) => (
+          <Contributor contributor={c} key={c.friend_id || c.friend_name} />
+        ))}
+      </div>
+
       {showDropdown &&
         (searchValue ? (
-          <ul className={spendingStyles.form.dropdown}>
+          <ul className={spendingStyles.form.dropdown} ref={dropdownRef}>
             {searchFriend.length > 0 ? (
               <>
                 <p className={spendingStyles.searchBar.label}>Results</p>
@@ -156,12 +167,6 @@ const NewSpendingForm = () => {
               ))}
           </ul>
         ))}
-
-      <div className={spendingStyles.contributorList}>
-        {spendingPayload.contributors.map((c) => (
-          <Contributor contributor={c} key={c.friend_id || c.friend_name} />
-        ))}
-      </div>
 
       <button className={spendingStyles.button}>Continue</button>
     </form>

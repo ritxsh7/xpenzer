@@ -50,7 +50,7 @@ const NewFriendModal = ({ isOpen, setModalOpen }) => {
         />
       </div>
 
-      <h2 className={styles.newFriend.header}>Search users</h2>
+      <h2 className={styles.newFriend.header}>Add a friend</h2>
 
       {/* Search bar */}
       <input
