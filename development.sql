@@ -9,6 +9,7 @@ CREATE TABLE users (
 );
 
 SELECT * FROM users;
+
 drop table users;
 alter table 
 delete from users where username = 'Upendra';
@@ -85,47 +86,36 @@ SELECT * FROM personal_expenses;
 delete from personal_expenses where true;
 drop table personal_expenses;
 
+create table groups (
+	group_id SERIAL PRIMARY KEY,
+	group_name VARCHAR(100) NOT NULL,
+	group_profile VARCHAR(8) NOT NULL,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
+SELECT * from groups;
+
+create table group_members(
+	group_id INT,
+	user_id INT, 
+	joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY(group_id, user_id),
+	FOREIGN KEY(group_id) REFERENCES groups(group_id),
+	FOREIGN KEY(user_id) REFERENCES users(user_id)
+)
+SELECT * from group_members;
+
+create table group_spendings(
+	group_id INT,
+	spending_id INT,
+	PRIMARY KEY(group_id, spending_id),
+	FOREIGN KEY(group_id) REFERENCES groups(group_id),
+	FOREIGN KEY(spending_id) REFERENCES spendings(spending_id)
+)
+SELECT * from group_spendings;
+
 -- =========== VIEWS ============
-CREATE VIEW spendings_by_date AS
-SELECT 
-    date,
-    json_agg(
-        json_build_object(
-            'id', spending_id,
-            'amount', amount,
-            'description', description
-        )
-    ) AS spendings
-FROM 
-    spendings
-GROUP BY 
-    date
-ORDER BY 
-    date;
 
-SELECT * FROM spendings_by_date;
-drop view spendings_by_date
-
-CREATE VIEW expenses_by_date AS
-SELECT 
-    date,
-    json_agg(
-        json_build_object(
-            'id', expense_id,
-            'amount', amount,
-            'description', description
-        )
-    ) AS personal_expenses
-FROM 
-    personal_expenses
-GROUP BY 
-    date
-ORDER BY 
-    date;
-SELECT * FROM expenses_by_date;
-drop view expenses_by_date
-
-
+-- ======= USER FRIENDS VIEW =========
 CREATE OR REPLACE VIEW user_friends AS 
 SELECT 
     u1.user_id,
@@ -149,30 +139,8 @@ SELECT * FROM user_friends;
 SELECT SUM(net_balance) FROM user_friends WHERE user_id = 1 AND net_balance < 0
 	
 drop view user_friends;
-
-SELECT 
-	spending_user, 
-	json_agg(                        
-		json_build_object(
-           'cid',contri_id,
-           'amount',contri_amount,
-           'description', description
-        )) as byUser
-FROM user_contributions 
-WHERE spending_user = 1 AND contri_user = 3 AND spending_date BETWEEN '2024-09-01' AND '2024-09-25'
-GROUP BY spending_user, spending_date
-UNION ALL
-
-SELECT 
-      spending_user, 
-        contri_id,
-        contri_user,
-        settled, contri_username, contri_amount, description
-        FROM user_contributions
-        WHERE spending_user = 1 AND contri_user = 3
-        ORDER BY spending_date DESC
 		
-		
+-- ======= USER CONTRIBUTIONS VIEW =========
 CREATE OR REPLACE VIEW user_contributions AS 
 SELECT
 s.spending_id,

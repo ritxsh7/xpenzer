@@ -4,29 +4,20 @@ import Header from "../components/home/Header";
 import styles from "../components/friends/styles";
 import React, { useState } from "react";
 import { SlPlus } from "react-icons/sl";
+import NewGroupModal from "../components/groups/NewGroupModal";
+import { useSelector } from "react-redux";
 
 const GroupsPage = () => {
   /* GroupsPage comp here */
 
+  // states
   const [searchTerm, setSearchTerm] = useState("");
+  const [isGroupModalOpen, setIsGroupModalOpen] = useState(false);
 
-  const groups = [
-    {
-      id: 1,
-      groupName: "Roommates",
-      lastActivity: "1 day ago",
-      avatarColor: "bg-blue-500",
-    },
-    {
-      id: 2,
-      groupName: "ICY",
-      lastActivity: "3 days ago",
-      avatarColor: "bg-red-500",
-    },
-  ];
+  const { groups } = useSelector((store) => store.friends);
 
   const filteredGroups = groups.filter((g) =>
-    g.groupName.toLowerCase().includes(searchTerm.toLowerCase())
+    g.group_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -39,11 +30,20 @@ const GroupsPage = () => {
           searchTerm={searchTerm}
           placeholder="Search your groups"
         />
-        <div className={styles.friendsPage.icon} onClick={() => {}}>
+        <div
+          className={styles.friendsPage.icon}
+          onClick={() => {
+            setIsGroupModalOpen(true);
+          }}
+        >
           <SlPlus />
         </div>
       </div>
       <GroupList groups={filteredGroups} />
+      <NewGroupModal
+        isOpen={isGroupModalOpen}
+        setModalOpen={setIsGroupModalOpen}
+      />
     </div>
   );
 };

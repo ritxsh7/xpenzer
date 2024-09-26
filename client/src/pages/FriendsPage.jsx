@@ -69,7 +69,7 @@ const FriendsPage = () => {
                 to={`/friends/transactions/${friend.friend_id}`}
                 key={friend.friend_id}
               >
-                <FriendCard {...friend} />
+                <FriendCard friend={friend} />
               </NavLink>
             ))
           ) : (

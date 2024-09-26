@@ -1,6 +1,5 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Login from "./components/auth/Login";
 import HomePage from "./pages/HomePage";
 import GlobalLoader from "./components/common/GlobalLoader";
 import ProtectedPage from "./pages/ProtectedPage";
@@ -11,7 +10,7 @@ import CheckOutPage from "./pages/CheckOutPage";
 import "react-toastify/dist/ReactToastify.css";
 import useFetch from "./hooks/useFetch";
 import friendsApi from "./api/modules/friends";
-import { setFriends } from "./store/functions/friends";
+import { setFriends, setGroups } from "./store/functions/friends";
 import Drawer from "./components/common/Drawer";
 import FriendsPage from "./pages/FriendsPage";
 import { ToastContainer } from "react-toastify";
@@ -19,6 +18,7 @@ import toasts from "./utils/toasts";
 import FriendDetailsPage from "./pages/FriendDetailsPage";
 import AuthPage from "./pages/AuthPage";
 import GroupsPage from "./pages/GroupsPage";
+import groups from "./api/modules/groups";
 
 function App() {
   /* App comp here */
@@ -26,8 +26,11 @@ function App() {
   // Store
   const ux = useSelector((store) => store.ux);
 
-  // Fetch friends
+  //fetch friends
   useFetch(friendsApi.getAllFriends, [], setFriends);
+
+  //fetch groups
+  useFetch(groups.getAllGroups, [], setGroups);
 
   return (
     <>

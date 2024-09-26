@@ -5,6 +5,7 @@ const initialState = {
   lendings: 0,
   borrowings: 0,
   currentFriend: null,
+  groups: [],
 };
 
 const friendsReducer = createSlice({
@@ -16,8 +17,11 @@ const friendsReducer = createSlice({
       state.borrowings = action.payload.borrowings;
       state.lendings = action.payload.lendings;
     },
+    setGroups: (state, action) => {
+      state.groups = action.payload;
+    },
   },
 });
 
-export const { setFriends } = friendsReducer.actions;
+export const { setFriends, setGroups } = friendsReducer.actions;
 export default friendsReducer.reducer;

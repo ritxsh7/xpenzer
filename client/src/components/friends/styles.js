@@ -19,7 +19,7 @@ export default {
     search:
       "w-full p-3 mb-4 bg-[#121212] text-white text-sm border-none rounded-xl",
     searchBar: {
-      wrapper: "relative w-5/6",
+      wrapper: (width) => `relative ${width ? "w-full" : "w-5/6"} `,
       icon: "absolute left-3 top-[50%] -translate-y-[50%] text-gray-400",
       input: "w-full bg-[#121212] text-white py-3 px-10 rounded-xl",
     },
@@ -34,8 +34,10 @@ export default {
     },
   },
   friendCard: {
-    wrapper:
-      "flex items-center justify-between p-3 mb-3  bg-[#1f1f1f] rounded-lg shadow-md",
+    wrapper: (search, added) =>
+      `flex items-center justify-between p-3 mb-3  bg-[#1f1f1f] rounded-lg shadow-md ${
+        search ? (added ? "bg-gray-800" : "") : ""
+      }`,
     avatar: "flex items-center justify-between",
     name: "ml-3 text-sm",
     amount: (balance) =>

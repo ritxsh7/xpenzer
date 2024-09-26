@@ -242,6 +242,18 @@ input[type="number"]::-webkit-inner-spin-button {
   margin: 0;
 }
 
+.hide-scrollbar{
+      overflow-y: scroll;
+      -ms-overflow-style: none;
+      /* IE and Edge */
+      scrollbar-width: none;
+      /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+      display: none;
+}
+
 
 .react-datepicker__header {
   background-color: #5C6AF5;
