@@ -49,8 +49,12 @@ export default {
   },
   transactions: {
     wrapper: "bg-[#1f1f1f] rounded-md",
-    settle: "mt-1 text-sm font-semibold cursor-pointer text-blue-400 underline",
-    settled: "mt-1 text-xs font-semibold cursor-pointer text-blue-500 ",
+    settle: (loading) =>
+      `mt-1 text-sm font-semibold cursor-pointer text-blue-400 ${
+        !loading && "underline"
+      } tracking-wide text-right`,
+    settled:
+      "mt-1 text-xs font-semibold cursor-pointer text-blue-500 tracking-wide text-right",
     description: "text-sm",
     date: "text-[14px] text-gray-400",
   },

@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { homeStyles } from "../home/styles";
 import { dateFormat } from "../../utils/date";
 import styles from "./styles";
@@ -8,8 +8,11 @@ import { toast } from "react-toastify";
 const Transaction = ({ item }) => {
   /* Transaction comp here */
 
+  const [loading, setLoading] = useState(false);
+
   const onSettleTransaction = async () => {
     try {
+      setLoading(true);
       const response = await friendsApi.settleTransaction(
         item.contri_user,
         item.contri_amount,
@@ -19,6 +22,7 @@ const Transaction = ({ item }) => {
     } catch (error) {
       console.log(error);
     } finally {
+      setLoading(true);
       window.location.reload();
     }
   };
@@ -42,10 +46,10 @@ const Transaction = ({ item }) => {
               <p className={styles.transactions.settled}>Received</p>
             ) : (
               <p
-                className={styles.transactions.settle}
+                className={styles.transactions.settle(loading)}
                 onClick={onSettleTransaction}
               >
-                Settle
+                {loading ? "Updating..." : "Settle"}
               </p>
             ))}
         </div>

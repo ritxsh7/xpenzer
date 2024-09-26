@@ -40,7 +40,7 @@ export const spendingStyles = {
     checkbox: "checkBox",
     container: (showInput) =>
       `w-full text-lg flex items-center justify-between p-2 ${
-        showInput && "my-2 p-4"
+        showInput && "my-2 p-2 gap-2"
       } bg-[#121212] rounded-md`,
   },
 };

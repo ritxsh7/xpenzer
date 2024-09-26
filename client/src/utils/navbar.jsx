@@ -1,7 +1,7 @@
-import { IoIosSearch } from "react-icons/io";
+import { FaPeopleGroup } from "react-icons/fa6";
 import { IoHome } from "react-icons/io5";
-import { MdPeopleAlt } from "react-icons/md";
-import { RiPlayListAddFill } from "react-icons/ri";
+import { TbTransactionRupee } from "react-icons/tb";
+import { FaUserFriends } from "react-icons/fa";
 
 const navbar = [
   {
@@ -14,20 +14,20 @@ const navbar = [
     name: "Friends",
     url: "/friends",
     subRoutes: ["transactions"],
-    icon: <MdPeopleAlt />,
+    icon: <FaUserFriends />,
     size: "text-xl",
   },
   {
     name: "New Expense",
     url: "/new-spending",
     subRoutes: ["checkout"],
-    icon: <RiPlayListAddFill />,
+    icon: <TbTransactionRupee />,
     size: "text-xl",
   },
   {
-    name: "Search",
-    url: "/search",
-    icon: <IoIosSearch />,
+    name: "Groups",
+    url: "/groups",
+    icon: <FaPeopleGroup />,
     size: "text-xl",
   },
 ];
