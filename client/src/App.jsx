@@ -18,6 +18,7 @@ import { ToastContainer } from "react-toastify";
 import toasts from "./utils/toasts";
 import FriendDetailsPage from "./pages/FriendDetailsPage";
 import AuthPage from "./pages/AuthPage";
+import GroupsPage from "./pages/GroupsPage";
 
 function App() {
   /* App comp here */
@@ -86,6 +87,14 @@ function App() {
                       element={
                         <ProtectedPage>
                           <FriendDetailsPage />
+                        </ProtectedPage>
+                      }
+                    />
+                    <Route
+                      path="/groups"
+                      element={
+                        <ProtectedPage>
+                          <GroupsPage />
                         </ProtectedPage>
                       }
                     />
