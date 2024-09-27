@@ -30,13 +30,14 @@ const CheckOutPage = () => {
       spendingPayload.contributors
     );
 
-    console.log(contributorsPayload);
+    // console.log(contributorsPayload);
 
     if (contributorsPayload.total === Number(spendingPayload.amount)) {
       const payload = {
         amount: spendingPayload.amount,
         description: spendingPayload.description,
         date: spendingPayload.date,
+        groupSpending: spendingPayload.groupSpending,
         contributors: contributorsPayload,
       };
       try {

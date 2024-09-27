@@ -19,6 +19,7 @@ import FriendDetailsPage from "./pages/FriendDetailsPage";
 import AuthPage from "./pages/AuthPage";
 import GroupsPage from "./pages/GroupsPage";
 import groups from "./api/modules/groups";
+import GroupChatPage from "./pages/GroupChatPage";
 
 function App() {
   /* App comp here */
@@ -45,6 +46,14 @@ function App() {
                 <RedirectAlreadyLogin>
                   <AuthPage />
                 </RedirectAlreadyLogin>
+              }
+            />
+            <Route
+              path="/groups/group/:id"
+              element={
+                <ProtectedPage>
+                  <GroupChatPage />
+                </ProtectedPage>
               }
             />
             <Route

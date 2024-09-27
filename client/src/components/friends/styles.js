@@ -35,7 +35,7 @@ export default {
   },
   friendCard: {
     wrapper: (search, added) =>
-      `flex items-center justify-between p-3 mb-3  bg-[#1f1f1f] rounded-lg shadow-md ${
+      `flex items-center justify-between p-2 mb-3  bg-[#1f1f1f] rounded-lg shadow-md ${
         search ? (added ? "bg-gray-800" : "") : ""
       }`,
     avatar: "flex items-center justify-between",

@@ -27,6 +27,7 @@ const navbar = [
   {
     name: "Groups",
     url: "/groups",
+    subRoutes: ["group"],
     icon: <FaPeopleGroup />,
     size: "text-xl",
   },

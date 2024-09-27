@@ -8,6 +8,7 @@ const initialState = {
   date: payload?.date || "",
   contributors: payload?.contributors || [],
   isUser: true,
+  groupSpending: null,
   falseDistribution: false,
 };
 
@@ -118,6 +119,11 @@ const spendingPayload = createSlice({
           { ...action.payload, isManual: false },
         ];
     },
+
+    setGroupSpending: (state, action) => {
+      state.contributors = [];
+      state.groupSpending = action.payload;
+    },
   },
 });
 
@@ -132,6 +138,7 @@ export const {
   savePayload,
   distributeAmount,
   removeContributor,
+  setGroupSpending,
 } = spendingPayload.actions;
 
 export default spendingPayload.reducer;

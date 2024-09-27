@@ -93,6 +93,9 @@ create table groups (
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
 SELECT * from groups;
+delete from groups where true;
+drop table groups;
+
 
 create table group_members(
 	group_id INT,
@@ -103,6 +106,8 @@ create table group_members(
 	FOREIGN KEY(user_id) REFERENCES users(user_id)
 )
 SELECT * from group_members;
+delete from group_members where true;
+drop table group_members;
 
 create table group_spendings(
 	group_id INT,
@@ -112,8 +117,26 @@ create table group_spendings(
 	FOREIGN KEY(spending_id) REFERENCES spendings(spending_id)
 )
 SELECT * from group_spendings;
+drop table group_spendings
 
 -- =========== VIEWS ============
+
+-- ==========USER GROUPS =====
+
+CREATE OR REPLACE VIEW user_groups AS
+SELECT 
+	g.group_id,
+	g.group_name,
+	g.group_profile,
+	gm.user_id as user_id
+FROM
+groups g JOIN group_members gm
+USING(group_id)
+
+
+SELECT * FROM user_groups;
+	
+	
 
 -- ======= USER FRIENDS VIEW =========
 CREATE OR REPLACE VIEW user_friends AS 

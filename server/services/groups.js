@@ -41,6 +41,38 @@ class Group {
     if (result) return result.rows;
     throw error;
   };
+
+  getGroupDetails = async (userId, groupId) => {
+    const GET_USERS =
+      "SELECT user_id, username, profile_color FROM user_groups WHERE group_id = $1 AND user_id != $2";
+
+    const GET_SPENDINGS = `SELECT spending_id, description, amount, user_id, username, profile_color
+      FROM group_spendings_details WHERE group_id = $1
+    `;
+
+    const [getUsers, getSpendings] = await Promise.all([
+      db.query(GET_USERS, [groupId, userId]),
+      db.query(GET_SPENDINGS, [groupId]),
+    ]);
+
+    if (getUsers.result && getSpendings.result)
+      return {
+        users: getUsers.result.rows,
+        spendings: getSpendings.result.rows,
+      };
+    throw getSpendings.error || getUsers.error;
+  };
+
+  createGroupExpense = async (spendingId, groupId) => {
+    const CREATE_EXPENSES = "INSERT INTO group_spendings VALUES ($1, $2)";
+
+    const { result, error } = await db.query(CREATE_EXPENSES, [
+      groupId,
+      spendingId,
+    ]);
+    if (result) return result.rows[0];
+    throw error;
+  };
 }
 
 export default new Group();

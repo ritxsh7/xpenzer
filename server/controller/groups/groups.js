@@ -32,3 +32,15 @@ export const getAllGroups = async (req, res) => {
     response.serverError(res);
   }
 };
+
+export const getGroupDetails = async (req, res) => {
+  const { id } = req.query;
+
+  try {
+    const result = await groups.getGroupDetails(req.user.userId, id);
+    return response.ok(res, result);
+  } catch (error) {
+    console.log(error);
+    return response.serverError(res);
+  }
+};

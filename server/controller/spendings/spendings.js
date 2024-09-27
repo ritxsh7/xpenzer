@@ -1,6 +1,7 @@
 import response from "../../helpers/response.js";
 import contributions from "../../services/contributions.js";
 import expenses from "../../services/expenses.js";
+import groups from "../../services/groups.js";
 import spendings from "../../services/spendings.js";
 
 export const getAllSpendings = async (req, res) => {
@@ -18,9 +19,11 @@ export const getAllSpendings = async (req, res) => {
 };
 
 export const createNewSpending = async (req, res) => {
-  const { amount, description, contributors, date } = req.body;
+  const { amount, description, contributors, date, groupSpending } = req.body;
 
-  console.log(contributors);
+  // console.log({ amount, description, contributors, date, groupSpending });
+
+  // return response.ok(res);
 
   try {
     // NO CONTRIBUTORS => ADD AS PERSONAL EXPENSE
@@ -70,6 +73,13 @@ export const createNewSpending = async (req, res) => {
         date
       ));
 
+    const newGroupSpending =
+      groupSpending &&
+      (await groups.createGroupExpense(
+        newSpending.spending_id,
+        groupSpending.groupId
+      ));
+
     const result = await Promise.all([
       newContributions,
       newUnregisteredContributors,
@@ -77,6 +87,7 @@ export const createNewSpending = async (req, res) => {
 
     return response.ok(res, {
       newSpending,
+      newGroupSpending,
       newContributions: result[0],
       newUnregisteredContributors: result[1],
       userExpense,
