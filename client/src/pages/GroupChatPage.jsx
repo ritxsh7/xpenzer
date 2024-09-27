@@ -11,6 +11,7 @@ import {
   setGroupSpending,
 } from "../store/functions/spending.payload";
 import { toast } from "react-toastify";
+import ExpenseChat from "../components/groups/ExpenseChat";
 
 const GroupChatPage = () => {
   /*GroupChatPage comp here */
@@ -70,7 +71,7 @@ const GroupChatPage = () => {
         profile={groupDetails.group_profile}
         members={members}
       />
-      {expenses.map((exp) => exp.description)}
+      <ExpenseChat expenses={expenses} />
       <button className={groupStyles.button} onClick={handleGroupExpense}>
         Create a group expense <FaPlus />
       </button>

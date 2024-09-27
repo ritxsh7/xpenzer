@@ -30,9 +30,7 @@ const FriendsPage = () => {
   };
 
   return (
-    <div className="p-5">
-      <Header />
-
+    <div>
       <div className={styles.friendsPage.wrapper}>
         {/* stats */}
         <div className={styles.friendsPage.stats}>

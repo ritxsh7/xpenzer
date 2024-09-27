@@ -72,8 +72,7 @@ const FriendDetailsPage = () => {
 
   return (
     friend && (
-      <div className="p-5">
-        <Header />
+      <div>
         <UserIcon
           name={friend.friend_name}
           color={friend.profile_color}

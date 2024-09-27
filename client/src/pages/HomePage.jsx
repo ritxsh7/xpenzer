@@ -60,7 +60,6 @@ const HomePage = () => {
 
   return (
     <div className={homeStyles.container}>
-      <Header />
       <UserIcon
         name={user.username}
         color={user.profile}

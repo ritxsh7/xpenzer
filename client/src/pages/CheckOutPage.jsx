@@ -73,7 +73,6 @@ const CheckOutPage = () => {
 
   return (
     <div className={spendingStyles.checkoutPage.container}>
-      <Header />
       <div className={spendingStyles.checkoutPage.summary}>
         <h2 className={spendingStyles.checkoutPage.amount}>Total Amount</h2>
         <div className={spendingStyles.checkoutPage.amountEdit}>

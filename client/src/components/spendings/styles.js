@@ -1,5 +1,5 @@
 export const spendingStyles = {
-  container: "p-5 h-[120vh] flex flex-col",
+  container: "h-[120vh] flex flex-col",
   form: {
     container: "bg-transparent px-4 mb-2 pb-20",
     input: {
@@ -25,7 +25,7 @@ export const spendingStyles = {
   button: "bg-[#5c6af5] my-8 w-full p-3 rounded-md text-sm",
   checkBox: "custom-checkbox",
   checkoutPage: {
-    container: "p-5 flex flex-col items-center h-svh",
+    container: " flex flex-col items-center h-svh",
     summary: "flex flex-col items-center relative min-h-[110vh]",
     amount: "mt-8 text-lg text-[#5c6af5]",
     amountEdit: "flex my-4 flex-col items-center justify-center",

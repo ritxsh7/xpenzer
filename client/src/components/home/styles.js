@@ -1,5 +1,5 @@
 export const homeStyles = {
-  container: "p-5 min-h-[110vh] pb-32",
+  container: "min-h-[110vh] pb-32",
   header: {
     container:
       "text-white items-center text-2xl font-semibold w-full cursor-pointer",
@@ -60,5 +60,5 @@ export const homeStyles = {
     imgStyle: "rounded-full",
   },
   newIcon:
-    "w-[4rem] h-[4rem] flex items-center justify-center text-4xl rounded-[50%] fixed bottom-20 right-6 bg-[#5C6AF5]",
+    "w-[4rem] h-[4rem] flex items-center justify-center text-4xl rounded-[50%] fixed bottom-20 right-2 bg-[#5C6AF5]",
 };

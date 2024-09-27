@@ -9,7 +9,6 @@ const NewSpendingPage = () => {
 
   return (
     <div className={spendingStyles.container}>
-      <Header />
       <NewSpendingForm />
     </div>
   );

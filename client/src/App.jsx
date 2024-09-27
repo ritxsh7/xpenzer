@@ -20,18 +20,14 @@ import AuthPage from "./pages/AuthPage";
 import GroupsPage from "./pages/GroupsPage";
 import groups from "./api/modules/groups";
 import GroupChatPage from "./pages/GroupChatPage";
+import AppLayout from "./components/layout/AppLayout";
+import FullViewLayout from "./components/layout/FullViewLayout";
 
 function App() {
   /* App comp here */
 
   // Store
   const ux = useSelector((store) => store.ux);
-
-  //fetch friends
-  useFetch(friendsApi.getAllFriends, [], setFriends);
-
-  //fetch groups
-  useFetch(groups.getAllGroups, [], setGroups);
 
   return (
     <>
@@ -44,7 +40,9 @@ function App() {
               path="/login"
               element={
                 <RedirectAlreadyLogin>
-                  <AuthPage />
+                  <FullViewLayout>
+                    <AuthPage />
+                  </FullViewLayout>
                 </RedirectAlreadyLogin>
               }
             />
@@ -52,66 +50,70 @@ function App() {
               path="/groups/group/:id"
               element={
                 <ProtectedPage>
-                  <GroupChatPage />
+                  <FullViewLayout>
+                    <GroupChatPage />
+                  </FullViewLayout>
                 </ProtectedPage>
               }
             />
             <Route
-              path="/*"
+              path="/"
               element={
-                <>
-                  <Drawer />
-                  <Routes>
-                    <Route
-                      path="/"
-                      element={
-                        <ProtectedPage>
-                          <HomePage />
-                        </ProtectedPage>
-                      }
-                    />
-                    <Route
-                      path="/new-spending"
-                      element={
-                        <ProtectedPage>
-                          <NewSpendingPage />
-                        </ProtectedPage>
-                      }
-                    />
-                    <Route
-                      path="/new-spending/checkout"
-                      element={
-                        <ProtectedPage>
-                          <CheckOutPage />
-                        </ProtectedPage>
-                      }
-                    />
-                    <Route
-                      path="/friends"
-                      element={
-                        <ProtectedPage>
-                          <FriendsPage />
-                        </ProtectedPage>
-                      }
-                    />
-                    <Route
-                      path="/friends/transactions/:id"
-                      element={
-                        <ProtectedPage>
-                          <FriendDetailsPage />
-                        </ProtectedPage>
-                      }
-                    />
-                    <Route
-                      path="/groups"
-                      element={
-                        <ProtectedPage>
-                          <GroupsPage />
-                        </ProtectedPage>
-                      }
-                    />
-                  </Routes>
-                </>
+                <ProtectedPage>
+                  <AppLayout>
+                    <HomePage />
+                  </AppLayout>
+                </ProtectedPage>
+              }
+            />
+            <Route
+              path="/new-spending"
+              element={
+                <ProtectedPage>
+                  <AppLayout>
+                    <NewSpendingPage />
+                  </AppLayout>
+                </ProtectedPage>
+              }
+            />
+            <Route
+              path="/new-spending/checkout"
+              element={
+                <ProtectedPage>
+                  <AppLayout>
+                    <CheckOutPage />
+                  </AppLayout>
+                </ProtectedPage>
+              }
+            />
+            <Route
+              path="/friends"
+              element={
+                <ProtectedPage>
+                  <AppLayout>
+                    <FriendsPage />
+                  </AppLayout>
+                </ProtectedPage>
+              }
+            />
+            <Route
+              path="/friends/transactions/:id"
+              element={
+                <ProtectedPage>
+                  <AppLayout>
+                    <FriendDetailsPage />
+                  </AppLayout>
+                </ProtectedPage>
+              }
+            />
+            <Route
+              path="/groups"
+              element={
+                <ProtectedPage>
+                  <AppLayout>
+                    <GroupsPage />
+                  </AppLayout>
+                </ProtectedPage>
               }
             />
           </Routes>

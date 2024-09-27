@@ -21,8 +21,7 @@ const GroupsPage = () => {
   );
 
   return (
-    <div className="p-5">
-      <Header />
+    <div>
       <h1 className="text-left text-xl font-bold my-4">Your groups</h1>
       <div className={styles.friendsPage.searchBar}>
         <SearchBar
