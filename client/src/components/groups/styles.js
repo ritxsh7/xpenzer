@@ -35,6 +35,11 @@ const groupStyles = {
     members: "text-[0.65rem]",
     icons: "flex text-xl ml-auto gap-1 items-center fixed top-6 right-6",
   },
+  members: {
+    text: "flex gap-2 items-center",
+    wrapper: "w-full mb-[10vh]",
+    header: "text-lg font-semibold text-left",
+  },
 };
 
 export default groupStyles;

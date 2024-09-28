@@ -31,7 +31,7 @@ const ExpenseItem = ({ expense }) => {
           className={groupStyles.chat.button}
           onClick={() => setShowContributors(!showContributors)}
         >
-          Show contributors
+          {`${showContributors ? "Hide" : "Show"} contributors`}
         </button>
         <ContributorList
           id={expense.spending_id}

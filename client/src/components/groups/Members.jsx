@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import FriendCard from "../friends/FriendCard";
 import UserCard from "./UserCard";
 import { NavLink } from "react-router-dom";
+import groupStyles from "./styles";
 
 const Members = ({ members }) => {
   //store
@@ -16,17 +17,17 @@ const Members = ({ members }) => {
 
   return (
     friends && (
-      <div className="w-full mb-[10vh]">
-        <div className="flex gap-2 items-center">
+      <div className={groupStyles.members.wrapper}>
+        <div className={groupStyles.members.text}>
           <FaUserFriends />
-          <h1 className="text-lg font-semibold text-left">Group members</h1>
+          <h1 className={groupStyles.members.header}> Group members</h1>
         </div>
         <div className="mt-6">
           <UserCard />
           {members.map((mem) => {
             let isFriend = friendsMap.get(mem.user_id);
             return isFriend ? (
-              <NavLink to="/friends">
+              <NavLink to={`/friends/transactions/${mem.user_id}`}>
                 <FriendCard friend={isFriend} key={mem.user_id} />
               </NavLink>
             ) : (
