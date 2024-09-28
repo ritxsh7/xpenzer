@@ -49,7 +49,7 @@ body{
       #27262B 63%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
-  border-radius: 1rem;
+  border-radius: 10px;
 }
 
 @keyframes shimmer {
