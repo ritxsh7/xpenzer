@@ -47,7 +47,7 @@ class Group {
       "SELECT user_id, username, profile_color FROM user_groups WHERE group_id = $1 AND user_id != $2";
 
     const GET_SPENDINGS = `SELECT spending_id, description, amount, user_id, username, profile_color
-      FROM group_spendings_details WHERE group_id = $1
+      FROM group_spendings_details WHERE group_id = $1 LIMIT 10
     `;
 
     const [getUsers, getSpendings] = await Promise.all([
