@@ -4,6 +4,7 @@ import { dateNow } from "../utils/constants.js";
 
 class SpendingService {
   // ALL THE SPENDINGS ALL TIME / PAST MONTH
+
   async getAllSpendings(userId, start, end, page) {
     const GET_ALL_SPENDINGS =
       "SELECT * FROM spendings WHERE user_id = $1 AND date BETWEEN $2::DATE AND $3::DATE ORDER BY date DESC, spending_id DESC";
