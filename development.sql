@@ -30,7 +30,7 @@ SELECT * FROM friends;
 delete from friends where true;
 drop table friends;
 update friends set balance = 0 where user_id = 1;
-UPDATE friends SET balance = 40.00 WHERE user_id = 1 AND friend_id =3
+UPDATE friends SET balance = 0.00 WHERE user_id = 1 AND friend_id IN (2,3,7)
 alter column friends alter column balance tye float
 
 INSERT INTO friends(user_id, friend_id) VALUES
@@ -48,7 +48,7 @@ CREATE TABLE spendings (
 SELECT * FROM spendings;
 
 drop table spendings;
-delete from spendings where true;
+delete from spendings where spending_id = 14;
 
 
 INSERT INTO spendings(user_id, amount, description) VALUES
@@ -69,7 +69,7 @@ ALTER TABLE contributions ALTER COLUMN spending_user SET NOT NULL
 UPDATE contributions SET settled = true WHERE contri_id = 7
 
 SELECT * FROM contributions;
-delete from contributions where true;
+delete from contributions where spending_id = 14;
 drop table contributions;
 
 
@@ -128,16 +128,40 @@ SELECT
 	g.group_id,
 	g.group_name,
 	g.group_profile,
-	gm.user_id as user_id
+	gm.user_id as user_id,
+	u.username as username,
+	u.profile_color
 FROM
 groups g JOIN group_members gm
 USING(group_id)
+JOIN users u USING(user_id)
 
 
-SELECT * FROM user_groups;
+SELECT user_id, username, profile_color FROM user_groups WHERE group_id =2 AND user_id != 1;
+drop view user_groups;
+
+-- -============GROUP SPENDINGS========
+
+CREATE OR REPLACE VIEW group_spendings_details
+as
+SELECT 
+	g.group_id,
+	s.spending_id,
+	s.description,
+	s.date,
+	s.amount,
+	u.user_id,
+	u.username,
+	u.profile_color
+FROM group_spendings g JOIN spendings s
+USING (spending_id)
+JOIN users u
+USING(user_id);
+		
+SELECT * FROM group_spendings_details;
+SELECT spending_id, description, amount, user_id, username, profile_color
+      FROM group_spendings_details WHERE group_id = 2
 	
-	
-
 -- ======= USER FRIENDS VIEW =========
 CREATE OR REPLACE VIEW user_friends AS 
 SELECT 
