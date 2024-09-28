@@ -3,7 +3,7 @@ import ExpenseItem from "./ExpenseItem";
 
 const ExpenseChat = ({ expenses }) => {
   return (
-    <div>
+    <div className="my-6">
       {expenses.map((exp) => (
         <ExpenseItem expense={exp} key={exp.spending_id} />
       ))}
