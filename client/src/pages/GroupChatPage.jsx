@@ -31,7 +31,7 @@ const GroupChatPage = () => {
   const [members, setMembers] = useState([]);
   const [expenses, setExpenses] = useState([]);
   const [fetching, setFetching] = useState(false);
-  const [showInfo, setShowInfo] = useState(true);
+  const [showInfo, setShowInfo] = useState(false);
 
   //handlers
 
