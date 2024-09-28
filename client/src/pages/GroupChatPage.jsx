@@ -7,11 +7,12 @@ import { FaPlus } from "react-icons/fa";
 import groupStyles from "../components/groups/styles";
 import {
   addContributor,
-  savePayload,
   setGroupSpending,
 } from "../store/functions/spending.payload";
 import { toast } from "react-toastify";
+import HeaderSkeleton from "../components/skeletons/HeaderSkeleton";
 import ExpenseChat from "../components/groups/ExpenseChat";
+import GlobalLoader from "../components/common/GlobalLoader";
 
 const GroupChatPage = () => {
   /*GroupChatPage comp here */
@@ -28,6 +29,7 @@ const GroupChatPage = () => {
   //states
   const [members, setMembers] = useState([]);
   const [expenses, setExpenses] = useState([]);
+  const [fetching, setFetching] = useState(false);
 
   //handlers
 
@@ -53,29 +55,39 @@ const GroupChatPage = () => {
   useEffect(() => {
     const fetchGroupDetails = async () => {
       try {
+        setFetching(true);
         const result = await groupsApi.getGroupDetails(groupDetails.group_id);
         setMembers(result.data.users);
         setExpenses(result.data.spendings);
       } catch (error) {
         console.log(error);
+      } finally {
+        setFetching(false);
       }
     };
 
     fetchGroupDetails();
-  }, []);
+  }, [groupDetails]);
 
   return (
-    <div className="">
-      <GroupHeader
-        name={groupDetails.group_name}
-        profile={groupDetails.group_profile}
-        members={members}
-      />
-      <ExpenseChat expenses={expenses} />
-      <button className={groupStyles.button} onClick={handleGroupExpense}>
-        Create a group expense <FaPlus />
-      </button>
-    </div>
+    groupDetails && (
+      <div className="">
+        {members.length > 0 ? (
+          <GroupHeader
+            name={groupDetails.group_name}
+            profile={groupDetails.group_profile}
+            members={members}
+          />
+        ) : (
+          <HeaderSkeleton />
+        )}
+        <ExpenseChat expenses={expenses} />
+        <button className={groupStyles.button} onClick={handleGroupExpense}>
+          Create a group expense <FaPlus />
+        </button>
+        <GlobalLoader loading={fetching} />
+      </div>
+    )
   );
 };
 
