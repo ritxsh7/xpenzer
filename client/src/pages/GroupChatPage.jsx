@@ -31,6 +31,7 @@ const GroupChatPage = () => {
   const [members, setMembers] = useState([]);
   const [expenses, setExpenses] = useState([]);
   const [fetching, setFetching] = useState(false);
+  const [showInfo, setShowInfo] = useState(true);
 
   //handlers
 
@@ -77,12 +78,18 @@ const GroupChatPage = () => {
           <HeaderSkeleton />
         ) : (
           <GroupHeader
+            setExpand={setShowInfo}
+            expand={showInfo}
             name={groupDetails.group_name}
             profile={groupDetails.group_profile}
             members={members}
           />
         )}
-        {fetching ? <ChatSkeleton /> : <ExpenseChat expenses={expenses} />}
+        {fetching ? (
+          <ChatSkeleton />
+        ) : (
+          !showInfo && <ExpenseChat expenses={expenses} />
+        )}
         <button className={groupStyles.button} onClick={handleGroupExpense}>
           Create a group expense <FaPlus />
         </button>

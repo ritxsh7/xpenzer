@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AvatarComp from "../common/Avatar";
 import { useSelector } from "react-redux";
 import ContributorList from "../home/ContributorList";
+import groupStyles from "./styles";
 
 const ExpenseItem = ({ expense }) => {
   /* ExpenseItem comp here */
@@ -12,13 +13,9 @@ const ExpenseItem = ({ expense }) => {
   const [showContributors, setShowContributors] = useState(false);
 
   return (
-    <div
-      className={`p-2 rounded-md w-[80%] relative ${
-        user.userId == expense.user_id ? "ml-auto" : "ml-0"
-      } `}
-    >
+    <div className={groupStyles.chat.item(user.userId == expense.user_id)}>
       {user.userId != expense.user_id && (
-        <div className="flex text-xs items-center gap-2">
+        <div className={groupStyles.chat.profile}>
           <AvatarComp
             name={expense.username}
             color={expense.profile_color}
@@ -27,15 +24,11 @@ const ExpenseItem = ({ expense }) => {
           <p>{expense.username}</p>
         </div>
       )}
-      <div
-        className={`text-left mt-1 bg-[#121212] p-3 rounded-md ${
-          user.userId == expense.user_id && "bg-blue-950"
-        }`}
-      >
+      <div className={groupStyles.chat.details(user.userId == expense.user_id)}>
         <p className="text-xs">Expense for '{expense.description}'</p>
         <p className="text-2xl">₹{expense.amount}</p>
         <button
-          className="text-sm mt-3 text-blue-500"
+          className={groupStyles.chat.button}
           onClick={() => setShowContributors(!showContributors)}
         >
           Show contributors
