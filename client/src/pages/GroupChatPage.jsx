@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import HeaderSkeleton from "../components/skeletons/HeaderSkeleton";
 import ExpenseChat from "../components/groups/ExpenseChat";
 import GlobalLoader from "../components/common/GlobalLoader";
+import ChatSkeleton from "../components/skeletons/ChatSkeleton";
 
 const GroupChatPage = () => {
   /*GroupChatPage comp here */
@@ -72,16 +73,16 @@ const GroupChatPage = () => {
   return (
     groupDetails && (
       <div className="">
-        {members.length > 0 ? (
+        {fetching ? (
+          <HeaderSkeleton />
+        ) : (
           <GroupHeader
             name={groupDetails.group_name}
             profile={groupDetails.group_profile}
             members={members}
           />
-        ) : (
-          <HeaderSkeleton />
         )}
-        <ExpenseChat expenses={expenses} />
+        {fetching ? <ChatSkeleton /> : <ExpenseChat expenses={expenses} />}
         <button className={groupStyles.button} onClick={handleGroupExpense}>
           Create a group expense <FaPlus />
         </button>
