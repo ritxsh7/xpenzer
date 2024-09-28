@@ -3,7 +3,7 @@ import Contributor from "./Contributor";
 import { spendingsApi } from "../../api/modules/spendings";
 import useFetch from "../../hooks/useFetch";
 
-const ContributorList = ({ id, open }) => {
+const ContributorList = ({ id, open, inChat }) => {
   const { response } = useFetch(spendingsApi.getById, { id });
   if (response) {
     if (response.length > 0) {
@@ -14,7 +14,7 @@ const ContributorList = ({ id, open }) => {
           } overflow-hidden transition-all duration-200 ease-in-out`}
         >
           {response?.map((contri) => (
-            <Contributor key={contri.contri_id} {...contri} />
+            <Contributor key={contri.contri_id} contri={contri} inChat />
           ))}
         </div>
       );

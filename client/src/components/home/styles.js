@@ -53,6 +53,7 @@ export const homeStyles = {
     profile: "text-lg flex items-center gap-3",
     amount: "text-lime-500 text-sm",
     username: "text-sm",
+    status: "flex items-center text-sm text-[#5C6AF5] gap-1",
   },
   image: {
     imgWrapper: "flex flex-row items-center",
