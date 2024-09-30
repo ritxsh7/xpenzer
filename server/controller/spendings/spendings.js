@@ -2,6 +2,7 @@ import response from "../../helpers/response.js";
 import contributions from "../../services/contributions.js";
 import expenses from "../../services/expenses.js";
 import groups from "../../services/groups.js";
+import notifications from "../../services/notifications.js";
 import spendings from "../../services/spendings.js";
 
 export const getAllSpendings = async (req, res) => {
@@ -58,8 +59,33 @@ export const createNewSpending = async (req, res) => {
       groupSpending &&
       (await groups.createGroupExpense(
         newSpending.spending_id,
-        groupSpending.groupId
+        groupSpending.group_id
       ));
+
+    const contributorsId = contributors.registered.map((c) => c.friend_id);
+
+    const notifyContributors = groupSpending
+      ? await notifications.notifySpendings(
+          req.user.userId,
+          {
+            groupName: groupSpending.group_name,
+            groupAvatar: groupSpending.profile_color,
+            senderName: req.user.username,
+          },
+          `${groupSpending.group_name}: ${req.user.username} added an expense for ${newSpending.description}`,
+          "GROUP_SPENDING",
+          contributorsId
+        )
+      : await notifications.notifySpendings(
+          req.user.userId,
+          {
+            senderName: req.user.username,
+            senderAvatar: req.user.profile,
+          },
+          `${req.user.username} added your contri for ${newSpending.description}`,
+          "MUTUAL_SPENDING",
+          contributorsId
+        );
 
     // CREATE ALL UNREGISTERED CONTRIBUTORS
     const newUnregisteredContributors =
@@ -90,6 +116,7 @@ export const createNewSpending = async (req, res) => {
       newGroupSpending,
       newContributions: result[0],
       newUnregisteredContributors: result[1],
+      notifyContributors,
       userExpense,
     });
   } catch (error) {

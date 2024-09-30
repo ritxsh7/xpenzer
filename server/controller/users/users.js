@@ -4,6 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import users from "../../services/users.js";
 import response from "../../helpers/response.js";
 import generateToken from "../../helpers/generateToken.js";
+import notifications from "../../services/notifications.js";
 
 export const signupUser = async (req, res) => {
   try {
@@ -83,4 +84,14 @@ export const autoLogin = async (req, res) => {
   return res.status(StatusCodes.UNAUTHORIZED).json({
     message: "Access denied",
   });
+};
+
+export const getAllNotifications = async (req, res) => {
+  try {
+    const result = await notifications.getAllNotifications(req.user.userId);
+    return response.ok(res, result);
+  } catch (error) {
+    console.log(error);
+    response.serverError(res);
+  }
 };
