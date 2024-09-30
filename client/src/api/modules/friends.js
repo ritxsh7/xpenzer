@@ -4,7 +4,7 @@ const friendsEndpoints = {
   getAll: "/friends/all",
   getFriendLike: (name) => `/friends?like=${name}`,
   getUsersLike: (name) => `/friends/users?like=${name}`,
-  newFriend: (fid) => `/friends/new?fid=${fid}`,
+  friendRequest: `/friends/friend-request`,
   getTransactions: (fid, start, end) =>
     `/friends/transactions?fid=${fid}&start=${start}&end=${end}`,
   settleBalance: `friends/settle-balance`,
@@ -36,9 +36,11 @@ const friendsApi = {
       throw error;
     }
   },
-  newFriend: async (fid) => {
+  friendRequest: async (fid) => {
     try {
-      const res = await client.post(friendsEndpoints.newFriend(fid));
+      const res = await client.post(friendsEndpoints.friendRequest, {
+        id: fid,
+      });
       return res;
     } catch (error) {
       throw error;

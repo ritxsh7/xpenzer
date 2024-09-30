@@ -23,6 +23,7 @@ client.interceptors.response.use(
     return res;
   },
   (err) => {
+    console.log(err);
     throw err.response.data;
   }
 );

@@ -3,7 +3,8 @@ import { client } from "../client";
 const groupEndpoints = {
   createGroup: "/groups/new",
   getAll: "/groups/all",
-  getDetails: (id) => `/groups/group?id=${id}`,
+  getExpenses: (id, page) => `/groups/group/chat?id=${id}&page=${page}`,
+  getMembers: (id) => `/groups/group/members?id=${id}`,
 };
 
 export default {
@@ -23,9 +24,17 @@ export default {
       console.log(error);
     }
   },
-  getGroupDetails: async (id) => {
+  getGroupMembers: async (id) => {
     try {
-      const res = await client.get(groupEndpoints.getDetails(id));
+      const res = await client.get(groupEndpoints.getMembers(id));
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  getGroupExpenses: async (id, page) => {
+    try {
+      const res = await client.get(groupEndpoints.getExpenses(id, page));
       return res;
     } catch (error) {
       console.log(error);
