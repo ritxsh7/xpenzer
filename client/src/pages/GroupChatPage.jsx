@@ -26,11 +26,10 @@ const GroupChatPage = () => {
   const dispatch = useDispatch();
   const { groups, friends } = useSelector((store) => store.friends);
   const groupDetails = groups.find((group) => group.group_id == id);
+  const friendsMap = new Map(friends.map((f) => [f.friend_id, f]));
 
   //states
   const [members, setMembers] = useState([]);
-  const [expenses, setExpenses] = useState([]);
-  const [fetching, setFetching] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
 
   //handlers
@@ -38,7 +37,7 @@ const GroupChatPage = () => {
   const handleGroupExpense = () => {
     dispatch(setGroupSpending({ groupId: groupDetails.group_id }));
     for (const member of members) {
-      if (!friends.find((f) => f.friend_id == member.user_id)) {
+      if (!friendsMap.has(member.user_id)) {
         toast.error("You are not friends with " + member.username);
         return;
       }
@@ -54,48 +53,21 @@ const GroupChatPage = () => {
     navigate("/new-spending");
   };
 
-  useEffect(() => {
-    const fetchGroupDetails = async () => {
-      try {
-        setFetching(true);
-        const result = await groupsApi.getGroupDetails(groupDetails.group_id);
-        setMembers(result.data.users);
-        setExpenses(result.data.spendings);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setFetching(false);
-      }
-    };
-
-    fetchGroupDetails();
-  }, [groupDetails]);
-
   return (
-    groupDetails && (
-      <div className="">
-        {fetching ? (
-          <HeaderSkeleton />
-        ) : (
-          <GroupHeader
-            setExpand={setShowInfo}
-            expand={showInfo}
-            name={groupDetails.group_name}
-            profile={groupDetails.group_profile}
-            members={members}
-          />
-        )}
-        {fetching ? (
-          <ChatSkeleton />
-        ) : (
-          !showInfo && <ExpenseChat expenses={expenses} />
-        )}
-        <button className={groupStyles.button} onClick={handleGroupExpense}>
-          Create a group expense <FaPlus />
-        </button>
-        <GlobalLoader loading={fetching} />
-      </div>
-    )
+    <div className="hide-scrollbar">
+      <GroupHeader
+        setExpand={setShowInfo}
+        expand={showInfo}
+        groupDetails={groupDetails}
+        members={members}
+        setMembers={setMembers}
+      />
+      {!showInfo && <ExpenseChat />}
+
+      <button className={groupStyles.button} onClick={handleGroupExpense}>
+        Create a group expense <FaPlus />
+      </button>
+    </div>
   );
 };
 
