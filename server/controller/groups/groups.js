@@ -33,11 +33,23 @@ export const getAllGroups = async (req, res) => {
   }
 };
 
-export const getGroupDetails = async (req, res) => {
+export const getGroupMembers = async (req, res) => {
   const { id } = req.query;
+  try {
+    const result = await groups.getGroupMembers(req.user.userId, id);
+    return response.ok(res, result);
+  } catch (error) {
+    console.log(error);
+    return response.serverError(res);
+  }
+};
+
+export const getGroupExpenses = async (req, res) => {
+  const { id, page } = req.query;
+  console.log(page);
 
   try {
-    const result = await groups.getGroupDetails(req.user.userId, id);
+    const result = await groups.getGroupExpenses(id, page);
     return response.ok(res, result);
   } catch (error) {
     console.log(error);

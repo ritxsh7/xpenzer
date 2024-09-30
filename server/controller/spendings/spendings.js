@@ -54,6 +54,13 @@ export const createNewSpending = async (req, res) => {
         contributors.registered
       ));
 
+    const newGroupSpending =
+      groupSpending &&
+      (await groups.createGroupExpense(
+        newSpending.spending_id,
+        groupSpending.groupId
+      ));
+
     // CREATE ALL UNREGISTERED CONTRIBUTORS
     const newUnregisteredContributors =
       contributors.unregistered?.length > 0 &&
@@ -71,13 +78,6 @@ export const createNewSpending = async (req, res) => {
         contributors.user.amount,
         description,
         date
-      ));
-
-    const newGroupSpending =
-      groupSpending &&
-      (await groups.createGroupExpense(
-        newSpending.spending_id,
-        groupSpending.groupId
       ));
 
     const result = await Promise.all([

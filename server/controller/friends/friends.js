@@ -1,6 +1,6 @@
 import friends from "../../services/friends.js";
 import response from "../../helpers/response.js";
-import db from "../../config/database.js";
+import notifications from "../../services/notifications.js";
 
 export const getAllFriends = async (req, res) => {
   try {
@@ -112,5 +112,18 @@ export const settleTransction = async (req, res) => {
   } catch (error) {
     console.log(error);
     return response.serverError(res);
+  }
+};
+
+export const sendFriendRequest = async (req, res) => {
+  const { user } = req;
+  const { id } = req.body;
+
+  try {
+    const request = await notifications.sendFriendRequest(user, id);
+    response.ok(res, request);
+  } catch (error) {
+    console.log(error);
+    response.serverError(res);
   }
 };
