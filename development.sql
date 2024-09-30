@@ -119,6 +119,22 @@ create table group_spendings(
 SELECT * from group_spendings;
 drop table group_spendings
 
+CREATE TABLE notifications(
+	notification_id SERIAL PRIMARY KEY,
+	user_id INT,
+	sender_id INT,
+	message TEXT,
+	content JSONB, 
+	notification_type VARCHAR(50) DEFAULT 'DEFAULT',
+	is_read BOOLEAN DEFAULT false,
+	date DATE DEFAULT CURRENT_DATE,
+	FOREIGN KEY(user_id) REFERENCES users(user_id),
+	FOREIGN KEY(sender_id) REFERENCES users(user_id)
+)
+
+SELECT * FROM notifications;
+drop table notifications;
+
 -- =========== VIEWS ============
 
 -- ==========USER GROUPS =====
@@ -260,6 +276,11 @@ BEGIN
 	RETURN NEW;
 END;
 $$
+
+CREATE TRIGGER add_contributor_notification
+AFTER INSERT ON contributions
+FOR EACH ROW
+EXECUTE FUNCTION notify_contributor();
 
 
 CREATE TRIGGER insert_contri_as_expense
