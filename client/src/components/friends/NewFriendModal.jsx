@@ -29,14 +29,16 @@ const NewFriendModal = ({ isOpen, setModalOpen }) => {
   const handleAddFriend = async (contact) => {
     try {
       dispatch(setLoading(true));
-      const response = await friendsApi.newFriend(contact.user_id);
+      const response = await friendsApi.friendRequest(contact.user_id);
       toast.success(response.message);
       setModalOpen(false);
     } catch (error) {
+      console.log(error);
+
       toast.error(error.message);
     } finally {
       dispatch(setLoading(false));
-      window.location.reload();
+      // window.location.reload();
     }
   };
 
