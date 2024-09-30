@@ -27,11 +27,15 @@ const Members = ({ members }) => {
           {members.map((mem) => {
             let isFriend = friendsMap.get(mem.user_id);
             return isFriend ? (
-              <NavLink to={`/friends/transactions/${mem.user_id}`}>
-                <FriendCard friend={isFriend} key={mem.user_id} />
+              <NavLink
+                to={`/friends/transactions/${mem.user_id}`}
+                key={mem.user_id}
+              >
+                <FriendCard friend={isFriend} />
               </NavLink>
             ) : (
               <FriendCard
+                key={mem.user_id}
                 friend={{
                   friend_id: mem.user_id,
                   friend_name: mem.username,

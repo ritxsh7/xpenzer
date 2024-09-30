@@ -9,10 +9,11 @@ const groupStyles = {
     activity: "text-gray-400",
   },
   button:
-    "fixed flex items-center justify-center gap-2 bottom-4 w-[90%] bg-gradient-to-l from-blue-600 to-indigo-600 p-2 rounded-md right-[50%] translate-x-[50%] z-50",
+    "fixed flex bottom-0 items-center justify-center gap-2 max-w-[450px] w-full bg-gradient-to-r from-blue-600 to-violet-600 p-4 z-50",
   chat: {
+    wrapper: "py-16 h-[100vh] overflow-y-auto flex flex-col-reverse",
     item: (isUser) =>
-      `p-2 rounded-md w-[80%] relative ${isUser ? "ml-auto" : "ml-0"} `,
+      `p-2 rounded-md w-[70%] relative ${isUser ? "ml-auto" : "ml-0"} `,
     profile: "flex text-xs items-center gap-2",
     button: "text-sm mt-3 text-blue-500",
     details: (isUser) =>
@@ -20,7 +21,7 @@ const groupStyles = {
   },
   header: {
     wrapper: (expand) =>
-      `flex relative transition-all ease-in-out items-center bg-[#121212] z-[100] p-3 ${
+      `flex fixed top-0 shadow-md shadow-gray-950/70 max-w-[450px] w-full transition-all ease-in-out items-center bg-[#121212] z-[100] p-3 ${
         expand ? "h-[100vh]" : "h-[10vh]"
       }`,
     name: "text-lg font-semibold",
