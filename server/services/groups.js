@@ -19,7 +19,7 @@ class Group {
 
   addMembers = async (groupId, members) => {
     const memberValues = members
-      .map((member, index) => `($1, $${index + 2})`)
+      .map((_, index) => `($1, $${index + 2})`)
       .join(",");
 
     const ADD_MEMBERS = `INSERT INTO group_members(group_id, user_id) values ${memberValues} RETURNING *`;
