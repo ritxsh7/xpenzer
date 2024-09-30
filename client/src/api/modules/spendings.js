@@ -37,6 +37,7 @@ export const spendingsApi = {
   },
   newSpending: async (payload) => {
     try {
+      console.log(JSON.stringify(payload));
       const res = await client.post(spendingsEndpoints.newSpending, payload);
       return res;
     } catch (error) {

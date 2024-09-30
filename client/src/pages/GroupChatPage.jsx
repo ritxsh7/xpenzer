@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import GroupHeader from "../components/groups/GroupHeader";
-import groupsApi from "../api/modules/groups";
 import { FaPlus } from "react-icons/fa";
 import groupStyles from "../components/groups/styles";
 import {
@@ -10,10 +9,7 @@ import {
   setGroupSpending,
 } from "../store/functions/spending.payload";
 import { toast } from "react-toastify";
-import HeaderSkeleton from "../components/skeletons/HeaderSkeleton";
 import ExpenseChat from "../components/groups/ExpenseChat";
-import GlobalLoader from "../components/common/GlobalLoader";
-import ChatSkeleton from "../components/skeletons/ChatSkeleton";
 
 const GroupChatPage = () => {
   /*GroupChatPage comp here */
@@ -35,7 +31,7 @@ const GroupChatPage = () => {
   //handlers
 
   const handleGroupExpense = () => {
-    dispatch(setGroupSpending({ groupId: groupDetails.group_id }));
+    dispatch(setGroupSpending(groupDetails));
     for (const member of members) {
       if (!friendsMap.has(member.user_id)) {
         toast.error("You are not friends with " + member.username);

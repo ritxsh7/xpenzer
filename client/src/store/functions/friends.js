@@ -6,6 +6,7 @@ const initialState = {
   borrowings: 0,
   currentFriend: null,
   groups: [],
+  notifications: [],
 };
 
 const friendsReducer = createSlice({
@@ -20,8 +21,12 @@ const friendsReducer = createSlice({
     setGroups: (state, action) => {
       state.groups = action.payload;
     },
+    setNotifications: (state, action) => {
+      state.notifications = action.payload;
+    },
   },
 });
 
-export const { setFriends, setGroups } = friendsReducer.actions;
+export const { setFriends, setGroups, setNotifications } =
+  friendsReducer.actions;
 export default friendsReducer.reducer;

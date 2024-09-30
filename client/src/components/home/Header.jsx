@@ -4,6 +4,14 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { IoIosSearch } from "react-icons/io";
 import { homeStyles } from "./styles";
 
+const NotificationBadge = (number) => {
+  return (
+    <div className="w-[1rem] h-[1rem] flex items-center justify-center bg-blue-600 rounded-full absolute -right-1 text-[0.65rem]">
+      2
+    </div>
+  );
+};
+
 const Header = () => {
   /* Header comp here */
 
@@ -15,7 +23,10 @@ const Header = () => {
         </div>
         <div className={homeStyles.header.right}>
           <IoIosSearch />
-          <IoMdNotificationsOutline />
+          <div className="relative">
+            <NotificationBadge />
+            <IoMdNotificationsOutline />
+          </div>
         </div>
       </div>
     </div>

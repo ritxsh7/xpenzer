@@ -49,7 +49,7 @@ const CheckOutPage = () => {
         localStorage.removeItem("payload");
         dispatch(setLoading(false));
         navigate("/");
-        window.location.reload();
+        // window.location.reload();
       }
     } else {
       toast.warn(
