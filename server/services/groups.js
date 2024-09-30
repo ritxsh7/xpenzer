@@ -42,25 +42,28 @@ class Group {
     throw error;
   };
 
-  getGroupDetails = async (userId, groupId) => {
+  getGroupMembers = async (userId, groupId) => {
     const GET_USERS =
       "SELECT user_id, username, profile_color FROM user_groups WHERE group_id = $1 AND user_id != $2";
 
-    const GET_SPENDINGS = `SELECT spending_id, description, amount, user_id, username, profile_color
-      FROM group_spendings_details WHERE group_id = $1 LIMIT 10
+    const { result, error } = await db.query(GET_USERS, [groupId, userId]);
+
+    if (result) return result.rows;
+    throw error;
+  };
+
+  getGroupExpenses = async (groupId, page) => {
+    const GET_SPENDINGS = `SELECT spending_id, description, date, amount, user_id, username, profile_color
+      FROM group_spendings_details WHERE group_id = $1 ORDER BY date DESC, spending_id DESC LIMIT 10 OFFSET $2
     `;
 
-    const [getUsers, getSpendings] = await Promise.all([
-      db.query(GET_USERS, [groupId, userId]),
-      db.query(GET_SPENDINGS, [groupId]),
+    const { result, error } = await db.query(GET_SPENDINGS, [
+      groupId,
+      page * 10,
     ]);
 
-    if (getUsers.result && getSpendings.result)
-      return {
-        users: getUsers.result.rows,
-        spendings: getSpendings.result.rows,
-      };
-    throw getSpendings.error || getUsers.error;
+    if (result) return result.rows;
+    throw error;
   };
 
   createGroupExpense = async (spendingId, groupId) => {

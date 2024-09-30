@@ -6,6 +6,7 @@ import {
   getFriendsLike,
   getMutualContributions,
   getUsersLike,
+  sendFriendRequest,
   settleBalance,
   settleTransction,
 } from "../controller/friends/friends.js";
@@ -19,5 +20,6 @@ friendRoutes.post("/new", authenticate, addFriend);
 friendRoutes.get("/transactions", authenticate, getMutualContributions);
 friendRoutes.patch("/settle-balance", authenticate, settleBalance);
 friendRoutes.put("/settle-transaction", authenticate, settleTransction);
+friendRoutes.post("/friend-request", authenticate, sendFriendRequest);
 
 export default friendRoutes;
