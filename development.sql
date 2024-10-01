@@ -48,7 +48,7 @@ CREATE TABLE spendings (
 SELECT * FROM spendings;
 
 drop table spendings;
-delete from spendings where spending_id = 14;
+delete from spendings where true;
 
 
 INSERT INTO spendings(user_id, amount, description) VALUES
@@ -69,7 +69,7 @@ ALTER TABLE contributions ALTER COLUMN spending_user SET NOT NULL
 UPDATE contributions SET settled = true WHERE contri_id = 7
 
 SELECT * FROM contributions;
-delete from contributions where spending_id = 14;
+delete from contributions where true;
 drop table contributions;
 
 
@@ -117,6 +117,7 @@ create table group_spendings(
 	FOREIGN KEY(spending_id) REFERENCES spendings(spending_id)
 )
 SELECT * from group_spendings;
+delete from group_spendings where true
 drop table group_spendings
 
 CREATE TABLE notifications(
@@ -133,6 +134,7 @@ CREATE TABLE notifications(
 )
 
 SELECT * FROM notifications;
+delete from notification where true;
 drop table notifications;
 
 -- =========== VIEWS ============
