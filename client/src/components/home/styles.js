@@ -2,10 +2,11 @@ export const homeStyles = {
   container: "min-h-[110vh] pb-32",
   header: {
     notifications: {
+      item: "bg-[#1f1f1f] p-4 rounded-m",
       wrapper: (open) =>
         `transition-all duration-300 ease-in-out ${
           open
-            ? "translate-y-0  bg-opacity-80 "
+            ? "translate-y-0  bg-opacity-90 "
             : "translate-y-[-100vh] bg-opacity-0"
         } bg-black  fixed top-0 left-0 h-[100vh] w-full z-[400]`,
       container: "p-4 bg-[#121212] max-h-[60vh]",
@@ -14,6 +15,9 @@ export const homeStyles = {
       title: "text-[#5c6af5] text-[1.1rem] text-left ",
       close:
         "bg-[#5c6af5] w-[3rem] h-[3rem] text-sm flex items-center absolute bottom-32 right-[50%] translate-x-[50%] justify-center rounded-full",
+      noti: "rounded-md flex items-center gap-2",
+      message: "text-xs text-left font-normal",
+      accept: "text-xs font-normal bg-blue-600 p-2 w-[40%] mt-4 rounded-md",
     },
     container:
       "text-white items-center text-2xl font-semibold w-full cursor-pointer",

@@ -95,3 +95,15 @@ export const getAllNotifications = async (req, res) => {
     response.serverError(res);
   }
 };
+
+export const readNotifications = async (req, res) => {
+  const { id } = req.query;
+
+  try {
+    const result = await notifications.markRead(id);
+    response.ok(res);
+  } catch (error) {
+    console.log(error);
+    response.serverError(res);
+  }
+};

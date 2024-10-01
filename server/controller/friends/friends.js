@@ -121,7 +121,23 @@ export const sendFriendRequest = async (req, res) => {
 
   try {
     const request = await notifications.sendFriendRequest(user, id);
-    response.ok(res, request);
+    response.ok(
+      res,
+      request,
+      "Friend request has been sent to the user of this account"
+    );
+  } catch (error) {
+    console.log(error);
+    response.serverError(res);
+  }
+};
+
+export const acceptFriendRequest = async (req, res) => {
+  const { friendId } = req.query;
+
+  try {
+    const result = await friends.acceptFriendRequest(req.user.userId, friendId);
+    return response.ok(res, result, "Friend requested accepted");
   } catch (error) {
     console.log(error);
     response.serverError(res);

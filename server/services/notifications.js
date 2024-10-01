@@ -55,10 +55,21 @@ class Notifications {
 
   getAllNotifications = async (userId) => {
     const RECEIVE_NOTIS = `
-      SELECT * FROM notifications WHERE user_id = $1
+      SELECT * FROM notifications WHERE user_id = $1 AND is_read = false
     `;
 
     const { result, error } = await db.query(RECEIVE_NOTIS, [userId]);
+
+    if (result) return result.rows;
+    throw error;
+  };
+
+  markRead = async (id) => {
+    const SQL = `
+      UPDATE notifications SET is_read = true WHERE notification_id = $1
+    `;
+
+    const { result, error } = await db.query(SQL, [id]);
 
     if (result) return result.rows;
     throw error;

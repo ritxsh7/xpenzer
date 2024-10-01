@@ -165,6 +165,16 @@ class Friends {
       updateBalance: updateBalance?.result.rows,
     };
   };
+
+  acceptFriendRequest = async (userId, friendId) => {
+    const ACCEPT_REQ = `
+      INSERT INTO friends VALUES ($1, $2), ($2, $1)
+    `;
+
+    const { result, error } = await db.query(ACCEPT_REQ, [userId, friendId]);
+    if (result) return result.rows;
+    throw error;
+  };
 }
 
 export default new Friends();

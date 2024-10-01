@@ -12,6 +12,7 @@ import { homeStyles } from "../components/home/styles";
 import DateRangePicker from "../components/common/DateRangePicker";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../store/functions/ux";
+import { clearPayload } from "../store/functions/spending.payload";
 
 // Lazy imports
 const Banner = lazy(() => import("../components/home/Banner"));
@@ -81,7 +82,7 @@ const HomePage = () => {
           </Suspense>
         )
       )}
-      <NavLink to="/new-spending">
+      <NavLink to="/new-spending" onClick={() => dispatch(clearPayload())}>
         <CreateNewIcon />
       </NavLink>
     </div>

@@ -14,7 +14,7 @@ const FriendCard = ({ friend, forSearch, added, notAFriend }) => {
   const handleAddFriend = async (contact) => {
     try {
       dispatch(setLoading(true));
-      const response = await friendsApi.newFriend(contact.user_id);
+      const response = await friendsApi.friendRequest(contact.user_id);
       toast.success(response.message);
     } catch (error) {
       toast.error(error.message);
@@ -22,7 +22,7 @@ const FriendCard = ({ friend, forSearch, added, notAFriend }) => {
       dispatch(setLoading(false));
       setTimeout(() => {
         window.location.reload();
-      }, 300);
+      }, 800);
     }
   };
 

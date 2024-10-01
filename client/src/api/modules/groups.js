@@ -6,6 +6,7 @@ const groupEndpoints = {
   getExpenses: (id, page) => `/groups/group/chat?id=${id}&page=${page}`,
   getMembers: (id) => `/groups/group/members?id=${id}`,
   getAllNotifications: "/users/notifications",
+  readNotifications: (id) => `/users/notifications/read?id=${id}`,
 };
 
 export default {
@@ -45,6 +46,13 @@ export default {
     try {
       const res = await client.get(groupEndpoints.getAllNotifications);
       return res;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  readNotifications: async (id) => {
+    try {
+      const res = await client.put(groupEndpoints.readNotifications(id));
     } catch (error) {
       console.log(error);
     }

@@ -9,6 +9,7 @@ const friendsEndpoints = {
     `/friends/transactions?fid=${fid}&start=${start}&end=${end}`,
   settleBalance: `friends/settle-balance`,
   settleTransaction: "friends/settle-transaction",
+  acceptFriendRequest: (id) => `/friends/accept-request?friendId=${id}`,
 };
 
 const friendsApi = {
@@ -74,6 +75,14 @@ const friendsApi = {
       return res;
     } catch (error) {
       throw error;
+    }
+  },
+  acceptFriendRequest: async (fid) => {
+    try {
+      const res = await client.post(friendsEndpoints.acceptFriendRequest(fid));
+      return res;
+    } catch (error) {
+      console.log(error);
     }
   },
 };

@@ -5,7 +5,6 @@ import SearchBar from "./SearchBar";
 import FriendItem from "./FriendItem";
 import Contributor from "./Contributor";
 import { spendingStyles } from "./styles";
-import useFetch from "../../hooks/useFetch";
 import friendsApi from "../../api/modules/friends";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";

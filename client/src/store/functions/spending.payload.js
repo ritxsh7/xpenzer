@@ -123,6 +123,11 @@ const spendingPayload = createSlice({
     setGroupSpending: (state, action) => {
       state.groupSpending = action.payload;
     },
+
+    clearPayload: (state, action) => {
+      state.contributors = [];
+      state.groupSpending = null;
+    },
   },
 });
 
@@ -138,6 +143,7 @@ export const {
   distributeAmount,
   removeContributor,
   setGroupSpending,
+  clearPayload,
 } = spendingPayload.actions;
 
 export default spendingPayload.reducer;

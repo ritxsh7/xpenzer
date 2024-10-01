@@ -26,11 +26,11 @@ CREATE TABLE friends (
     FOREIGN KEY (friend_id) REFERENCES users(user_id)
 );
 
-SELECT * FROM friends;
+SELECT * FROM friends order by user_id;
 delete from friends where true;
 drop table friends;
 update friends set balance = 0 where user_id = 1;
-UPDATE friends SET balance = 0.00 WHERE user_id = 1 AND friend_id IN (2,3,7)
+UPDATE friends SET balance = 0.00 WHERE true
 alter column friends alter column balance tye float
 
 INSERT INTO friends(user_id, friend_id) VALUES
@@ -134,7 +134,7 @@ CREATE TABLE notifications(
 )
 
 SELECT * FROM notifications;
-delete from notification where true;
+delete from notifications where true;
 drop table notifications;
 
 -- =========== VIEWS ============
