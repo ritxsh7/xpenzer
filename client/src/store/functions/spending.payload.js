@@ -121,7 +121,6 @@ const spendingPayload = createSlice({
     },
 
     setGroupSpending: (state, action) => {
-      state.contributors = [];
       state.groupSpending = action.payload;
     },
   },

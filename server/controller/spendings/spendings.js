@@ -68,11 +68,12 @@ export const createNewSpending = async (req, res) => {
       ? await notifications.notifySpendings(
           req.user.userId,
           {
+            groupId: groupSpending.group_id,
             groupName: groupSpending.group_name,
             groupAvatar: groupSpending.profile_color,
             senderName: req.user.username,
           },
-          `${groupSpending.group_name}: ${req.user.username} added an expense for ${newSpending.description}`,
+          `${groupSpending.group_name}: ${req.user.username} added an expense for ${newSpending.description}-₹${newSpending.amount}`,
           "GROUP_SPENDING",
           contributorsId
         )
@@ -82,7 +83,7 @@ export const createNewSpending = async (req, res) => {
             senderName: req.user.username,
             senderAvatar: req.user.profile,
           },
-          `${req.user.username} added your contri for ${newSpending.description}`,
+          `${req.user.username} added your contri for ${newSpending.description}-₹${newSpending.amount}`,
           "MUTUAL_SPENDING",
           contributorsId
         );

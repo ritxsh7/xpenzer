@@ -31,7 +31,6 @@ const GroupChatPage = () => {
   //handlers
 
   const handleGroupExpense = () => {
-    dispatch(setGroupSpending(groupDetails));
     for (const member of members) {
       if (!friendsMap.has(member.user_id)) {
         toast.error("You are not friends with " + member.username);
@@ -46,6 +45,7 @@ const GroupChatPage = () => {
         })
       );
     }
+    dispatch(setGroupSpending(groupDetails));
     navigate("/new-spending");
   };
 

@@ -11,9 +11,17 @@ const Notifications = ({ open, setOpen, notifications }) => {
           Your notifications
         </h1>
         <div className="flex flex-col gap-3 my-4">
-          {notifications.map((noti) => (
-            <NotificationLayout noti={noti} />
-          ))}
+          {notifications.length > 0 ? (
+            notifications.map((noti) => (
+              <NotificationLayout
+                noti={noti}
+                key={noti.notification_id}
+                setOpen={setOpen}
+              />
+            ))
+          ) : (
+            <p className="text-sm font-normal">No notifications</p>
+          )}
         </div>
       </div>
       <div

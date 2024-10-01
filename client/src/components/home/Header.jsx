@@ -7,7 +7,11 @@ import Notifications from "./Notifications";
 import { useSelector } from "react-redux";
 
 const NotificationBadge = ({ number }) => {
-  return <div className={homeStyles.header.notifications.badge}>{number}</div>;
+  return (
+    number > 0 && (
+      <div className={homeStyles.header.notifications.badge}>{number}</div>
+    )
+  );
 };
 
 const Header = () => {
