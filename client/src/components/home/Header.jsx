@@ -1,19 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../../assets/header-logo.png";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { IoIosSearch } from "react-icons/io";
 import { homeStyles } from "./styles";
+import Notifications from "./Notifications";
+import { useSelector } from "react-redux";
 
-const NotificationBadge = (number) => {
-  return (
-    <div className="w-[1rem] h-[1rem] flex items-center justify-center bg-blue-600 rounded-full absolute -right-1 text-[0.65rem]">
-      2
-    </div>
-  );
+const NotificationBadge = ({ number }) => {
+  return <div className={homeStyles.header.notifications.badge}>{number}</div>;
 };
 
 const Header = () => {
   /* Header comp here */
+
+  //stores
+  const { notifications } = useSelector((store) => store.friends);
+
+  //states
+  const [showNotifications, setShowNotifications] = useState(false);
 
   return (
     <div className={homeStyles.header.container}>
@@ -23,12 +27,17 @@ const Header = () => {
         </div>
         <div className={homeStyles.header.right}>
           <IoIosSearch />
-          <div className="relative">
-            <NotificationBadge />
+          <div className="relative" onClick={() => setShowNotifications(true)}>
+            <NotificationBadge number={notifications.length} />
             <IoMdNotificationsOutline />
           </div>
         </div>
       </div>
+      <Notifications
+        open={showNotifications}
+        setOpen={setShowNotifications}
+        notifications={notifications}
+      />
     </div>
   );
 };

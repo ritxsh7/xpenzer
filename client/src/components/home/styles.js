@@ -1,6 +1,20 @@
 export const homeStyles = {
   container: "min-h-[110vh] pb-32",
   header: {
+    notifications: {
+      wrapper: (open) =>
+        `transition-all duration-300 ease-in-out ${
+          open
+            ? "translate-y-0  bg-opacity-80 "
+            : "translate-y-[-100vh] bg-opacity-0"
+        } bg-black  fixed top-0 left-0 h-[100vh] w-full z-[400]`,
+      container: "p-4 bg-[#121212] max-h-[60vh]",
+      badge:
+        "w-[1rem] h-[1rem] flex items-center justify-center bg-blue-600 rounded-full absolute -right-1 text-[0.65rem]",
+      title: "text-[#5c6af5] text-[1.1rem] text-left ",
+      close:
+        "bg-[#5c6af5] w-[3rem] h-[3rem] text-sm flex items-center absolute bottom-14 right-[50%] translate-x-[50%] justify-center rounded-full",
+    },
     container:
       "text-white items-center text-2xl font-semibold w-full cursor-pointer",
     left: "flex flex-col items-center",
