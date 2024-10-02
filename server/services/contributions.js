@@ -26,6 +26,8 @@ class Contributions {
     spending_user,
     contributions
   ) => {
+    // console.log(contributions);
+
     let newContributions = [];
     for (const contribution of contributions) {
       const newContribution = await this.createNewContribution(
@@ -54,6 +56,7 @@ class Contributions {
 
     const newUnregisteredContributions = await this.createManyContributions(
       spending_id,
+      currUserId,
       newUsers
     );
     return newUnregisteredContributions;

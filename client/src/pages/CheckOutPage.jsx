@@ -49,7 +49,9 @@ const CheckOutPage = () => {
         localStorage.removeItem("payload");
         dispatch(setLoading(false));
         navigate("/");
-        // window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        }, 800);
       }
     } else {
       toast.warn(

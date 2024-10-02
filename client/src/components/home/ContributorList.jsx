@@ -20,7 +20,11 @@ const ContributorList = ({ id, open, inChat }) => {
       );
     }
     return (
-      <p className="text-xs text-yellow-400 py-4">
+      <p
+        className={` ${
+          open ? "max-h-[300px] py-1 mt-2" : "max-h-0 py-0"
+        } text-xs text-blue-500 overflow-hidden transition-all duration-200 ease-in-out`}
+      >
         There were no contributors for this spending
       </p>
     );

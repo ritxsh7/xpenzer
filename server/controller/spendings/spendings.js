@@ -64,29 +64,31 @@ export const createNewSpending = async (req, res) => {
 
     const contributorsId = contributors.registered.map((c) => c.friend_id);
 
-    const notifyContributors = groupSpending
-      ? await notifications.notifySpendings(
-          req.user.userId,
-          {
-            groupId: groupSpending.group_id,
-            groupName: groupSpending.group_name,
-            groupAvatar: groupSpending.profile_color,
-            senderName: req.user.username,
-          },
-          `${groupSpending.group_name}: ${req.user.username} added an expense for ${newSpending.description}-₹${newSpending.amount}`,
-          "GROUP_SPENDING",
-          contributorsId
-        )
-      : await notifications.notifySpendings(
-          req.user.userId,
-          {
-            senderName: req.user.username,
-            senderAvatar: req.user.profile,
-          },
-          `${req.user.username} added your contri for ${newSpending.description}-₹${newSpending.amount}`,
-          "MUTUAL_SPENDING",
-          contributorsId
-        );
+    if (contributors.registered.length > 0) {
+      const notifyContributors = groupSpending
+        ? await notifications.notifySpendings(
+            req.user.userId,
+            {
+              groupId: groupSpending.group_id,
+              groupName: groupSpending.group_name,
+              groupAvatar: groupSpending.profile_color,
+              senderName: req.user.username,
+            },
+            `${groupSpending.group_name}: ${req.user.username} added an expense for ${newSpending.description}-₹${newSpending.amount}`,
+            "GROUP_SPENDING",
+            contributorsId
+          )
+        : await notifications.notifySpendings(
+            req.user.userId,
+            {
+              senderName: req.user.username,
+              senderAvatar: req.user.profile,
+            },
+            `${req.user.username} added your contri for ${newSpending.description}-₹${newSpending.amount}`,
+            "MUTUAL_SPENDING",
+            contributorsId
+          );
+    }
 
     // CREATE ALL UNREGISTERED CONTRIBUTORS
     const newUnregisteredContributors =
@@ -117,7 +119,6 @@ export const createNewSpending = async (req, res) => {
       newGroupSpending,
       newContributions: result[0],
       newUnregisteredContributors: result[1],
-      notifyContributors,
       userExpense,
     });
   } catch (error) {
