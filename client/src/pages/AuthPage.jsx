@@ -8,7 +8,7 @@ const AuthPage = () => {
   //States
 
   const [authState, setAuthState] = useState({
-    login: false,
+    login: true,
   });
 
   const [messages, setMessages] = useState({
