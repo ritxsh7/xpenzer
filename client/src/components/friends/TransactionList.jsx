@@ -1,7 +1,7 @@
 import React from "react";
 import Transaction from "./Transaction";
 
-const TransactionList = ({ transactions }) => {
+const TransactionList = ({ transactions, fetchTransactions }) => {
   return (
     <div className="flex flex-col gap-3 my-6 mb-16">
       {transactions.map((trx) => (

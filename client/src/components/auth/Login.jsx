@@ -41,14 +41,6 @@ const Login = ({ setAuthState, setMessages }) => {
     }
   };
 
-  // const handleGoogleLogin = (response) => {
-  //   console.log(response);
-  // };
-
-  // const handleGoogleError = (err) => {
-  //   console.log(response);
-  // };
-
   return (
     <div className={loginStyles.container}>
       <h3 className={loginStyles.heading}>{loginStyles.headingText} </h3>

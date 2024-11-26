@@ -1,10 +1,7 @@
 import React, { useState, lazy, Suspense, useEffect } from "react";
-import Header from "../components/home/Header";
 import { spendingsApi } from "../api/modules/spendings";
 import UserIcon from "../components/common/UserIcon";
 import SwitchTab from "../components/home/SwitchTab";
-import BannerSkeleton from "../components/skeletons/BannerSkeleton";
-import ListItemSkeleton from "../components/skeletons/ListSkeleton";
 import { defaultDateRange } from "../utils/date";
 import CreateNewIcon from "../components/home/CreateNewIcon";
 import { NavLink } from "react-router-dom";
@@ -13,11 +10,9 @@ import DateRangePicker from "../components/common/DateRangePicker";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../store/functions/ux";
 import { clearPayload } from "../store/functions/spending.payload";
-
-// Lazy imports
-const Banner = lazy(() => import("../components/home/Banner"));
-const SpendingList = lazy(() => import("../components/home/SpendingList"));
-const ExpenseList = lazy(() => import("../components/home/ExpenseList"));
+import Banner from "../components/home/Banner";
+import SpendingList from "../components/home/SpendingList";
+import ExpenseList from "../components/home/ExpenseList";
 
 const HomePage = () => {
   /* HomePage comp here */
@@ -28,8 +23,8 @@ const HomePage = () => {
 
   // States
   const [activeTab, setActiveTab] = useState("spendings");
-  const [spendings, setSpendings] = useState([]);
-  const [expenses, setExpenses] = useState([]);
+  const [spendings, setSpendings] = useState(null);
+  const [expenses, setExpenses] = useState(null);
 
   const [page, setPage] = useState(0);
   const { start, end } = defaultDateRange();
@@ -67,20 +62,12 @@ const HomePage = () => {
         text="Welcome back!"
       />
       <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
-      <Suspense fallback={<BannerSkeleton />}>
-        <Banner />
-        <SwitchTab activeTab={activeTab} setActiveTab={setActiveTab} />
-      </Suspense>
-      {activeTab === "spendings" && spendings ? (
-        <Suspense fallback={<ListItemSkeleton />}>
-          <SpendingList spendings={spendings} />
-        </Suspense>
+      <Banner />
+      <SwitchTab activeTab={activeTab} setActiveTab={setActiveTab} />
+      {activeTab === "spendings" ? (
+        <SpendingList spendings={spendings} />
       ) : (
-        expenses && (
-          <Suspense fallback={<ListItemSkeleton />}>
-            <ExpenseList expenses={expenses} />
-          </Suspense>
-        )
+        <ExpenseList expenses={expenses} />
       )}
       <NavLink to="/new-spending" onClick={() => dispatch(clearPayload())}>
         <CreateNewIcon />

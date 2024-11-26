@@ -6,7 +6,7 @@ import {
   setFriends,
   setGroups,
   setNotifications,
-} from "../store/functions/friends";
+} from "../store/functions/data";
 
 const DataProvider = ({ children }) => {
   //fetch friends

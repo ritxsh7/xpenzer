@@ -1,16 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  friends: [],
+  friends: null,
   lendings: 0,
   borrowings: 0,
   currentFriend: null,
-  groups: [],
-  notifications: [],
+  groups: null,
+  notifications: null,
 };
 
 const friendsReducer = createSlice({
-  name: "friends",
+  name: "data",
   initialState,
   reducers: {
     setFriends: (state, action) => {

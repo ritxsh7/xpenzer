@@ -13,7 +13,7 @@ const NewGroupModal = ({ isOpen, setModalOpen }) => {
   /* NewGroupModal comp here */
 
   //store
-  const { friends } = useSelector((store) => store.friends);
+  const { friends } = useSelector((store) => store.data);
   const [searchTerm, setSearchTerm] = useState("");
   const nameRef = useRef(null);
 
@@ -21,7 +21,7 @@ const NewGroupModal = ({ isOpen, setModalOpen }) => {
   const [members, setMembers] = useState([]);
   const dispatch = useDispatch();
 
-  const filteredFriends = friends.filter((friend) =>
+  const filteredFriends = friends?.filter((friend) =>
     friend.friend_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -82,7 +82,7 @@ const NewGroupModal = ({ isOpen, setModalOpen }) => {
           setSearchTerm={setSearchTerm}
         />
         <div className={groupStyles.friendList}>
-          {filteredFriends.map((friend) => (
+          {filteredFriends?.map((friend) => (
             <div
               onClick={() => addMember(friend.friend_id)}
               key={friend.friend_id}

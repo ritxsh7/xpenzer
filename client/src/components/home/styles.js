@@ -59,7 +59,7 @@ export const homeStyles = {
   spendingItemList: {
     wrapper: "w-full p-1 my-4 max-w-md mx-auto bg-[#1f1f1f] rounded-lg",
     container: "flex justify-between bg-[#1f1f1f] p-1 rounded-lg",
-    left: "flex flex-col items-start",
+    left: "flex flex-col items-start max-w-[70%]",
     right: (plus) =>
       `flex flex-col text-sm justify-center ${
         plus ? "text-lime-500" : "text-red-500"

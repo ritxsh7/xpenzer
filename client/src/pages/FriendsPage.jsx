@@ -9,25 +9,39 @@ import NewFriendModal from "../components/friends/NewFriendModal";
 import styles from "../components/friends/styles";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import ListSkeleton from "../components/skeletons/ListSkeleton";
+import BannerSkeleton from "../components/skeletons/BannerSkeleton";
 
 const FriendsPage = () => {
   /*Friendspage comp here */
 
   //stores
-  const friends = useSelector((store) => store.friends);
+  const { friends, lendings, borrowings } = useSelector((store) => store.data);
 
   //states
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setModalOpen] = useState(false);
 
   //search friend
-  const filteredFriends = friends.friends.filter((friend) =>
+  const filteredFriends = friends?.filter((friend) =>
     friend.friend_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleModelOpen = () => {
     setModalOpen(true);
   };
+
+  if (!friends) {
+    return (
+      <>
+        <BannerSkeleton />
+        <ListSkeleton />
+      </>
+    );
+  }
+
+  if (friends.length == 0)
+    return <div className={styles.friendsPage.message}>No friends found</div>;
 
   return (
     <div>
@@ -36,13 +50,13 @@ const FriendsPage = () => {
         <div className={styles.friendsPage.stats}>
           <StatsCard
             color="bg-lime-600"
-            score={Number(friends.lendings * -1)}
+            score={Number(lendings * -1)}
             name="Lendings"
             up
           />
           <StatsCard
             color="bg-red-600"
-            score={Number(friends.borrowings)}
+            score={Number(borrowings)}
             name="Borrowed"
           />
         </div>
@@ -61,18 +75,14 @@ const FriendsPage = () => {
 
         {/* friends list */}
         <div>
-          {filteredFriends.length > 0 ? (
-            filteredFriends.map((friend) => (
-              <NavLink
-                to={`/friends/transactions/${friend.friend_id}`}
-                key={friend.friend_id}
-              >
-                <FriendCard friend={friend} />
-              </NavLink>
-            ))
-          ) : (
-            <div className={styles.friendsPage.message}>No friends found</div>
-          )}
+          {filteredFriends.map((friend) => (
+            <NavLink
+              to={`/friends/transactions/${friend.friend_id}`}
+              key={friend.friend_id}
+            >
+              <FriendCard friend={friend} />
+            </NavLink>
+          ))}
         </div>
       </div>
 

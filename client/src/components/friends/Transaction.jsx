@@ -5,10 +5,11 @@ import styles from "./styles";
 import friendsApi from "../../api/modules/friends";
 import { toast } from "react-toastify";
 
-const Transaction = ({ item }) => {
+const Transaction = ({ item, fetchTransactions }) => {
   /* Transaction comp here */
 
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const onSettleTransaction = async () => {
     try {
@@ -18,12 +19,13 @@ const Transaction = ({ item }) => {
         item.contri_amount,
         item.contri_id
       );
-      toast.success(response.data.message);
+      setSuccess(true);
+      fetchTransactions();
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
     } finally {
-      setLoading(true);
-      window.location.reload();
+      setLoading(false);
     }
   };
 
@@ -42,7 +44,7 @@ const Transaction = ({ item }) => {
         <div className={homeStyles.spendingItemList.right(item.byFriend)}>
           {item.byFriend ? "+" : "-"}₹{item.contri_amount}
           {item.byFriend &&
-            (item.settled ? (
+            (item.settled || success ? (
               <p className={styles.transactions.settled}>Received</p>
             ) : (
               <p

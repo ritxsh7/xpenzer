@@ -8,11 +8,10 @@ import groupStyles from "./styles";
 
 const Members = ({ members }) => {
   //store
-  const { friends } = useSelector((store) => store.friends);
-  const { user } = useSelector((store) => store.user);
+  const { friends } = useSelector((store) => store.data);
 
   const friendsMap = new Map(
-    friends.map((friend) => [friend.friend_id, friend])
+    friends?.map((friend) => [friend.friend_id, friend])
   );
 
   return (

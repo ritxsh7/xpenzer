@@ -41,32 +41,33 @@ const FriendDetailsPage = () => {
     } finally {
       setLoading(false);
       setSettleModalOpen(false);
-      window.location.reload();
     }
   };
 
   //store
-  const { friends } = useSelector((store) => store.friends);
+  const { friends } = useSelector((store) => store.data);
 
-  const friend = friends.find((f) => f.friend_id == Number(id));
+  const friend = friends?.find((f) => f.friend_id == Number(id));
 
   //fetch details
+
+  const fetchTransactions = async () => {
+    try {
+      setLoading(true);
+      const { data } = await friendsApi.getTransactions(
+        id,
+        dateRange.start,
+        dateRange.end
+      );
+      setTransactions(data.transactions);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchTransactions = async () => {
-      try {
-        setLoading(true);
-        const { data } = await friendsApi.getTransactions(
-          id,
-          dateRange.start,
-          dateRange.end
-        );
-        setTransactions(data.transactions);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchTransactions();
   }, [id, dateRange]);
 
@@ -100,7 +101,10 @@ const FriendDetailsPage = () => {
           <SettleDialog handleClick={setSettleModalOpen} />
         )}
         <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
-        <TransactionList transactions={transactions} />
+        <TransactionList
+          transactions={transactions}
+          fetchTransactions={fetchTransactions}
+        />
         <GlobalLoader loading={loading} />
         <Modal
           open={settleModalOpen}

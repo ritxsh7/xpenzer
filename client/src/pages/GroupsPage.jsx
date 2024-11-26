@@ -14,9 +14,9 @@ const GroupsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isGroupModalOpen, setIsGroupModalOpen] = useState(false);
 
-  const { groups } = useSelector((store) => store.friends);
+  const { groups } = useSelector((store) => store.data);
 
-  const filteredGroups = groups.filter((g) =>
+  const filteredGroups = groups?.filter((g) =>
     g.group_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 

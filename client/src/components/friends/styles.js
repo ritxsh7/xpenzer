@@ -57,7 +57,7 @@ export default {
       } tracking-wide text-right`,
     settled:
       "mt-1 text-xs font-semibold cursor-pointer text-blue-500 tracking-wide text-right",
-    description: "text-sm",
+    description: "text-sm text-left",
     date: "text-[14px] text-gray-400",
   },
 };

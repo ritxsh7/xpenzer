@@ -3,11 +3,8 @@ import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { homeStyles } from "./styles";
 import { spendingsApi } from "../../api/modules/spendings";
 import useFetch from "../../hooks/useFetch.js";
-import { DatePicker } from "antd";
 import { useSelector } from "react-redux";
-
-// RangePicker
-const { RangePicker } = DatePicker;
+import CountUp from "react-countup";
 
 const Banner = () => {
   /* Banner comp here */
@@ -30,7 +27,7 @@ const Banner = () => {
   const { response } = useFetch(spendingsApi.getTotalSpendings);
 
   // store
-  const { lendings } = useSelector((store) => store.friends);
+  const { lendings } = useSelector((store) => store.data);
 
   // Set banner data
   if (response) {
@@ -42,7 +39,9 @@ const Banner = () => {
   return (
     <div className={homeStyles.banner.container}>
       <h2 className={homeStyles.banner.heading}>Total spendings</h2>
-      <h1 className={homeStyles.banner.amount}>₹{response ? total : "0"}</h1>
+      <h1 className={homeStyles.banner.amount}>
+        ₹{response ? <CountUp start={0} end={total} duration={2} /> : "0"}
+      </h1>
       <div className={homeStyles.banner.subbanner}>
         {badges.map((badge, i) => (
           <div key={badge.name}>
@@ -51,7 +50,16 @@ const Banner = () => {
               <p className={homeStyles.banner.badgeName}>{badge.name}</p>
             </div>
             <h2 className={homeStyles.banner.badgeAmount(badge.color)}>
-              ₹{response ? Number(amounts[i]).toFixed(2) : "0"}
+              ₹
+              {response ? (
+                <CountUp
+                  start={0}
+                  end={Number(amounts[i]).toFixed(2)}
+                  duration={2}
+                />
+              ) : (
+                "0"
+              )}
             </h2>
           </div>
         ))}

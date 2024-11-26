@@ -34,7 +34,7 @@ const NewSpendingForm = () => {
   // Store
   const spendingPayload = useSelector((store) => store.spendingPayload);
   const { user } = useSelector((store) => store.user);
-  const { friends } = useSelector((store) => store.friends);
+  const { friends } = useSelector((store) => store.data);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();

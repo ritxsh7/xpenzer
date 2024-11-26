@@ -20,9 +20,9 @@ const GroupChatPage = () => {
 
   //store
   const dispatch = useDispatch();
-  const { groups, friends } = useSelector((store) => store.friends);
-  const groupDetails = groups.find((group) => group.group_id == id);
-  const friendsMap = new Map(friends.map((f) => [f.friend_id, f]));
+  const { groups, friends } = useSelector((store) => store.data);
+  const groupDetails = groups?.find((group) => group.group_id == id);
+  const friendsMap = new Map(friends?.map((f) => [f.friend_id, f]));
 
   //states
   const [members, setMembers] = useState([]);

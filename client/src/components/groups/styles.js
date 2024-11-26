@@ -16,6 +16,7 @@ const groupStyles = {
       `p-2 rounded-md w-[70%] relative ${isUser ? "ml-auto" : "ml-0"} `,
     profile: "flex text-xs items-center gap-2",
     button: "text-sm mt-3 text-blue-500",
+    empty: "mb-[55%]",
     details: (isUser) =>
       `text-left mt-1 bg-[#121212] p-3 rounded-md ${isUser && "bg-blue-950"}`,
   },
@@ -38,7 +39,7 @@ const groupStyles = {
   },
   members: {
     text: "flex gap-2 items-center",
-    wrapper: "w-full mb-[10vh]",
+    wrapper: "w-full mt-[10vh]",
     header: "text-lg font-semibold text-left",
   },
 };

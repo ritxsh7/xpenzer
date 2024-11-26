@@ -18,7 +18,7 @@ const Header = () => {
   /* Header comp here */
 
   //stores
-  const { notifications } = useSelector((store) => store.friends);
+  const { notifications } = useSelector((store) => store.data);
 
   //states
   const [showNotifications, setShowNotifications] = useState(false);
@@ -32,7 +32,7 @@ const Header = () => {
         <div className={homeStyles.header.right}>
           <IoIosSearch />
           <div className="relative" onClick={() => setShowNotifications(true)}>
-            <NotificationBadge number={notifications.length} />
+            <NotificationBadge number={notifications?.length} />
             <IoMdNotificationsOutline />
           </div>
         </div>

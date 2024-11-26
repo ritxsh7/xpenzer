@@ -60,11 +60,18 @@ const ExpenseChat = () => {
 
   return (
     <div className={groupStyles.chat.wrapper} ref={chatContainer}>
-      {expenses.map((exp) => (
-        <ExpenseItem expense={exp} key={exp.spending_id} />
-      ))}
+      {!fetching ? (
+        expenses.length > 0 ? (
+          expenses.map((exp) => (
+            <ExpenseItem expense={exp} key={exp.spending_id} />
+          ))
+        ) : (
+          <p className={groupStyles.chat.empty}>No expenses in this chat</p>
+        )
+      ) : (
+        <GlobalLoader loading={fetching} />
+      )}
       <div ref={containerEnd}></div>
-      <GlobalLoader loading={fetching} />
     </div>
   );
 };

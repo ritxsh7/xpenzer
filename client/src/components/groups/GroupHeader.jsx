@@ -28,7 +28,6 @@ const GroupHeader = ({
     try {
       setFetching(true);
       const result = await groupsApi.getGroupMembers(id);
-
       setMembers(result.data);
     } catch (error) {
       console.log(error);
@@ -47,11 +46,10 @@ const GroupHeader = ({
       .join(", ")
       .concat(", You");
 
-  return (
-    groupDetails &&
-    (fetching ? (
-      <HeaderSkeleton />
-    ) : (
+  return fetching ? (
+    <HeaderSkeleton />
+  ) : (
+    groupDetails && (
       <div className={groupStyles.header.wrapper(expand)}>
         <div>
           <div className={groupStyles.header.back}>
@@ -91,7 +89,7 @@ const GroupHeader = ({
         </div>
         {expand && <Members members={members} />}
       </div>
-    ))
+    )
   );
 };
 

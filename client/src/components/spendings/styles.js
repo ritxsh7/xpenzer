@@ -7,7 +7,7 @@ export const spendingStyles = {
       field: "p-3 rounded-md w-full text-sm",
     },
     dropdown:
-      "w-full max-h-[200px] rounded-md px-2 overflow-y-scroll my-4 bg-[#121212] hide-scrollbar",
+      "w-full max-h-[200px] rounded-md px-2 overflow-y-scroll my-4 bg-[#121212]",
     unregistered: {
       wrapper: "text-xs p-2",
       btn: "bg-[#5c6af5] p-2 my-5 rounded-md",
@@ -25,7 +25,7 @@ export const spendingStyles = {
   button: "bg-[#5c6af5] my-8 w-full p-3 rounded-md text-sm",
   checkBox: "custom-checkbox",
   checkoutPage: {
-    container: " flex flex-col items-center h-svh",
+    container: " flex flex-col items-center pb-[3rem]",
     summary: "flex flex-col items-center relative min-h-[110vh]",
     amount: "mt-8 text-lg text-[#5c6af5]",
     amountEdit: "flex my-4 flex-col items-center justify-center",
