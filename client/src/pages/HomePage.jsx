@@ -25,6 +25,7 @@ const HomePage = () => {
   const [activeTab, setActiveTab] = useState("spendings");
   const [spendings, setSpendings] = useState(null);
   const [expenses, setExpenses] = useState(null);
+  const [total, setTotal] = useState([{ spendings: 0, expenses: 0 }]);
 
   const [page, setPage] = useState(0);
   const { start, end } = defaultDateRange();
@@ -44,6 +45,7 @@ const HomePage = () => {
           dateRange,
         });
         setSpendings(data[0]);
+        setTotal({ expenses: data[1][0].total, spendings: data[0][0].total });
         setExpenses(data[1]);
       } catch (error) {
         console.log(error);
@@ -62,7 +64,7 @@ const HomePage = () => {
         text="Welcome back!"
       />
       <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
-      <Banner />
+      <Banner total={total} />
       <SwitchTab activeTab={activeTab} setActiveTab={setActiveTab} />
       {activeTab === "spendings" ? (
         <SpendingList spendings={spendings} />
