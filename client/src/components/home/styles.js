@@ -29,21 +29,18 @@ export const homeStyles = {
     logo: "w-[40vw] max-w-[10rem]",
   },
   banner: {
+    section: "w-1/2 flex flex-col items-center",
     thisMonth: "text-sm mb-2 text-left",
     container:
-      "bg-[#27262B] min-h-[8rem] w-full mb-8 rounded-lg text-[#83d4e2d1] p-3",
-    heading: "text-sm text-[#5C6AF5] text-left",
+      "flex items-center justify-around bg-[#27262B] w-full mb-8 rounded-lg text-[#83d4e2d1] p-3",
+    heading: "text-sm text-white text-left",
     month: "text-left text-[#5C6AF5] text-sm",
-    amount: "text-[1.5rem] mt-2 font-medium mb-4 text-left text-white",
-    subbanner: "flex items-center gap-8",
+    amount: (color) =>
+      `text-[1.5rem] mt-1 text-center font-medium ${
+        color === "red" ? "text-red-500" : "text-lime-500"
+      }`,
     badgeTitle: "flex items-center",
     badgeName: "text-[11px] ml-1 text-[#E5E5E5]",
-    arrow: (color) =>
-      color === "red" ? "text-orange-600 text-sm" : "text-lime-500 text-sm",
-    badgeAmount: (color) =>
-      `text-left ml-6 mt-1 font-medium text-xs tracking-[0.15rem] ${
-        color === "red" ? "text-orange-600" : "text-lime-500"
-      }`,
   },
   user: {
     container: "flex items-center gap-2 mt-6",
