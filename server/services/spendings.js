@@ -7,7 +7,7 @@ class SpendingService {
 
   async getAllSpendings(userId, start, end, page) {
     const GET_ALL_SPENDINGS =
-      "SELECT * FROM spendings WHERE user_id = $1 AND date BETWEEN $2::DATE AND $3::DATE ORDER BY date DESC, spending_id DESC";
+      "SELECT *, SUM(amount) OVER() as total FROM spendings WHERE user_id = $1 AND date BETWEEN $2::DATE AND $3::DATE ORDER BY date DESC, spending_id DESC";
 
     const { result, error } = await db.query(GET_ALL_SPENDINGS, [
       userId,
@@ -21,7 +21,7 @@ class SpendingService {
 
   async getAllExpenses(userId, start, end) {
     const GET_ALL_EXPENSES =
-      "SELECT * FROM personal_expenses WHERE user_id = $1 AND date BETWEEN $2::DATE AND $3::DATE ORDER BY date DESC, expense_id DESC";
+      "SELECT *, SUM(amount) OVER() as total FROM personal_expenses WHERE user_id = $1 AND date BETWEEN $2::DATE AND $3::DATE ORDER BY date DESC, expense_id DESC";
     const { result, error } = await db.query(GET_ALL_EXPENSES, [
       userId,
       new Date(start),
