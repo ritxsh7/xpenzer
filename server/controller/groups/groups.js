@@ -46,7 +46,6 @@ export const getGroupMembers = async (req, res) => {
 
 export const getGroupExpenses = async (req, res) => {
   const { id, page } = req.query;
-  console.log(page);
 
   try {
     const result = await groups.getGroupExpenses(id, page);
