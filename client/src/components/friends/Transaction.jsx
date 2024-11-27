@@ -4,23 +4,36 @@ import { dateFormat } from "../../utils/date";
 import styles from "./styles";
 import friendsApi from "../../api/modules/friends";
 import { toast } from "react-toastify";
+import { updateBalance } from "../../store/functions/data";
+import { useDispatch } from "react-redux";
 
-const Transaction = ({ item, fetchTransactions }) => {
+const Transaction = ({ item, setSettling }) => {
   /* Transaction comp here */
 
+  //stores
+  const dispatch = useDispatch();
+
+  //states
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
   const onSettleTransaction = async () => {
     try {
       setLoading(true);
+      setSettling((prev) => !prev);
       const response = await friendsApi.settleTransaction(
         item.contri_user,
         item.contri_amount,
         item.contri_id
       );
+      console.log(response);
+      dispatch(
+        updateBalance({
+          id: item.contri_user,
+          amount: response.data.updateBalance[0],
+        })
+      );
       setSuccess(true);
-      fetchTransactions();
     } catch (error) {
       console.log(error);
       toast.error(error.message);
