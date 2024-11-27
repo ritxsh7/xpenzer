@@ -6,6 +6,8 @@ import GlobalLoader from "../common/GlobalLoader";
 import friendsApi from "../../api/modules/friends";
 import { toast } from "react-toastify";
 import groupsApi from "../../api/modules/groups";
+import { useDispatch } from "react-redux";
+import { readNotification } from "../../store/functions/data";
 
 const NotificationLayout = ({ noti, setOpen }) => {
   /* NotificationLayout comp here */
@@ -14,6 +16,9 @@ const NotificationLayout = ({ noti, setOpen }) => {
 
   //states
   const [fetching, setFetching] = useState(false);
+
+  //store
+  const dispatch = useDispatch();
 
   //handlers
   const handleAcceptRequest = async () => {
@@ -45,6 +50,8 @@ const NotificationLayout = ({ noti, setOpen }) => {
 
   const handleNavigation = async () => {
     if (noti.notification_type === "FRIEND_REQ") return;
+
+    dispatch(readNotification(noti.notification_id));
 
     let url = redirectTo(noti.notification_type);
     setOpen(false);
