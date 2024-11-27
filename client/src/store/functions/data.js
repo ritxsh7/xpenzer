@@ -24,6 +24,11 @@ const friendsReducer = createSlice({
     setNotifications: (state, action) => {
       state.notifications = action.payload;
     },
+    readNotification: (state, action) => {
+      state.notifications = state.notifications.filter(
+        (noti) => noti.notification_id !== action.payload
+      );
+    },
     updateBalance: (state, action) => {
       console.log(action.payload);
       state.friends = state.friends.map((f) => {
@@ -38,6 +43,11 @@ const friendsReducer = createSlice({
   },
 });
 
-export const { setFriends, setGroups, setNotifications, updateBalance } =
-  friendsReducer.actions;
+export const {
+  setFriends,
+  setGroups,
+  setNotifications,
+  updateBalance,
+  readNotification,
+} = friendsReducer.actions;
 export default friendsReducer.reducer;
