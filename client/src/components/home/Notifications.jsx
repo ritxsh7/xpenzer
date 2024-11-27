@@ -10,7 +10,7 @@ const Notifications = ({ open, setOpen, notifications }) => {
         <h1 className={homeStyles.header.notifications.title}>
           Your notifications
         </h1>
-        <div className="flex flex-col gap-3 my-4">
+        <div className={homeStyles.header.notifications.list}>
           {notifications?.length > 0 ? (
             notifications?.map((noti) => (
               <NotificationLayout
@@ -25,7 +25,7 @@ const Notifications = ({ open, setOpen, notifications }) => {
         </div>
       </div>
       <div
-        className={homeStyles.header.notifications.close}
+        className={homeStyles.header.notifications.close(open)}
         onClick={() => setOpen(false)}
       >
         <RiCloseLargeLine />

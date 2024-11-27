@@ -6,15 +6,18 @@ export const homeStyles = {
       wrapper: (open) =>
         `transition-all duration-300 ease-in-out ${
           open
-            ? "translate-y-0  bg-opacity-90 "
+            ? "translate-y-0  bg-opacity-90"
             : "translate-y-[-100vh] bg-opacity-0"
-        } bg-black  fixed top-0 left-0 h-[100vh] w-full z-[400]`,
-      container: "p-4 bg-[#121212] max-h-[60vh]",
+        } bg-black fixed top-0 left-0 w-full z-[400]`,
+      container: "p-4 bg-[#121212] h-[100vh]",
+      list: "flex flex-col gap-3 my-4 max-h-[80vh] overflow-scroll",
       badge:
         "w-[1rem] h-[1rem] flex items-center justify-center bg-blue-600 rounded-full absolute -right-1 text-[0.65rem]",
       title: "text-[#5c6af5] text-[1.1rem] text-left ",
-      close:
-        "bg-[#5c6af5] w-[3rem] h-[3rem] text-sm flex items-center absolute bottom-32 right-[50%] translate-x-[50%] justify-center rounded-full",
+      close: (open) =>
+        `bg-[#5c6af5] w-[3.5rem] h-[3.5rem] text-md flex items-center absolute bottom-20 right-[50%] translate-x-[50%] justify-center rounded-full 
+        ${open ? "block" : "hidden"}
+        `,
       noti: "rounded-md flex items-center gap-2",
       message: "text-xs text-left font-normal",
       accept: "text-xs font-normal bg-blue-600 p-2 w-[40%] mt-4 rounded-md",
