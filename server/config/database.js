@@ -13,15 +13,22 @@ export const pool = new pg.Pool({
     rejectUnauthorized: false,
     ca: process.env.POSTGRES_CA.toString(),
   },
+  max: 20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 30000,
 });
 
 const db = {
   query: async (sql, params) => {
+    const client = await pool.connect();
+
     try {
-      const result = await pool.query(sql, params);
+      const result = await client.query(sql, params);
       return { result };
     } catch (error) {
       return { error };
+    } finally {
+      client.release();
     }
   },
 };
