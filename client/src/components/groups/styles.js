@@ -11,7 +11,7 @@ const groupStyles = {
   button:
     "fixed flex bottom-0 items-center justify-center gap-2 max-w-[450px] w-full bg-gradient-to-r from-blue-600 to-violet-600 p-4 z-50",
   chat: {
-    wrapper: "py-16 h-[100vh] overflow-y-auto flex flex-col-reverse",
+    wrapper: "py-[5rem] h-[100vh] overflow-y-auto flex flex-col-reverse",
     item: (isUser) =>
       `p-2 rounded-md w-[70%] relative ${isUser ? "ml-auto" : "ml-0"} `,
     profile: "flex text-xs items-center gap-2",

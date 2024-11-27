@@ -40,9 +40,6 @@ const FriendsPage = () => {
     );
   }
 
-  if (friends.length == 0)
-    return <div className={styles.friendsPage.message}>No friends found</div>;
-
   return (
     <div>
       <div className={styles.friendsPage.wrapper}>
@@ -75,14 +72,18 @@ const FriendsPage = () => {
 
         {/* friends list */}
         <div>
-          {filteredFriends.map((friend) => (
-            <NavLink
-              to={`/friends/transactions/${friend.friend_id}`}
-              key={friend.friend_id}
-            >
-              <FriendCard friend={friend} />
-            </NavLink>
-          ))}
+          {filteredFriends.length === 0 ? (
+            <p>No friends found</p>
+          ) : (
+            filteredFriends.map((friend) => (
+              <NavLink
+                to={`/friends/transactions/${friend.friend_id}`}
+                key={friend.friend_id}
+              >
+                <FriendCard friend={friend} />
+              </NavLink>
+            ))
+          )}
         </div>
       </div>
 
