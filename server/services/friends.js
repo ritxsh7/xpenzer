@@ -143,19 +143,19 @@ class Friends {
   };
 
   settleTransactions = async (userId, friendId, contri_id, amount) => {
-    console.log({ userId, friendId, contri_id, amount });
+    // console.log({ userId, friendId, contri_id, amount });
 
     const SETTLE_TRANSACTIONS =
       "UPDATE contributions SET settled = true WHERE contri_id = $1";
     const UPDATE_BALANCE =
-      "UPDATE friends SET balance = balance - $3 WHERE user_id = $1 AND friend_id = $2";
+      "UPDATE friends SET balance = balance - $3 WHERE user_id = $1 AND friend_id = $2 RETURNING balance";
 
     const [settleTransactions, updateBalance] = await Promise.all([
       db.query(SETTLE_TRANSACTIONS, [contri_id]),
       db.query(UPDATE_BALANCE, [userId, friendId, amount]),
     ]);
 
-    console.log(settleTransactions, updateBalance);
+    // console.log(settleTransactions, updateBalance);
 
     if (settleTransactions?.error || updateBalance?.error) {
       throw settleTransactions?.error || updateBalance?.error;
