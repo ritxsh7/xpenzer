@@ -58,11 +58,13 @@ const HomePage = () => {
 
   return (
     <div className={homeStyles.container}>
-      <UserIcon
-        name={user.username}
-        color={user.profile}
-        text="Welcome back!"
-      />
+      <NavLink to={`/user/${user.userId}`}>
+        <UserIcon
+          name={user.username}
+          color={user.profile}
+          text="Welcome back!"
+        />
+      </NavLink>
       <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
       <Banner total={total} />
       <SwitchTab activeTab={activeTab} setActiveTab={setActiveTab} />
