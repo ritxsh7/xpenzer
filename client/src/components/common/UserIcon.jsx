@@ -1,7 +1,6 @@
 import React from "react";
 import AvatarComp from "../common/Avatar";
 import { homeStyles } from "../home/styles";
-import { useSelector } from "react-redux";
 
 const UserIcon = ({ name, text, color }) => {
   /* UserIcon comp here */
