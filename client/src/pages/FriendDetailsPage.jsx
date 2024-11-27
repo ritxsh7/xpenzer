@@ -22,6 +22,7 @@ const FriendDetailsPage = () => {
   const { start, end } = defaultDateRange();
 
   //states
+  const [settling, setSettling] = useState(false);
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [settleModalOpen, setSettleModalOpen] = useState(false);
@@ -69,51 +70,49 @@ const FriendDetailsPage = () => {
 
   useEffect(() => {
     fetchTransactions();
-  }, [id, dateRange]);
+  }, [id, dateRange, settling]);
+
+  if (!friend || loading) return <GlobalLoader loading={true} />;
 
   return (
-    friend && (
-      <div>
-        <UserIcon
-          name={friend.friend_name}
-          color={friend.profile_color}
-          text="Transactions with"
-        />
-        <div className={styles.friendsPage.stats}>
-          {Number(friend.net_balance) < 0 ? (
-            <StatsCard
-              fullWidth
-              up
-              color="bg-lime-600"
-              score={Number(friend.net_balance * -1)}
-              name={`${friend.friend_name} owes you `}
-            />
-          ) : (
-            <StatsCard
-              fullWidth
-              color="bg-red-600"
-              score={Number(friend.net_balance)}
-              name={`You owe ${friend.friend_name} `}
-            />
-          )}
-        </div>
-        {Number(friend.net_balance) < 0 && (
-          <SettleDialog handleClick={setSettleModalOpen} />
+    <div>
+      <UserIcon
+        name={friend?.friend_name}
+        color={friend?.profile_color}
+        text="Transactions with"
+      />
+      <div className={styles.friendsPage.stats}>
+        {Number(friend?.net_balance) < 0 ? (
+          <StatsCard
+            fullWidth
+            up
+            color="bg-lime-600"
+            score={Number(friend?.net_balance * -1) || 0}
+            name={`${friend?.friend_name} owes you `}
+          />
+        ) : (
+          <StatsCard
+            fullWidth
+            color="bg-red-600"
+            score={Number(friend?.net_balance) || 0}
+            name={`You owe ${friend?.friend_name} `}
+          />
         )}
-        <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
-        <TransactionList
-          transactions={transactions}
-          fetchTransactions={fetchTransactions}
-        />
-        <GlobalLoader loading={loading} />
-        <Modal
-          open={settleModalOpen}
-          onToggle={setSettleModalOpen}
-          onConfirm={() => settleBalance(friend.friend_id)}
-          text={`Settling balance would set the balance between you and ${friend.friend_name} to ₹ 0`}
-        />
       </div>
-    )
+      {Number(friend?.net_balance) < 0 && (
+        <SettleDialog handleClick={setSettleModalOpen} />
+      )}
+      <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
+
+      <TransactionList transactions={transactions} setSettling={setSettling} />
+
+      <Modal
+        open={settleModalOpen}
+        onToggle={setSettleModalOpen}
+        onConfirm={() => settleBalance(friend?.friend_id)}
+        text={`Settling balance would set the balance between you and ${friend?.friend_name} to ₹ 0`}
+      />
+    </div>
   );
 };
 
