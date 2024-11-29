@@ -5,6 +5,7 @@ import { IoIosSearch } from "react-icons/io";
 import { homeStyles } from "./styles";
 import Notifications from "./Notifications";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const NotificationBadge = ({ number }) => {
   return (
@@ -17,6 +18,9 @@ const NotificationBadge = ({ number }) => {
 const Header = () => {
   /* Header comp here */
 
+  //navigation
+  const navigate = useNavigate();
+
   //stores
   const { notifications } = useSelector((store) => store.data);
 
@@ -26,7 +30,7 @@ const Header = () => {
   return (
     <div className={homeStyles.header.container}>
       <div className={homeStyles.header.wrapper}>
-        <div className={homeStyles.header.left}>
+        <div className={homeStyles.header.left} onClick={() => navigate("/")}>
           <img src={logo} className={homeStyles.header.logo}></img>
         </div>
         <div className={homeStyles.header.right}>
