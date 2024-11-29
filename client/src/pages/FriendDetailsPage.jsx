@@ -47,7 +47,6 @@ const FriendDetailsPage = () => {
 
   //store
   const { friends } = useSelector((store) => store.data);
-
   const friend = friends?.find((f) => f.friend_id == Number(id));
 
   //fetch details
