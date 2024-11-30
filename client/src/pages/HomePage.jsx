@@ -45,7 +45,7 @@ const HomePage = () => {
           dateRange,
         });
         setSpendings(data[0]);
-        setTotal({ expenses: data[1][0].total, spendings: data[0][0].total });
+        setTotal({ expenses: data[1][0]?.total, spendings: data[0][0]?.total });
         setExpenses(data[1]);
       } catch (error) {
         console.log(error);
