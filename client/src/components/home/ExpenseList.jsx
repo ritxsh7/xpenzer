@@ -4,10 +4,10 @@ import { homeStyles } from "./styles";
 import ListSkeleton from "../skeletons/ListSkeleton";
 
 const ExpenseList = ({ expenses }) => {
+  if (!expenses) return <ListSkeleton />;
 
-  if(!expenses) return <ListSkeleton />
-
-  if(expenses.length === 0) return <div className="mt-12">Your have no expenses</div>
+  if (expenses.length === 0)
+    return <div className="mt-12">Your have no expenses</div>;
 
   return (
     <div className="py-4">
@@ -20,7 +20,7 @@ const ExpenseList = ({ expenses }) => {
         </div>
       ))}
     </div>
-  ) 
+  );
 };
 
 export default ExpenseList;
