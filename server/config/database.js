@@ -11,9 +11,8 @@ export const pool = new pg.Pool({
   database: process.env.POSTGRES_DATABASE,
   ssl: {
     rejectUnauthorized: false,
-    ca: process.env.POSTGRES_CA.toString(),
   },
-  max: 20,
+  max: 10,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 30000,
 });
