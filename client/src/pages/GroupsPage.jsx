@@ -38,7 +38,11 @@ const GroupsPage = () => {
           <SlPlus />
         </div>
       </div>
-      <GroupList groups={filteredGroups} />
+      {groups?.length === 0 ? (
+        <p className="mt-12">You are not part of any group</p>
+      ) : (
+        <GroupList groups={filteredGroups} />
+      )}
       <NewGroupModal
         isOpen={isGroupModalOpen}
         setModalOpen={setIsGroupModalOpen}

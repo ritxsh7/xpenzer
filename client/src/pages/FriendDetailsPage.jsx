@@ -101,9 +101,18 @@ const FriendDetailsPage = () => {
       {Number(friend?.net_balance) < 0 && (
         <SettleDialog handleClick={setSettleModalOpen} />
       )}
-      <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
 
-      <TransactionList transactions={transactions} setSettling={setSettling} />
+      {transactions.length === 0 ? (
+        <p className="mt-12">No transactions</p>
+      ) : (
+        <>
+          <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
+          <TransactionList
+            transactions={transactions}
+            setSettling={setSettling}
+          />
+        </>
+      )}
 
       <Modal
         open={settleModalOpen}
